@@ -1,0 +1,124 @@
+.login {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e4e7ec;
+
+  .card {
+    display: flex;
+    border-radius: 15px;
+    overflow: hidden;
+    width: 80%;
+    height: 80%;
+
+    .left {
+      flex: 1;
+      padding: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-color: white;
+      width: fit-content;
+      justify-content: center;
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+      }
+      span {
+        font-size: 14px;
+        font-weight: lighter;
+        padding-bottom: 5px;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        label {
+          font-size: medium;
+        }
+        input {
+          border: none;
+          width: 100%;
+          border-bottom: 1px solid lightgray;
+          padding-top: 10px;
+          padding-bottom: 10px;
+        }
+        .options-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .option-remember {
+            display: flex;
+            gap: 3px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            input {
+              width: auto;
+            }
+            label {
+              font-size: small;
+            }
+          }
+
+          a {
+            font-size: small;
+            margin-left: -10px;
+          }
+        }
+        button {
+          width: 100%;
+          padding: 10px;
+          border: none;
+          background-color: black;
+          color: white;
+          cursor: pointer;
+          border-radius: 10px;
+          padding: 10px;
+        }
+      }
+    }
+    .right {
+      flex: 1;
+      background-image: linear-gradient(
+          90deg,
+          rgba(2, 0, 36, 1) 0%,
+          rgba(9, 9, 121, 0.3536765047816002) 0%,
+          rgba(0, 212, 255, 0.017542051000087544) 100%
+        ),
+        url("../../../public/images/carousal/carousal2.png");
+      background-size: cover;
+      padding: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      h1 {
+        font-size: 30px;
+        font-weight: 700;
+        color: black;
+        padding-bottom: 10px;
+      }
+      p {
+        font-size: medium;
+        color: #fcfcfc;
+        padding-top: 20px;
+      }
+      span {
+        padding-top: 50px;
+        font-size: small;
+        padding-bottom: 10px;
+        color: #7e56da;
+      }
+      button {
+        width: 75%;
+        padding-top: 20px;
+        border: none;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        border-radius: 10px;
+        padding: 10px;
+      }
+    }
+  }
+}
