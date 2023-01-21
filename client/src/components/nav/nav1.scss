@@ -1,0 +1,71 @@
+@import "../../../public/index.scss";
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+  padding-top: 20px;
+  font-size: 20px;
+
+  .logo {
+    a {
+      text-decoration: none;
+    }
+    position: absolute;
+    left: 20px;
+    top: 5px;
+    img {
+      height: 170px;
+    }
+  }
+
+  .links {
+    display: flex;
+    gap: 60px;
+    justify-content: space-between;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 200px;
+
+    button {
+      height: 30px;
+      width: 80px;
+      border-radius: 15px;
+      border: none;
+      cursor: pointer;
+    }
+    .login {
+      color: $primary-color;
+      border: 1px solid $primary-color;
+      background: none;
+    }
+
+    .login:hover {
+      color: white;
+      background-color: $primary-color;
+      transition: 300ms ease;
+    }
+
+    .splitter {
+      color: $primary-color;
+    }
+    .register {
+      background-color: $primary-color;
+      color: white;
+    }
+
+    .register:hover {
+      background-color: transparent;
+      color: $primary-color;
+      border: 1px solid $primary-color;
+      transition: 300ms ease;
+    }
+  }
+}

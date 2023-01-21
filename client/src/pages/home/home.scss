@@ -1,0 +1,57 @@
+@import "../../../public/index.scss";
+.container {
+    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: $primary-color;
+  background: rgb(103,58,183);
+  background: linear-gradient(135deg, rgba(103,58,183,0.31463007566307777) 0%, rgba(0,188,212,0.16336957146139708) 100%);
+
+  .home-container {
+    display: flex;
+    padding-top: 200px;
+    padding-left: 50px;
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      height: 40rem;
+
+      .heading-message {
+        color: black;
+        font-size: 40px;
+
+        .travel {
+          color: $primary-color;
+        }
+
+        .sathi {
+          color: $secondary-color;
+        }
+      }
+
+      .content-message {
+        color: #0d4280;
+        font-size: x-large;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        button {
+          font-size: medium;
+          height: 40px;
+          width: 100px;
+          background-color: $primary-color;
+          color: white;
+          border: none;
+        }
+      }
+    }
+    .image{
+        position:absolute;
+        right: 0px;
+        top: 50px;
+        
+    }
+  }
+}
