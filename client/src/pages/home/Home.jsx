@@ -2,6 +2,8 @@ import React from "react";
 import "./home.scss";
 import Nav1 from "../../components/nav/Nav1";
 import Explore from "../../components/explore/Explore";
+import Discover from "../../components/discover/Discover"
+import Footer from "../../components/footer/Footer"
 import { Link } from "react-router-dom";
 
 export default function Home() {
@@ -34,6 +36,8 @@ export default function Home() {
           </div>
         </div>
         <Explore />
+        <Discover/>
+        <Footer/>
       </div>
     </>
   );

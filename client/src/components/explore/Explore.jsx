@@ -28,8 +28,32 @@ export default function Explore() {
               Or join an existing event and have fun travelling with other
               travellers.
             </p>
-          </div>          
+          </div>
         </div>
+        <div className="explore2-container">
+          <div className="explore2-details">
+            <h2><img src="images/Oval.png" alt="" />Communication is the Key</h2>
+            <p>Chat with your friends or tavel mates.<br/>
+            Plan your trips together.</p>
+            
+          </div> 
+          <div className="explore2-img">
+              <img src="images/explore2-img.svg" alt="" />
+            </div>       
+        </div>
+        <div className="explore3-container">
+          <div className="explore3-details">
+          
+          <h2><img src="images/Oval.png" alt="" />Share Your Journey</h2>
+            <p> Share your travel journey with your friends.<br/>
+            Post photos, clips and write about your journey and inspire your friends to travel.
+            </p>
+          </div>
+          <div className="explore3-img">
+            <img src="images/explore3-img.svg" alt="" />
+          </div>
+            
+          </div>
       </div>
     </>
   );

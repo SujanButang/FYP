@@ -37,7 +37,7 @@ export default function Register() {
 
   return (
     <div className="register">
-      <div className="card">
+      <div className="register-card">
         <div className="left">
           <h1>Travel Sathi</h1>
           <p>

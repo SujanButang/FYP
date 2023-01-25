@@ -15,11 +15,12 @@ export default function Nav1() {
           <a href="/home" className="home">
             <span className="link1">Home</span>
           </a>
-          <a href="/discover" className="discover">
-            <span className="link2">Discover</span>
-          </a>
+          
           <a href="/explore" className="explore">
             <span className="link3">Explore</span>
+          </a>
+          <a href="/discover" className="discover">
+            <span className="link2">Discover</span>
           </a>
         </div>
         <div className="buttons">

@@ -1,0 +1,30 @@
+.footer-container{
+    padding-top:100px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    background-image: url("../../../public/images/footer-decoration.svg");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: cover;
+
+    .footer-logo{
+        img{
+            height: 150px;;
+        }
+    }
+
+    .links-container{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+
+        .social-logo-container{
+            display: flex;
+            gap: 20px;
+            padding-right: 50px;
+        }
+    }
+    }

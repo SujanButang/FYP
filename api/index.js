@@ -11,6 +11,9 @@ const db = require("./config/database");
 const authRoutes = require("./routes/auth.js");
 const cookieParser = require("cookie-parser");
 
+
+const homeRoutes = require("./routes/home");
+
 const cors = require("cors");
 
 //middlewares
@@ -19,6 +22,7 @@ app.use(cors());
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+app.use("/",homeRoutes);
 
 const sslServer = https.createServer(
   {

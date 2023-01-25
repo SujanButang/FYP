@@ -26,7 +26,7 @@ export default function Login() {
   };
   return (
     <div className="login">
-      <div className="card">
+      <div className="login-card">
         <div className="left">
           <h1>Welcome back</h1>
           <span>Welcome back! Please enter your details.</span>
