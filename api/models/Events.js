@@ -37,8 +37,12 @@ const events = db.define(
        status:{
         type: Sequelize.STRING,
         allowNull: false,
-       }
-    }
+       },
+       
+    },{
+        freezeTableName: true,
+        timestamps: false,
+      }
 );
 
 module.exports = events;
