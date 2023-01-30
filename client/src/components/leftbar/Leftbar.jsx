@@ -1,89 +1,51 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import "./leftbar.scss"
-import Friends from "../../assets/friends.png";
-import Groups from "../../assets/groups.png";
-import Events from "../../assets/events.png";
-import Market from "../../assets/market.png";
-import User from "../../assets/user.png"
+import { AuthContext } from '../../context/authContext';
+import HomeIcon from '@mui/icons-material/Home';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import PersonIcon from '@mui/icons-material/Person';
+import HikingIcon from '@mui/icons-material/Hiking';
+import StoreIcon from '@mui/icons-material/Store';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 export default function Leftbar() {
+    const {currentUser} = useContext(AuthContext);
+
   return (
     <div className="leftbar">
         <div className="container">
+            <div className="logo">
+                <img src="/images/logo/logo.png" alt="" />
+            </div>
             <div className="menu">
-                <div className="user">
-                <img src="images/sujan.jpg" alt="" />
-                <span>Sujan Rai</span>
+                <span>Menu</span>
+                <div className="item">
+                    <HomeIcon/>
+                    <span>Home</span>
                 </div>
                 <div className="item">
-                    <img src={Friends} alt="" />
-                    <span>Friends</span>
+                    <ChatBubbleIcon />
+                    <span>Messages</span>
                 </div>
                 <div className="item">
-                    <img src={Groups} alt="" />
-                    <span>Groups</span>
+                    <PersonIcon/>
+                    <span>Profile</span>
                 </div>
                 <div className="item">
-                    <img src={Events} alt="" />
-                    <span>Events</span>
+                    <HikingIcon/>
+                    <span>Travel Events</span>
                 </div>
                 <div className="item">
-                    <img src={Market} alt="" />
-                    <span>Market</span>
+                    <StoreIcon/>
+                    <span>Bookings</span>
+                </div>
+                <div className="item">
+                    <SettingsIcon/>
+                    <span>Settings</span>
                 </div>
             </div>
-            <hr/>
-            <div className="menu">
-                <span>Your friends online</span>
-                
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
-                <div className="item">
-                    <img src={User} alt="" />
-                    <span>Friend</span>
-                </div>
 
-
-            </div>
+            
         </div>
     </div>
   )

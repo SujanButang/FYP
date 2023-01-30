@@ -1,4 +1,3 @@
-import axios from "axios";
 import "./login.scss";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -22,15 +21,17 @@ export default function Login() {
   const handleClick = async (e) => {
     e.preventDefault();
     try{
-      await login(inputs);  
-      navigate("/newsfeed");  
+      await login(inputs); 
+      if (currentUser){
+        navigate("/newsfeed");  
+      } 
     }
     catch(err){
       setErr(err.response.data)
     }
   };
 
-const {login} = useContext(AuthContext);
+const {login, currentUser} = useContext(AuthContext);
   return (
     <div className="login">
       <div className="login-card">

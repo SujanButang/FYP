@@ -1,7 +1,6 @@
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Home from "./pages/home/Home";
-import Navbar from "./components/navbar/Navbar";
 import Leftbar from "./components/leftbar/Leftbar";
 import Rightbar from "./components/rightbar/Rightbar";
 import Newsfeed from "./pages/newsfeed/Newsfeed";
@@ -35,7 +34,7 @@ function App() {
   const Layout =()=>{
     return(
       <div className={`theme-${darkMode? "dark":"light"}`}>
-        <Navbar/>
+        
         <div style={{display: "flex"}}>
           <Leftbar/>
           <div style={{flex:6}}>

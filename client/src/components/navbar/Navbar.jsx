@@ -15,7 +15,7 @@ import { AuthContext } from '../../context/authContext'
 export default function Navbar() {
 
     const {changeMode, darkMode} = useContext(DarkModeContext)
-    const {login, currentUser} = useContext(AuthContext);
+    const { currentUser} = useContext(AuthContext);
 
   return (
     <>
@@ -26,20 +26,20 @@ export default function Navbar() {
                     <img src="images/logo/logo.png" alt="" className="logo" />
                 </Link>
             </div>
-            <HomeOutlinedIcon/>
-            {darkMode?<WbSunnyOutLinedIcon onClick={changeMode}/>:<DarkModeOutlinedIcon onClick={changeMode}/>}
-            <GridViewOutlinedIcon/>
+            <HomeOutlinedIcon style={{color:"#6A7CF6"}}/>
+            {darkMode?<WbSunnyOutLinedIcon onClick={changeMode} style={{color:"#6A7CF6"}}/>:<DarkModeOutlinedIcon onClick={changeMode} style={{color:"#6A7CF6"}}/>}
+            <GridViewOutlinedIcon style={{color:"#6A7CF6"}}/>
             <div className="search">
-                <SearchOutlinedIcon/>
+                <SearchOutlinedIcon style={{color:"#eb5153", paddingLeft:"5px"}}/>
                 <input type="text" placeholder='Search for friends, events or more...' />
             </div>
         </div>
         <div className="right">
-            <PersonOutlinedIcon/>
-            <EmailOutlinedIcon/>
-            <NotificationsOutlinedIcon/>
+            <PersonOutlinedIcon style={{color:"#6A7CF6"}}/>
+            <EmailOutlinedIcon style={{color:"#6A7CF6"}}/>
+            <NotificationsOutlinedIcon style={{color:"#6A7CF6"}}/>
             <div className="user">
-                <img src="images/sujan.jpg" alt="" />
+                <img src= {currentUser.profilePicture} alt="" />
                 <span>{currentUser.name}</span>
             </div>
         </div>

@@ -20,6 +20,10 @@ const users = db.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    profilePicture:{
+      type: Sequelize.STRING,
+      allowNull: true,
+    }
   },
   {
     freezeTableName: true,

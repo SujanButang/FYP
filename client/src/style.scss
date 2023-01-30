@@ -1,17 +1,24 @@
 $themes:(
     light:(
-        textColor: #000,
-        bg: white,
-        bgSoft: #f6f3f3,
-        textColorSoft: #555,
+        textColor: #25396f,
+        bg: #ffffff,
+        bgSoft: #f9fbff,
+        textColorSoft: #a4b6e1,
+        textColorMid: #d8e4f2,
         border: lightgray,
+        buttonPrimaryColor: #a974ff,
+        buttonSecondaryColor: #eb5153,
+        buttonTertiaryColor: #a4b6e1,
     ),
     dark:(
         textColor: whitesmoke,
         bg: #222,
         bgSoft: #333,
-        textColorSoft: lightgray,
+        textColorSoft: #a4b6e1,
         border: #444,
+        buttonPrimaryColor: #a974ff,
+        buttonSecondaryColor: #eb5153,
+        buttonTertiaryColor: #a4b6e1,
     )
 );
 
