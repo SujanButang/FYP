@@ -38,7 +38,10 @@ const events = db.define(
         type: Sequelize.STRING,
         allowNull: false,
        },
-       
+       event_type:{
+        type: Sequelize.STRING,
+        allowNull: false,
+       }
     },{
         freezeTableName: true,
         timestamps: false,

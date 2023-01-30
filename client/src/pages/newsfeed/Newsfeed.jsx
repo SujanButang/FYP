@@ -1,0 +1,66 @@
+import React from 'react'
+import "./newsfeed.scss"
+
+export default function Newsfeed() {
+  return (<>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+    <div>Newsfeed</div>
+  </>
+  )
+}

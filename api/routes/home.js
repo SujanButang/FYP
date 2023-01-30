@@ -4,8 +4,8 @@ const router = express.Router();
 
 router.get("/home", async(req, res)=>{
     try{
-
-        res.status(200).json(events.findAll({limit: 10}))
+        const carousalEvents = await events.findAll({limit:10})
+        res.status(200).json(carousalEvents)
     }
     catch(err){
         res.json(err);
