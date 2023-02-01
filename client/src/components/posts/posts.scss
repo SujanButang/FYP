@@ -1,5 +1,59 @@
+@import "../../style.scss";
 .posts{
+    @include themify($themes){
+        
+    
     display: flex;
     flex-direction: column;
-    gap:20px;    
+    gap:20px;   
+    
+    .create-post{
+        box-shadow: 0px 0px 10px 1px rgba(164,182,225,0.29);
+-webkit-box-shadow: 0px 0px 10px 1px rgba(164,182,225,0.29);
+-moz-box-shadow: 0px 0px 10px 1px rgba(164,182,225,0.29);
+        border-radius: 20px;
+        background-color: themed("bg");
+        color:themed("textColor");
+        .post-info{
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            gap: 10px;
+
+            img{
+                
+                height: 40px;
+                width: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            textarea{
+                flex: 5;
+                border: 1px solid themed("textColorMid");
+                resize: none;
+                border-radius: 10px;
+            }
+
+            button{
+                height: 50px;
+                background-color: themed("buttonPrimaryColor");
+                border: none;
+                color: white;
+                padding: 8px;
+                border-radius: 3px;
+            }
+        }
+
+        .actions{
+            display: flex;
+            padding: 5px 20px;
+            gap: 20px;
+
+            .item{
+                display: flex;
+            }
+        }
+    }
+}
 }

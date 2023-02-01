@@ -1,29 +1,33 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
-const posts = require("./Posts");
+const users = require("./User");
 
-const users = db.define(
-  "users",
+const posts = db.define(
+  "posts",
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
-    username: {
-      type: Sequelize.STRING,
-      allowNull: false,
+    userId: {
+      type: Sequelize.INTEGER,
     },
-    email: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    password: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    profilePicture: {
+    post_image: {
       type: Sequelize.STRING,
       allowNull: true,
+    },
+    post_description: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    post_date: {
+      type: Sequelize.DATE,
+      allowNull: false,
+    },
+    like_count: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
     },
   },
   {
@@ -32,8 +36,4 @@ const users = db.define(
   }
 );
 
-users.hasMany(posts);
-
-posts.belongsTo(users);
-
-module.exports = users;
+module.exports = posts;

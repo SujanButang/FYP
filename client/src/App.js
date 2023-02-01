@@ -5,20 +5,22 @@ import Leftbar from "./components/leftbar/Leftbar";
 import Rightbar from "./components/rightbar/Rightbar";
 import Newsfeed from "./pages/newsfeed/Newsfeed";
 import Profile from "./pages/profile/Profile";
-import "./style.scss"
+import "./style.scss";
 
 import {
   createBrowserRouter,
   Navigate,
   RouterProvider,
-  Outlet
+  Outlet,
 } from "react-router-dom";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-import {AuthContext} from './context/authContext';
+import { AuthContext } from "./context/authContext";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
-  const {currentUser} = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
@@ -28,36 +30,42 @@ function App() {
     }
   };
 
-  const {darkMode} = useContext(DarkModeContext);
+  const { darkMode } = useContext(DarkModeContext);
+  const queryClient = new QueryClient();
 
-
-  const Layout =()=>{
-    return(
-      <div className={`theme-${darkMode? "dark":"light"}`}>
-        
-        <div style={{display: "flex"}}>
-          <Leftbar/>
-          <div style={{flex:6}}>
-          <Outlet/>
+  const Layout = () => {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <div className={`theme-${darkMode ? "dark" : "light"}`}>
+          <div style={{ display: "flex" }}>
+            <Leftbar />
+            <div style={{ flex: 6 }}>
+              <Outlet />
+            </div>
+            <Rightbar />
           </div>
-          <Rightbar/>
         </div>
-      </div>
-    )
-  }
+      </QueryClientProvider>
+    );
+  };
 
   const router = createBrowserRouter([
     {
-      path:"/",
-      element: <ProtectedRoute><Layout/></ProtectedRoute>,
-      children:[{
-        path:"/newsfeed",
-        element: <Newsfeed/>
-      },
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <Layout />
+        </ProtectedRoute>
+      ),
+      children: [
         {
-          path:"/profile/:id",
-          element: <Profile/>
-        }
+          path: "/newsfeed",
+          element: <Newsfeed />,
+        },
+        {
+          path: "/profile/:id",
+          element: <Profile />,
+        },
       ],
     },
     { path: "/home", element: <Home /> },
