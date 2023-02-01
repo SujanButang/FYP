@@ -1,5 +1,7 @@
 const posts = require("../models/Posts");
 const users = require("../models/User");
+const moment = require("moment");
+const jwt = require("jsonwebtoken");
 const getPosts = async (req, res) => {
   try {
     const post = await posts.findAll({
@@ -12,6 +14,7 @@ const getPosts = async (req, res) => {
         "post_date",
         "like_count",
       ],
+      order: [["post_date", "DESC"]],
     });
     return res.status(200).json(post);
   } catch (err) {
@@ -19,4 +22,23 @@ const getPosts = async (req, res) => {
   }
 };
 
-module.exports = { getPosts };
+const addPost = async (req, res) => {
+  // const token = req.cookies.accessToken;
+  // if (!token) return res.status(402).json("User is not logged in.");
+  // jwt.verify(token, "secretkey", (err, userInfo) => {
+  //   if (err) return res.status(403).json("Token not valid");
+  // });
+  try {
+    await posts.create({
+      userId: req.body.userId,
+      post_description: req.body.postDescription,
+      post_image: req.body.postImage,
+      post_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
+    });
+    res.status(200).json("Post created successfully.");
+  } catch (err) {
+    res.status(403).json(err);
+  }
+};
+
+module.exports = { getPosts, addPost };

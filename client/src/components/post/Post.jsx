@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
 import { useContext } from "react";
 import { AuthContext } from "../../context/authContext";
+import moment from "moment";
 export default function Post({ post }) {
   const [commentOpen, setCommentOpen] = useState(false);
   const [like, setLike] = useState(false);

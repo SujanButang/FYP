@@ -59,7 +59,7 @@ function App() {
       ),
       children: [
         {
-          path: "/newsfeed",
+          path: "/",
           element: <Newsfeed />,
         },
         {
