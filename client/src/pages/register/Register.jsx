@@ -1,11 +1,14 @@
 import "./register.scss";
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
+
+  const navigate = useNavigate();
   //input useState
   const [inputs, setInputs] = useState({
+    username:"",
     email: "",
     password: "",
     confirmPassword: "",
@@ -24,6 +27,7 @@ export default function Register() {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8800/api/auth/register", inputs);
+      navigate("/login")
     } catch (err) {
       setErr(err.response.data);
     }
@@ -56,6 +60,8 @@ export default function Register() {
           <h1>Sign up</h1>
           <span>Please enter your details.</span>
           <form>
+            <label htmlFor="username">User Name</label>
+            <input type="text" id="username" placeholder="Enter your name" name="username" onChange={handleChange}/>
             <label htmlFor="email">Email</label>
 
             <input

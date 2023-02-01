@@ -6,6 +6,7 @@ import Leftbar from "./components/leftbar/Leftbar";
 import Rightbar from "./components/rightbar/Rightbar";
 import Newsfeed from "./pages/newsfeed/Newsfeed";
 import Profile from "./pages/profile/Profile";
+import "./style.scss"
 
 import {
   createBrowserRouter,
@@ -13,9 +14,12 @@ import {
   RouterProvider,
   Outlet
 } from "react-router-dom";
+import { useContext } from "react";
+import { DarkModeContext } from "./context/darkModeContext";
+import {AuthContext} from './context/authContext';
 
 function App() {
-  const currentUser = true;
+  const {currentUser} = useContext(AuthContext);
 
   const ProtectedRoute = ({ children }) => {
     if (!currentUser) {
@@ -25,9 +29,12 @@ function App() {
     }
   };
 
+  const {darkMode} = useContext(DarkModeContext);
+
+
   const Layout =()=>{
     return(
-      <div>
+      <div className={`theme-${darkMode? "dark":"light"}`}>
         <Navbar/>
         <div style={{display: "flex"}}>
           <Leftbar/>

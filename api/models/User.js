@@ -8,6 +8,10 @@ const users = db.define(
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
+    username:{
+      type: Sequelize.STRING,
+      allowNull:false,
+    },
     email: {
       type: Sequelize.STRING,
       allowNull: false,

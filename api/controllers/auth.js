@@ -14,6 +14,7 @@ const register = async (req, res) => {
     //creating new users
     await users
       .create({
+        username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
       })

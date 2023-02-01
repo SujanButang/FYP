@@ -1,7 +1,8 @@
 import axios from "axios";
 import "./login.scss";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/authContext";
 // import Carousel from "../../components/carousel/Carousel";
 
 export default function Login() {
@@ -9,6 +10,8 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
 
   const [err, setErr] = useState(null);
 
@@ -18,12 +21,16 @@ export default function Login() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:8800/api/auth/login", inputs);
-    } catch (err) {
-      setErr(err.response.data);
+    try{
+      await login(inputs);  
+      navigate("/newsfeed");  
+    }
+    catch(err){
+      setErr(err.response.data)
     }
   };
+
+const {login} = useContext(AuthContext);
   return (
     <div className="login">
       <div className="login-card">

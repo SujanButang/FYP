@@ -1,6 +1,119 @@
+@import "../../style.scss";
 .rightbar{
+    @include themify($themes){
     flex:3;
     position: sticky;
-    top: 85px;
-    height: calc(100vh - 85px);
+    top: 75px;
+    height: calc(100vh - 75px);
+    background-color: themed("bg");
+    color: themed("textColor");
+
+    .container{
+        display: flex;
+        flex-direction: column;
+        padding:10px;
+
+        hr{
+            border: none;
+            height: 0.5px;
+            background-color: themed("border");
+        }
+
+        .item{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            padding: 10px;
+            
+
+            span{
+                font-size: 12px;
+            }
+
+            .user-info{
+                display: flex;
+                gap: 10px;
+                
+
+                
+                img{
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+
+                .user-details{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    span{
+                        font-size: 14px;
+                    }
+                    p{
+                        font-size: 12px;
+                    }
+                }
+                .buttons{
+                    display: flex;
+                    align-items:center;
+                    justify-content: center;
+                    width:175px;
+                    gap: 10px;
+
+                    button{
+                        &:first-child{
+                            background-color: #4361EE;
+                            border: none;
+                            border-radius: 5px;
+                            color: white;
+                            height: 30px;
+                            padding: 5px;
+                            font-size: 12px;
+                        }
+
+                        &:last-child{
+                            background-color: rgb(108, 108, 108);
+                            border: none;
+                            border-radius: 5px;
+                            color: white;
+                            height: 30px;
+                            padding: 5px;
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+
+            .activity{
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                .activity-info{
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                    justify-content: flex-start;
+                    img{
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                        }
+                    p{
+                        font-size: 12px;
+                        span{
+                            font-size: 14px;;
+                        }
+                    }
+                    .time{
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+    }
+}
 }

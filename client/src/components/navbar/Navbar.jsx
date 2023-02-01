@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import "./navbar.scss"
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined"
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined"
@@ -7,9 +7,16 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined"
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined"
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined"
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined"
+import WbSunnyOutLinedIcon from "@mui/icons-material/WbSunnyOutlined"
 import {Link }from "react-router-dom"
+import { DarkModeContext } from '../../context/darkModeContext'
+import { AuthContext } from '../../context/authContext'
 
 export default function Navbar() {
+
+    const {changeMode, darkMode} = useContext(DarkModeContext)
+    const {login, currentUser} = useContext(AuthContext);
+
   return (
     <>
     <div className="navbar">
@@ -20,7 +27,7 @@ export default function Navbar() {
                 </Link>
             </div>
             <HomeOutlinedIcon/>
-            <DarkModeOutlinedIcon/>
+            {darkMode?<WbSunnyOutLinedIcon onClick={changeMode}/>:<DarkModeOutlinedIcon onClick={changeMode}/>}
             <GridViewOutlinedIcon/>
             <div className="search">
                 <SearchOutlinedIcon/>
@@ -33,7 +40,7 @@ export default function Navbar() {
             <NotificationsOutlinedIcon/>
             <div className="user">
                 <img src="images/sujan.jpg" alt="" />
-                <span>Sujan Rai</span>
+                <span>{currentUser.name}</span>
             </div>
         </div>
     </div>

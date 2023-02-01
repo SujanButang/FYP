@@ -1,4 +1,3 @@
-@import "../../../public/index.scss";
 .container {
   display: flex;
   flex-direction: column;
@@ -21,11 +20,11 @@
         font-size: 40px;
 
         .travel {
-          color: $primary-color;
+          color: #7209b7;
         }
 
         .sathi {
-          color: $secondary-color;
+          color: #4cc9f0;
         }
       }
 
@@ -40,7 +39,7 @@
           font-size: medium;
           height: 40px;
           width: 100px;
-          background-color: $primary-color;
+          background-color: #7209b7;
           color: white;
           border: none;
         }
