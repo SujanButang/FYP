@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
 const posts = require("./Posts");
+const comments = require("./Comments");
 
 const users = db.define(
   "users",
@@ -35,5 +36,9 @@ const users = db.define(
 users.hasMany(posts);
 
 posts.belongsTo(users);
+
+users.hasMany(comments);
+
+comments.belongsTo(users);
 
 module.exports = users;

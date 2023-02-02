@@ -39,7 +39,7 @@ const login = async (req, res) => {
     if (!passwordCheck) {
       res.status(400).json("Wrong password");
     } else {
-      const token = jwt.sign({ id: user.dataValues.id }, "secretKey");
+      const token = jwt.sign({ id: user.id }, "secretKey");
       const { password, ...others } = user.dataValues;
       res
         .cookie("accessToken", token, {

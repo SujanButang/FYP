@@ -32,7 +32,7 @@ export default function Posts() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    mutation.mutate({ userId, postDescription });
+    mutation.mutate({ postDescription });
     setPostDescription("");
   };
   return (
@@ -42,6 +42,7 @@ export default function Posts() {
           <img src={currentUser.profilePicture} alt="" />
           <textarea
             placeholder="Write Something"
+            value={postDescription}
             onChange={(e) => setPostDescription(e.target.value)}
           />
           <button onClick={handleClick} style={{ cursor: "pointer" }}>

@@ -20,18 +20,17 @@ export default function Login() {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    try{
-      await login(inputs); 
-      if (currentUser){
-        navigate("/newsfeed");  
-      } 
-    }
-    catch(err){
-      setErr(err.response.data)
+    try {
+      await login(inputs);
+      if (currentUser) {
+        navigate("/");
+      }
+    } catch (err) {
+      setErr(err.response.data);
     }
   };
 
-const {login, currentUser} = useContext(AuthContext);
+  const { login, currentUser } = useContext(AuthContext);
   return (
     <div className="login">
       <div className="login-card">
