@@ -37,7 +37,7 @@ const addPost = async (req, res) => {
       await posts.create({
         userId: userInfo.id,
         post_description: req.body.postDescription,
-        post_image: req.body.postImage,
+        post_image: req.body.imgURL,
         post_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       });
       res.status(200).json("Post created successfully.");

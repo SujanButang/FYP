@@ -14,6 +14,8 @@ export default function Login() {
 
   const [err, setErr] = useState(null);
 
+  const { login, currentUser } = useContext(AuthContext);
+
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -30,7 +32,6 @@ export default function Login() {
     }
   };
 
-  const { login, currentUser } = useContext(AuthContext);
   return (
     <div className="login">
       <div className="login-card">

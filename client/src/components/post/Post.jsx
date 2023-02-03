@@ -7,12 +7,25 @@ import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { Link } from "react-router-dom";
 import Comments from "../../components/comments/Comments";
-import { useContext } from "react";
-import { AuthContext } from "../../context/authContext";
+
 import moment from "moment";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
 export default function Post({ post }) {
   const [commentOpen, setCommentOpen] = useState(false);
   const [like, setLike] = useState(false);
+  const queryClient = useQueryClient();
+  const mutation = useMutation(
+    (newComment) => {
+      return makeRequest.post("/comments?postId=" + post.id);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["posts"]);
+      },
+    }
+  );
+
   return (
     <div className="post">
       <div className="container">
@@ -26,14 +39,14 @@ export default function Post({ post }) {
               >
                 <span>{post.user.username}</span>
               </Link>
-              <span className="date">{post.post_date}</span>
+              <span className="date">{moment(post.post_date).fromNow()}</span>
             </div>
           </div>
           <MoreHorizIcon />
         </div>
         <div className="content">
           <div className="p">{post.post_description}</div>
-          <img src={post.post_image} alt="" />
+          <img src={"/upload/" + post.post_image} alt="" />
         </div>
         <div className="info">
           <div className="item" onClick={() => setLike(!like)}>
@@ -42,14 +55,14 @@ export default function Post({ post }) {
           </div>
           <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
             <TextsmsOutlinedIcon />
-            <span>4 comments</span>
+            <span>14 comments</span>
           </div>
           <div className="item">
             <ShareOutlinedIcon />
             <span>Share</span>
           </div>
         </div>
-        {commentOpen && <Comments />}
+        {commentOpen && <Comments postId={post.id} />}
       </div>
     </div>
   );

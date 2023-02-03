@@ -14,10 +14,21 @@ export default function Posts() {
     })
   );
 
+  const upload = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await makeRequest.post("/upload", formData);
+      console.log(res.data);
+      return res.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const { currentUser } = useContext(AuthContext);
-  const userId = currentUser.id;
   const [postDescription, setPostDescription] = useState("");
-  const [postImage, setPostImage] = useState(null);
+  const [file, setFile] = useState(null);
   const queryClient = useQueryClient();
   const mutation = useMutation(
     (newPost) => {
@@ -30,37 +41,52 @@ export default function Posts() {
     }
   );
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    mutation.mutate({ postDescription });
+    let imgURL = "";
+    if (file) imgURL = await upload();
+    mutation.mutate({ postDescription, imgURL });
     setPostDescription("");
+    setFile(null);
   };
   return (
     <div className="posts">
       <div className="create-post">
         <div className="post-info">
-          <img src={currentUser.profilePicture} alt="" />
-          <textarea
-            placeholder="Write Something"
-            value={postDescription}
-            onChange={(e) => setPostDescription(e.target.value)}
-          />
-          <button onClick={handleClick} style={{ cursor: "pointer" }}>
-            Post
-          </button>
+          <div className="left">
+            <img src={currentUser.profilePicture} alt="" />
+            <textarea
+              placeholder="Write Something"
+              value={postDescription}
+              onChange={(e) => setPostDescription(e.target.value)}
+            />
+          </div>
+          <div className="right">
+            {file && <img className="file" src={URL.createObjectURL(file)} />}
+          </div>
         </div>
         <div className="actions">
           <div className="item">
             <input
               type="file"
-              onChange={(e) => setPostImage(e.target.files[0])}
+              style={{ display: "none" }}
+              id="file"
+              required
+              onChange={(e) => setFile(e.target.files[0])}
             />
-            {/* <AddPhotoAlternateIcon /> */}
-            {/* <span>Add images</span> */}
+            <label htmlFor="file" style={{ cursor: "pointer" }}>
+              <AddPhotoAlternateIcon />
+              <span>Add images</span>
+            </label>
           </div>
-          <div className="item">
+          {/* <div className="item">
             <SellIcon />
             <span>Tag friends</span>
+          </div> */}
+          <div className="item">
+            <button onClick={handleClick} style={{ cursor: "pointer" }}>
+              Post
+            </button>
           </div>
         </div>
       </div>
