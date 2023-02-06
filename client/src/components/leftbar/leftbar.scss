@@ -1,63 +1,83 @@
 @import "../../style.scss";
-.leftbar{
-    @include themify($themes){
+.leftbar {
+  @include themify($themes) {
     display: flex;
     flex-direction: column;
-    flex:2;
-    height: 50px;
+    flex: 2;
     position: sticky;
-    top:0;
+    top: 0;
+    background-color: themed("bg");
+    height: 80vh;
 
-    .container{
-        position:relative;
+    .container {
+      position: relative;
+      display: flex;
+      padding: 10px 10px;
+      gap: 20px;
+      background-color: themed("bg");
+
+      .logo {
+        img {
+          height: 120px;
+          width: 120px;
+          object-fit: cover;
+        }
+      }
+
+      .menu {
         display: flex;
-        padding: 10px 10px;
+        flex-direction: column;
+        padding: 0px 10px;
         gap: 20px;
-
-        .logo{
-            img{
-                height: 120px;
-                width: 120px;
-                object-fit: cover;
-            }
+        span {
+          font-weight: bold;
+          font-size: 15px;
+          color: themed("textColor");
         }
 
-        .menu{
+        nav {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          Link {
+            cursor: pointer;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: themed("buttonTertiaryColor");
+            font-size: large;
+            height: 40px;
+            width: 90%;
             padding: 0px 10px;
-            gap: 20px;
-            span{
-                font-weight: bold;
-                font-size: 15px;
-                color: themed("textColor");
-            }
+          }
 
-            .item{
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap:10px;
-                color: themed("buttonTertiaryColor");
-                font-size: large;
-                height: 40px;
-                width: 90%;
-                padding: 0px 10px;
-            }
+          .item {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: themed("buttonTertiaryColor");
+            font-size: large;
+            height: 40px;
+            width: 90%;
+            padding: 0px 10px;
+          }
 
-            .item:hover{
-                color: themed("buttonPrimaryColor");
-                border-radius: 5px;
-                transition: 400ms ease;
-                box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
--webkit-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
--moz-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-            }        
-                
-            
+          .item:hover {
+            color: themed("buttonPrimaryColor");
+            border-radius: 5px;
+            transition: 400ms ease;
+            box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            -webkit-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            -moz-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+          }
+          .item:focus {
+            color: themed("buttonPrmaryColor");
+            border-bottom: 2px solid themed("buttonPrimaryColor");
+          }
         }
-
+      }
     }
-
-}
+  }
 }

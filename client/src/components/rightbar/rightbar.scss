@@ -1,204 +1,198 @@
 @import "../../style.scss";
-.rightbar{
-    @include themify($themes){
+.rightbar {
+  @include themify($themes) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px 20px;
+    flex: 2;
+    position: sticky;
+    top: 0;
+    background-color: themed("bg");
+    height: 100vh;
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .menu {
         display: flex;
         flex-direction: column;
         gap: 20px;
-        padding: 10px 20px;
-        flex: 2;
-        background-color: themed("bgSoft");
-        height: 50px;
-        position: sticky;
-        top: 0;
+        width: 100%;
 
-        .container{
+        .right-nav {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+
+          .search {
+            cursor: pointer;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid themed("textColorMid");
+            color: themed("textColorMid");
+            border-radius: 20px;
             gap: 10px;
+            height: 40px;
+            padding: 0px 10px;
 
-            .menu{
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-                width: 100%;
-
-                .right-nav{
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-around;
-
-                    .search{
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        border: 1.5px solid themed("textColorMid");
-                        color: themed("textColorMid");
-                        border-radius: 20px;
-                        gap: 10px;
-                        height: 40px;
-                        padding: 0px 10px;
-
-                        input{
-                            border: hidden;
-                            width: 100px;
-                            background: none;
-                            cursor: pointer;
-                        }
-
-                        input:focus{
-                            outline: none;
-                        }
-                    }
-                    .search:hover{
-                        border: 1.5px solid themed("buttonPrimaryColor");
-                        color: themed("buttonPrimaryColor");
-                        box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                        -webkit-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                        -moz-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                        transition: 400ms ease;
-                    }
-
-                    .notification{
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        border: 1.5px solid themed("textColorMid");
-                        border-radius: 50%;
-                        height: 40px;
-                        width: 40px;
-                        color: themed("textColorSoft");
-                        .notification-icon{
-                            padding: 20px;
-                            cursor: pointer;
-
-                        }                        
-                    }
-                    .notification:hover{
-                        border: 1.5px solid themed("buttonPrimaryColor");
-                        color: themed("buttonPrimaryColor");
-                        box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                        -webkit-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                        -moz-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                        transition: 400ms ease;
-                    }
-
-                    .logout{
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        border: 1.5px solid themed("textColorMid");
-                        border-radius: 50%;
-                        height: 40px;
-                        width: 40px;
-                        color: themed("textColorSoft");
-                        .logout-icon{
-                            padding: 20px;
-                            cursor: pointer;
-
-                        }     
-                    }
-                    .logout:hover{
-                        border: 1.5px solid themed("buttonSecondaryColor");
-                        color: themed("buttonSecondaryColor");
-                        box-shadow: 0px 0px 10px 1px rgba(235,81,83,0.29);
-                        -webkit-box-shadow: 0px 0px 10px 1px rgba(235,81,83,0.29);
-                        -moz-box-shadow: 0px 0px 10px 1px rgba(235,81,83,0.29);
-                        transition: 400ms ease;
-                    }
-                }
-
-                .suggestion{
-                    display: flex;
-                    flex-direction: column;
-
-                    .header{
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-
-                        .title{
-                            font-weight: bold;
-                            font-size: 15px;
-                            color: themed("textColor");
-
-                        }
-
-                        .see-all{
-                            font-weight: 500;
-                            font-size: 14px;
-                            color: themed("buttonPrimaryColor");
-                            cursor: pointer;
-                        }
-                    }
-                    
-                }
-
-                .items{
-                    display: flex;
-                    flex-direction: column;
-                    gap: 20px;
-
-                    .item{
-                        display: flex;
-                        align-items: center;
-                        gap:20px;
-
-                        img{
-                            height: 45px;
-                            width: 45px;
-                            border-radius: 50%;
-                            object-fit: cover;
-                        }
-
-                        .user-info{
-                            display: flex;
-                            flex-direction: column;
-
-                            span{
-                                font-weight: bold;
-                                color: themed("textColor");
-                            }
-                            .friends{
-                                font-weight: normal;
-                                font-size: 15px;
-                            }
-                            
-                        }
-
-                        .button{
-                            button{
-                                height: 30px;
-                                width: 80px;
-                                border: none;
-                                border-radius: 10px;
-                                background-color: themed("buttonPrimaryColor");
-                                color: white;
-                                cursor: pointer;
-                            }
-                            button:hover{
-                                transition: 400ms ease;
-                    box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                    -webkit-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                    -moz-box-shadow: 0px 0px 10px 1px rgba(114,9,183,0.29);
-                            }
-
-                            .followed{
-                                background-color: themed("bgSoft");
-                                color: themed("textColor");
-                                border: 1px solid themed("textColorSoft")
-                            }
-                        }
-                        
-                    }
-                }
-                hr{
-                    border: none;
-                    height: 0.5px;
-                    background-color: themed("textColorSoft");
-                    margin: 10px 0px;
-                }
+            input {
+              border: hidden;
+              width: 100px;
+              background: none;
+              cursor: pointer;
             }
+
+            input:focus {
+              outline: none;
+            }
+          }
+          .search:hover {
+            border: 1.5px solid themed("buttonPrimaryColor");
+            color: themed("buttonPrimaryColor");
+            box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            -webkit-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            -moz-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            transition: 400ms ease;
+          }
+
+          .notification {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid themed("textColorMid");
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            color: themed("textColorSoft");
+            .notification-icon {
+              padding: 20px;
+              cursor: pointer;
+            }
+          }
+          .notification:hover {
+            border: 1.5px solid themed("buttonPrimaryColor");
+            color: themed("buttonPrimaryColor");
+            box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            -webkit-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            -moz-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+            transition: 400ms ease;
+          }
+
+          .logout {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid themed("textColorMid");
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+            color: themed("textColorSoft");
+            .logout-icon {
+              padding: 20px;
+              cursor: pointer;
+            }
+          }
+          .logout:hover {
+            border: 1.5px solid themed("buttonSecondaryColor");
+            color: themed("buttonSecondaryColor");
+            box-shadow: 0px 0px 10px 1px rgba(235, 81, 83, 0.29);
+            -webkit-box-shadow: 0px 0px 10px 1px rgba(235, 81, 83, 0.29);
+            -moz-box-shadow: 0px 0px 10px 1px rgba(235, 81, 83, 0.29);
+            transition: 400ms ease;
+          }
         }
-}
+
+        .suggestion {
+          display: flex;
+          flex-direction: column;
+
+          .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .title {
+              font-weight: bold;
+              font-size: 15px;
+              color: themed("textColor");
+            }
+
+            .see-all {
+              font-weight: 500;
+              font-size: 14px;
+              color: themed("buttonPrimaryColor");
+              cursor: pointer;
+            }
+          }
+        }
+
+        .items {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          .item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            img {
+              height: 45px;
+              width: 45px;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+
+            .user-info {
+              display: flex;
+              flex-direction: column;
+
+              span {
+                font-weight: bold;
+                color: themed("textColor");
+              }
+              .friends {
+                font-weight: normal;
+                font-size: 15px;
+              }
+            }
+
+            .button {
+              button {
+                height: 30px;
+                width: 80px;
+                border: none;
+                border-radius: 10px;
+                background-color: themed("buttonPrimaryColor");
+                color: white;
+                cursor: pointer;
+              }
+              button:hover {
+                transition: 400ms ease;
+                box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+                -webkit-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+                -moz-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+              }
+
+              .followed {
+                background-color: themed("bgSoft");
+                color: themed("textColor");
+                border: 1px solid themed("textColorSoft");
+              }
+            }
+          }
+        }
+        hr {
+          border: none;
+          height: 0.5px;
+          background-color: themed("textColorSoft");
+          margin: 10px 0px;
+        }
+      }
+    }
+  }
 }

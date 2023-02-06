@@ -1,25 +1,16 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
+const userinterest = require("./userInterest");
 
-const comments = db.define(
-  "comments",
+const interests = db.define(
+  "interests",
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
     },
-    postId: {
-      type: Sequelize.INTEGER,
-    },
-    userId: {
-      type: Sequelize.INTEGER,
-    },
-    comment_description: {
+    interestName: {
       type: Sequelize.STRING,
-      allowNull: false,
-    },
-    comment_date: {
-      type: Sequelize.DATE,
       allowNull: false,
     },
   },
@@ -29,4 +20,8 @@ const comments = db.define(
   }
 );
 
-module.exports = comments;
+interests.hasMany(userinterest);
+
+userinterest.belongsTo(interests);
+
+module.exports = interests;

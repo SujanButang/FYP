@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./rightbar.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -7,16 +8,17 @@ import { AuthContext } from "../../context/authContext";
 import axios from "axios";
 
 export default function Rightbar() {
-  const { currentUser } = useContext(AuthContext);
+  const { logout, currentUser } = useContext(AuthContext);
 
+  const navigate = useNavigate();
   const [err, setErr] = useState(null);
 
   const handleClick = async (e) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8800/api/auth/logout"
-      );
-      console.log(response);
+      await logout();
+      if (!currentUser) {
+        navigate("/");
+      }
     } catch (err) {
       setErr(err.response.data);
     }
