@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
+const comments = require("./Comments");
+const likes = require("./Likes");
 
 const posts = db.define(
   "posts",
@@ -7,6 +9,7 @@ const posts = db.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     userId: {
       type: Sequelize.INTEGER,
@@ -23,16 +26,19 @@ const posts = db.define(
       type: Sequelize.DATE,
       allowNull: false,
     },
-    like_count: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
   },
   {
     freezeTableName: true,
     timestamps: false,
   }
 );
+
+posts.hasMany(comments);
+comments.belongsTo(posts);
+
+posts.hasMany(likes);
+likes.belongsTo(posts);
+
+posts.sync();
 
 module.exports = posts;

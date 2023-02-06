@@ -18,7 +18,6 @@ const getPosts = async (req, res) => {
         "post_image",
         "post_description",
         "post_date",
-        "like_count",
       ],
       order: [["post_date", "DESC"]],
     });

@@ -7,6 +7,7 @@ const comments = db.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     postId: {
       type: Sequelize.INTEGER,
@@ -28,5 +29,7 @@ const comments = db.define(
     timestamps: false,
   }
 );
+
+comments.sync();
 
 module.exports = comments;

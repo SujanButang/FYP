@@ -7,8 +7,12 @@ const likes = db.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     postId: {
+      type: Sequelize.INTEGER,
+    },
+    userId: {
       type: Sequelize.INTEGER,
     },
   },
@@ -18,4 +22,5 @@ const likes = db.define(
   }
 );
 
+likes.sync();
 module.exports = likes;

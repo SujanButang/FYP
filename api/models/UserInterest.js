@@ -7,6 +7,7 @@ const userinterest = db.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     interestId: {
       type: Sequelize.INTEGER,
@@ -23,4 +24,5 @@ const userinterest = db.define(
   }
 );
 
+userinterest.sync();
 module.exports = userinterest;

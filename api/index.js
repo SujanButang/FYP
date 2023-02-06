@@ -1,14 +1,7 @@
 const express = require("express");
 const app = express();
 
-const AdminJS = require("adminjs");
-const AdminJSExpress = require("@adminjs/express");
-
 const db = require("./config/database");
-
-const admin = new AdminJS({});
-
-const adminRouter = AdminJSExpress.buildRouter(admin);
 
 const path = require("path");
 
@@ -30,8 +23,6 @@ const homeRoutes = require("./routes/home");
 const cors = require("cors");
 
 //middlewares
-
-app.use(admin.options.rootPath, adminRouter);
 
 app.use(express.json());
 app.use((req, res, next) => {

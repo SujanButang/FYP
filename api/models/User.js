@@ -12,6 +12,7 @@ const users = db.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     username: {
       type: Sequelize.STRING,
@@ -26,7 +27,7 @@ const users = db.define(
       allowNull: false,
     },
     birthDate: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
       allowNull: false,
     },
     address: {
@@ -34,7 +35,7 @@ const users = db.define(
       allowNull: false,
     },
     phone: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.DECIMAL,
       allowNull: false,
     },
     profilePicture: {
@@ -67,5 +68,7 @@ comments.belongsTo(users);
 users.hasMany(userInterest);
 
 userInterest.belongsTo(users);
+
+users.sync();
 
 module.exports = users;

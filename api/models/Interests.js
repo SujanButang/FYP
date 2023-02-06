@@ -8,6 +8,7 @@ const interests = db.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     interestName: {
       type: Sequelize.STRING,
@@ -23,5 +24,7 @@ const interests = db.define(
 interests.hasMany(userinterest);
 
 userinterest.belongsTo(interests);
+
+interests.sync();
 
 module.exports = interests;
