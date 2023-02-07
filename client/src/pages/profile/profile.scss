@@ -57,6 +57,7 @@
         display: flex;
         align-items: center;
         gap: 20px;
+        padding: 0px 10px;
 
         .item {
           display: flex;
@@ -87,6 +88,7 @@
           width: 80px;
           border-radius: 5px;
           color: themed("bg");
+          padding-right: 10px;
         }
         .item:last-child:hover {
           border-radius: 5px;

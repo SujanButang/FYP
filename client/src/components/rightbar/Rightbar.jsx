@@ -47,7 +47,7 @@ export default function Rightbar() {
           </div>
           <div className="items">
             <div className="item">
-              <img src={currentUser.profilePicture} alt="" />
+              <img src={"/upload/" + currentUser.profilePicture} alt="" />
               <div className="user-info">
                 <span>{currentUser.username}</span>
                 <span className="friends">12 mutual friends</span>
@@ -57,7 +57,7 @@ export default function Rightbar() {
               </div>
             </div>
             <div className="item">
-              <img src={currentUser.profilePicture} alt="" />
+              <img src={"/upload/" + currentUser.profilePicture} alt="" />
               <div className="user-info">
                 <span>{currentUser.username}</span>
                 <span className="friends">12 mutual friends</span>
@@ -67,7 +67,7 @@ export default function Rightbar() {
               </div>
             </div>
             <div className="item">
-              <img src={currentUser.profilePicture} alt="" />
+              <img src={"/upload/" + currentUser.profilePicture} alt="" />
               <div className="user-info">
                 <span>{currentUser.username}</span>
                 <span className="friends">12 mutual friends</span>
@@ -77,7 +77,7 @@ export default function Rightbar() {
               </div>
             </div>
             <div className="item">
-              <img src={currentUser.profilePicture} alt="" />
+              <img src={"/upload/" + currentUser.profilePicture} alt="" />
               <div className="user-info">
                 <span>{currentUser.username}</span>
                 <span className="friends">12 mutual friends</span>

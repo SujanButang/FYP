@@ -51,7 +51,7 @@ export default function Post({ post }) {
           <div className="container">
             <div className="user">
               <div className="user-info">
-                <img src={post.user.profilePicture} alt="" />
+                <img src={"/upload/" + post.user.profilePicture} alt="" />
                 <div className="details">
                   <Link
                     to={`/profile/${post.userId}`}

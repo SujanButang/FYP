@@ -88,10 +88,67 @@
         padding-bottom: 10px;
       }
 
+      .email-phone {
+        display: flex;
+        gap: 20px;
+
+        .email {
+          flex: 1;
+        }
+
+        .phone {
+          flex: 1;
+        }
+      }
+      .passwords {
+        display: flex;
+        gap: 20px;
+
+        .password {
+          flex: 1;
+        }
+
+        .confirm {
+          flex: 1;
+        }
+      }
+
+      .interests {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px 0px;
+      }
+
+      .DOB-gender {
+        display: flex;
+        gap: 20px;
+        .DOB {
+          flex: 1;
+        }
+        .gender-container {
+          display: flex;
+          flex-direction: column;
+          .gender {
+            display: flex;
+            padding-top: 10px;
+            gap: 20px;
+          }
+        }
+      }
+
       span {
         color: red;
         font-size: 14px;
         display: none;
+      }
+
+      input#phone:invalid[focused="true"] {
+        border-bottom: 1px solid red;
+      }
+
+      input#phone:invalid[focused="true"] ~ span.phone-error {
+        display: block;
       }
 
       input#email:invalid[focused="true"] {

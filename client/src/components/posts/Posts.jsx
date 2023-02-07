@@ -49,12 +49,13 @@ export default function Posts() {
     setPostDescription("");
     setFile(null);
   };
+
   return (
     <div className="posts">
       <div className="create-post">
         <div className="post-info">
           <div className="left">
-            <img src={currentUser.profilePicture} alt="" />
+            <img src={"/upload/" + currentUser.profilePicture} alt="" />
             <textarea
               placeholder="Write Something"
               value={postDescription}
@@ -84,9 +85,19 @@ export default function Posts() {
             <span>Tag friends</span>
           </div> */}
           <div className="item">
-            <button onClick={handleClick} style={{ cursor: "pointer" }}>
-              Post
-            </button>
+            {postDescription == "" ? (
+              <button
+                onClick={handleClick}
+                style={{ cursor: "pointer" }}
+                disabled
+              >
+                Post
+              </button>
+            ) : (
+              <button onClick={handleClick} style={{ cursor: "pointer" }}>
+                Post
+              </button>
+            )}
           </div>
         </div>
       </div>

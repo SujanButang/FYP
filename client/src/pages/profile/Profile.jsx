@@ -13,9 +13,12 @@ import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
+
+import Post from "../../components/post/Post";
 export default function Profile() {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { currentUser } = useContext(AuthContext);
+
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest.get("/users/find/" + userId).then((res) => {
       return res.data;
@@ -25,8 +28,16 @@ export default function Profile() {
   return (
     <div className="profile">
       <div className="images">
-        <img src={data && data[0].coverPicture} alt="" className="cover" />
-        <img src={data && data[0].profilePicture} alt="" className="profile" />
+        <img
+          src={data && "/upload/" + data[0].coverPicture}
+          alt=""
+          className="cover"
+        />
+        <img
+          src={data && "/upload/" + data[0].profilePicture}
+          alt=""
+          className="profile"
+        />
       </div>
       <div className="profile-container">
         <div className="user-info">
@@ -39,7 +50,7 @@ export default function Profile() {
           </div>
         </div>
         <div className="action">
-          {userId === currentUser.id ? (
+          {userId !== currentUser.id ? (
             <>
               <button className="item">
                 <ChatBubbleIcon fontSize="small" style={{ color: "#a974ff" }} />

@@ -2,6 +2,8 @@ import "./login.scss";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import Carousel from "../../components/carousel/Carousel";
 
 export default function Login() {
@@ -25,10 +27,11 @@ export default function Login() {
     try {
       await login(inputs);
       if (currentUser) {
+        toast.success("Log in Successful");
         navigate("/");
       }
     } catch (err) {
-      setErr(err.response.data);
+      toast.error(err.response.data);
     }
   };
 
@@ -80,6 +83,7 @@ export default function Login() {
           </Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

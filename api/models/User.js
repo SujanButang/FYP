@@ -40,11 +40,16 @@ const users = db.define(
     },
     profilePicture: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: "defaultProfile.png",
     },
     coverPicture: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: "defaultCover.png",
+    },
+    gender: {
+      type: Sequelize.ENUM("Male", "Female"),
     },
   },
   {

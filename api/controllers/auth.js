@@ -17,6 +17,10 @@ const register = async (req, res) => {
         username: req.body.username,
         email: req.body.email,
         password: hashedPassword,
+        phone: req.body.phone,
+        birthDate: req.body.birthDate,
+        gender: req.body.gender,
+        address: req.body.address,
       })
       .then(() => res.status(200).json("User has been created."))
       .catch((err) => {
