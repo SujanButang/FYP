@@ -10,7 +10,6 @@ const getRelationships = async (req, res) => {
       .status(200)
       .json(Relationship.map((relation) => relation.followerId));
   } catch (err) {
-    console.log(err);
     return res.status(400).json(err);
   }
 };

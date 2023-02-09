@@ -15,6 +15,8 @@ import { AuthContext } from "../../context/authContext";
 export default function Post({ post }) {
   const { currentUser } = useContext(AuthContext);
 
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
   const [commentOpen, setCommentOpen] = useState(false);
   const queryClient = useQueryClient();
 
@@ -42,6 +44,22 @@ export default function Post({ post }) {
     likeMutation.mutate(liked);
   };
 
+  const deleteMutation = useMutation(
+    (postId) => {
+      return makeRequest.delete("/posts?postId=" + postId);
+    },
+    {
+      onSuccess: () => {
+        // Invalidate and refetch
+        queryClient.invalidateQueries(["posts"]);
+      },
+    }
+  );
+
+  const handleDelete = () => {
+    deleteMutation.mutate(post.id);
+  };
+
   return (
     <div className="post">
       {isLoading ? (
@@ -64,13 +82,27 @@ export default function Post({ post }) {
                   </span>
                 </div>
               </div>
-              <MoreHorizIcon />
+              <div className="options">
+                <MoreHorizIcon
+                  onClick={() => setDeleteOpen(!deleteOpen)}
+                  style={{ cursor: "pointer" }}
+                />
+                {post.userId === currentUser.id ? (
+                  deleteOpen ? (
+                    <span onClick={handleDelete}>Delete</span>
+                  ) : (
+                    <></>
+                  )
+                ) : (
+                  <></>
+                )}
+              </div>
             </div>
             <div className="content">
               <div className="p">{post.post_description}</div>
               <img src={"/upload/" + post.post_image} alt="" />
             </div>
-            <div className="info">
+            <div className="post-info">
               <div className="item">
                 {data.includes(currentUser.id) ? (
                   <FavoriteOutlinedIcon onClick={handleLike} />

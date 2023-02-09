@@ -6,6 +6,7 @@
     flex-direction: column;
     background-color: themed("bg");
     border-right: 1px solid themed("textColorSoft");
+    color: themed("textColor");
 
     .images {
       width: 100%;
@@ -34,7 +35,7 @@
       align-items: center;
       justify-content: space-between;
 
-      .user-info {
+      .profile-user-info {
         .user-name {
           display: flex;
           flex-direction: column;
@@ -50,6 +51,13 @@
           .info {
             font-size: 16px;
           }
+
+          .follows {
+            display: flex;
+            align-items: center;
+            padding: 10px 0px;
+            gap: 40px;
+          }
         }
       }
 
@@ -59,20 +67,20 @@
         gap: 20px;
         padding: 0px 10px;
 
-        .item {
+        .profile-item {
           display: flex;
           align-items: center;
           justify-content: center;
           height: 30px;
           cursor: pointer;
         }
-        .item:first-child {
+        .profile-item:first-child {
           background: transparent;
           border: 1.5px solid themed("textColorMid");
           border-radius: 5px;
           color: themed("textColor");
         }
-        .item:first-child:hover {
+        .profile-item:first-child:hover {
           border: 1.5px solid themed("buttonPrimaryColor");
           border-radius: 5px;
           transition: 300ms ease;
@@ -82,7 +90,7 @@
           transition: 400ms ease;
         }
 
-        .item:last-child {
+        .profile-item:last-child {
           background: themed("buttonPrimaryColor");
           border: none;
           width: 80px;
@@ -90,7 +98,7 @@
           color: themed("bg");
           padding-right: 10px;
         }
-        .item:last-child:hover {
+        .profile-item:last-child:hover {
           border-radius: 5px;
           transition: 300ms ease;
           background: transparent;
@@ -103,7 +111,7 @@
         }
       }
     }
-    .details {
+    .profile-details {
       display: flex;
       padding: 50px 20px;
       gap: 30px;
@@ -195,5 +203,11 @@
         }
       }
     }
+  }
+  .profile-post {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
   }
 }

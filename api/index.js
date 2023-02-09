@@ -16,6 +16,7 @@ const postRoutes = require("./routes/posts.js");
 const commentRoutes = require("./routes/comments.js");
 const likeRoutes = require("./routes/likes.js");
 const profileRoutes = require("./routes/profile.js");
+const relationshipRoutes = require("./routes/realtionships.js");
 const cookieParser = require("cookie-parser");
 
 const homeRoutes = require("./routes/home");
@@ -52,6 +53,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/likes", likeRoutes);
 app.use("/api/users", profileRoutes);
+app.use("/api/relationships", relationshipRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend server running at port ${PORT}`);

@@ -16,6 +16,20 @@
         align-items: center;
         justify-content: space-between;
 
+        .options {
+          display: flex;
+          flex-direction: column;
+
+          span {
+            box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+            -webkit-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+            -moz-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+          }
+        }
+
         .user-info {
           display: flex;
           gap: 20px;
@@ -60,7 +74,7 @@
         }
       }
 
-      .info {
+      .post-info {
         display: flex;
         align-items: center;
         gap: 20px;
