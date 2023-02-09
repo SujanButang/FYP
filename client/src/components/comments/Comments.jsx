@@ -35,7 +35,7 @@ export default function Comments({ postId }) {
   return (
     <div className="comments">
       <div className="post-comment">
-        <img src={currentUser.profilePicture} alt="" />
+        <img src={"/upload/" + currentUser.profilePicture} alt="" />
         <input
           type="text"
           placeholder="write something about this post"
@@ -47,7 +47,7 @@ export default function Comments({ postId }) {
       {data &&
         data.map((comment) => (
           <div className="comment" key={comment.id}>
-            <img src={comment.user.profilePicture} alt="" />
+            <img src={"/upload/" + comment.user.profilePicture} alt="" />
             <div className="info">
               <span>{comment.user.username}</span>
               <p>{comment.comment_description}</p>

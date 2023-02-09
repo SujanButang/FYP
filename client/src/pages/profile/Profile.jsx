@@ -30,7 +30,7 @@ export default function Profile() {
     error: postError,
     data: posts,
   } = useQuery(["posts", userId], () =>
-    makeRequest.get("/posts?userId=" + userId).then((res) => {
+    makeRequest.get("/posts/userPost?userId=" + userId).then((res) => {
       return res.data;
     })
   );
@@ -104,7 +104,6 @@ export default function Profile() {
               </button>
               {relationshipData.includes(currentUser.id) ? (
                 <button className="profile-item" onClick={handleFollow}>
-                  <AddIcon fontSize="small" />
                   <span>Following</span>
                 </button>
               ) : (

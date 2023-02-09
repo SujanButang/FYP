@@ -173,6 +173,7 @@ export default function Register() {
               type="text"
               name="address"
               placeholder="Enter your address"
+              onChange={handleChange}
             />
             <label htmlFor="interests">Select your interests</label>
             <div className="interests">
