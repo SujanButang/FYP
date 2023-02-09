@@ -23,6 +23,7 @@ const getPosts = async (req, res) => {
     });
     return res.status(200).json(post);
   } catch (err) {
+    console.log(err);
     return res.status(400).json(err);
   }
 };
@@ -47,4 +48,40 @@ const addPost = async (req, res) => {
   });
 };
 
-module.exports = { getPosts, addPost };
+const getUserPosts = async (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(403).json("User is not logged in.");
+  jwt.verify(token, "secretKey", (err, userInfo) => {
+    if (err) return res.status(403).json("Token not valid");
+  });
+  try {
+    const post = await posts.findAll({
+      where: { userId: req.query.userId },
+      include: { model: users, attributes: ["username", "profilePicture"] },
+      attributes: [
+        "id",
+        "userId",
+        "post_image",
+        "post_description",
+        "post_date",
+      ],
+      order: [["post_date", "DESC"]],
+    });
+    return res.status(200).json(post);
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+const deletePost = async (req, res) => {
+  try {
+    await posts.destroy({
+      where: { id: req.query.postId },
+    });
+    res.status(200).json("Post has been deleted.");
+  } catch (err) {
+    return res.status(400).json(err);
+  }
+};
+
+module.exports = { getPosts, addPost, getUserPosts, deletePost };
