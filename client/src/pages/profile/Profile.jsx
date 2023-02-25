@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./profile.scss";
 import AddIcon from "@mui/icons-material/Add";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -15,6 +15,7 @@ import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 
 import Post from "../../components/post/Post";
+import UpdateUser from "../../components/updateUser/UpdateUser";
 export default function Profile() {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { currentUser } = useContext(AuthContext);
@@ -62,6 +63,8 @@ export default function Profile() {
   const handleFollow = () => {
     mutation.mutate(relationshipData.includes(currentUser.id));
   };
+
+  const [openUpdate, setOpenUpdate] = useState(false);
 
   return (
     <div className="profile">
@@ -114,7 +117,7 @@ export default function Profile() {
               )}
             </>
           ) : (
-            <button className="profile-item">
+            <button className="profile-item" onClick={(e)=> setOpenUpdate(true)}>
               <EditIcon fontSize="small" />
               <span>Edit</span>
             </button>
@@ -190,6 +193,7 @@ export default function Profile() {
             return <Post post={post} key={post.id} />;
           })}
       </div>
+      {openUpdate && <UpdateUser setOpenUpdate={setOpenUpdate} user={data}/>}
     </div>
   );
 }
