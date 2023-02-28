@@ -1,7 +1,6 @@
 const posts = require("../models/Posts");
 const users = require("../models/User");
 const moment = require("moment");
-const jwt = require("jsonwebtoken");
 
 const getPosts = async (req, res) => {
   const token = req.cookies.accessToken;
