@@ -1,27 +1,25 @@
-const db = require("../config/database");
-const users = require("../models/User");
+const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 //registering user
 const register = async (req, res) => {
   //check if user exists
-  const user = await users.findOne({ where: { email: req.body.email } });
+  const user = await User.findOne({ where: { email: req.body.email } });
   if (!user) {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(req.body.password, salt);
 
-    //creating new users
-    await users
-      .create({
-        username: req.body.username,
-        email: req.body.email,
-        password: hashedPassword,
-        phone: req.body.phone,
-        birthDate: req.body.birthDate,
-        gender: req.body.gender,
-        address: req.body.address,
-      })
+    //creating new User
+    await User.create({
+      username: req.body.username,
+      email: req.body.email,
+      password: hashedPassword,
+      phone: req.body.phone,
+      birthDate: req.body.birthDate,
+      gender: req.body.gender,
+      address: req.body.address,
+    })
       .then(() => res.status(200).json("User has been created."))
       .catch((err) => {
         res.status(500).json(err);
@@ -34,7 +32,7 @@ const register = async (req, res) => {
 //User login
 const login = async (req, res) => {
   //checking for email
-  const user = await users.findOne({ where: { email: req.body.email } });
+  const user = await User.findOne({ where: { email: req.body.email } });
   if (!user) {
     res.status(404).json("User not found");
   } else {

@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const db = require("./config/database");
+// const db = require("./config/database");
 
 const path = require("path");
 
@@ -13,13 +13,13 @@ const PORT = process.env.PORT || 8800;
 
 const authRoutes = require("./routes/auth.js");
 const postRoutes = require("./routes/posts.js");
-const commentRoutes = require("./routes/comments.js");
-const likeRoutes = require("./routes/likes.js");
-const profileRoutes = require("./routes/profile.js");
-const relationshipRoutes = require("./routes/realtionships.js");
+// const commentRoutes = require("./routes/comments.js");
+// const likeRoutes = require("./routes/likes.js");
+// const profileRoutes = require("./routes/profile.js");
+// const relationshipRoutes = require("./routes/realtionships.js");
 const cookieParser = require("cookie-parser");
 
-const homeRoutes = require("./routes/home");
+// const homeRoutes = require("./routes/home");
 
 const cors = require("cors");
 
@@ -48,12 +48,12 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
   res.status(200).json(file.filename);
 });
 app.use("/api/auth", authRoutes);
-app.use("/", homeRoutes);
+// app.use("/", homeRoutes);
 app.use("/api/posts", postRoutes);
-app.use("/api/comments", commentRoutes);
-app.use("/api/likes", likeRoutes);
-app.use("/api/users", profileRoutes);
-app.use("/api/relationships", relationshipRoutes);
+// app.use("/api/comments", commentRoutes);
+// app.use("/api/likes", likeRoutes);
+// app.use("/api/users", profileRoutes);
+// app.use("/api/relationships", relationshipRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend server running at port ${PORT}`);

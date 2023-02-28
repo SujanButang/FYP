@@ -1,44 +1,25 @@
-const Sequelize = require("sequelize");
-const db = require("../config/database");
-const comments = require("./Comments");
-const likes = require("./Likes");
-
-const posts = db.define(
-  "posts",
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    userId: {
-      type: Sequelize.INTEGER,
-    },
-    post_image: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
-    post_description: {
-      type: Sequelize.STRING,
-      allowNull: false,
-    },
-    post_date: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-  },
-  {
-    freezeTableName: true,
-    timestamps: false,
+'use strict';
+const {
+  Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Posts extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+    }
   }
-);
-
-posts.hasMany(comments);
-comments.belongsTo(posts);
-
-posts.hasMany(likes);
-likes.belongsTo(posts);
-
-posts.sync();
-
-module.exports = posts;
+  Posts.init({
+    post_image: DataTypes.STRING,
+    post_description: DataTypes.STRING,
+    post_date: DataTypes.DATE
+  }, {
+    sequelize,
+    modelName: 'Posts',
+  });
+  return Posts;
+};
