@@ -1,19 +1,16 @@
 const Sequelize = require("sequelize");
 const db = require("../config/database");
 
-const relationships = db.define(
-  "relationships",
+const chat = db.define(
+  "chat",
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    followerId: {
-      type: Sequelize.INTEGER,
-    },
-    followedId: {
-      type: Sequelize.INTEGER,
+    members: {
+      type: Sequelize.JSON,
     },
   },
   {
@@ -22,6 +19,5 @@ const relationships = db.define(
   }
 );
 
-relationships.sync();
-
-module.exports = relationships;
+chat.sync({ alter: true });
+module.exports = chat;

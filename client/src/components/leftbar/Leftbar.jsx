@@ -33,10 +33,15 @@ export default function Leftbar() {
                 <span>Home</span>
               </div>
             </Link>
-            <div className="item" tabIndex={1} type="button">
-              <ChatBubbleIcon />
-              <span>Messages</span>
-            </div>
+            <Link
+              to={`/chats/${currentUser.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="item" tabIndex={1} type="button">
+                <ChatBubbleIcon />
+                <span>Messages</span>
+              </div>
+            </Link>
             <Link
               to={`/profile/${currentUser.id}`}
               style={{ textDecoration: "none" }}

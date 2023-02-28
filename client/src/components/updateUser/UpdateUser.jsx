@@ -8,12 +8,12 @@ export default function UpdateUser({ setOpenUpdate, user }) {
   const [profile, setProfile] = useState(null);
 
   const [inputs, setInputs] = useState({
-    username: "",
-    email: "",
-    phone: "",
-    birthDate: "",
-    gender: "",
-    address: "",
+    username: user.username,
+    email: user.email,
+    phone: user.phone,
+    birthDate: user.birthDate,
+    gender: user.gender,
+    address: user.address,
   });
 
   const [err, setErr] = useState(null);
@@ -39,7 +39,7 @@ export default function UpdateUser({ setOpenUpdate, user }) {
     {
       onSuccess: () => {
         // Invalidate and refetch
-        queryClient.invalidateQueries(["user"]);
+        queryClient.invalidateQueries(["users"]);
       },
     }
   );
@@ -61,7 +61,11 @@ export default function UpdateUser({ setOpenUpdate, user }) {
     coverUrl = cover ? await upload(cover) : user.coverPic;
     profileUrl = profile ? await upload(profile) : user.profilePic;
 
-    mutation.mutate({ ...inputs, coverPic: coverUrl, profilePic: profileUrl });
+    mutation.mutate({
+      ...inputs,
+      coverPicture: coverUrl,
+      profilePicture: profileUrl,
+    });
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);
@@ -157,11 +161,19 @@ export default function UpdateUser({ setOpenUpdate, user }) {
         <div className="pictures">
           <div className="pic">
             <label htmlFor="profile-picture">Profile Picture</label>
-            <input type="file" name="profile-picture" />
+            <input
+              type="file"
+              name="profile-picture"
+              onChange={(e) => setProfile(e.target.files[0])}
+            />
           </div>
           <div className="pic">
             <label htmlFor="cover-picture">Cover Picture</label>
-            <input type="file" name="cover-picture" />
+            <input
+              type="file"
+              name="cover-picture"
+              onChange={(e) => setCover(e.target.files[0])}
+            />
           </div>
         </div>
 

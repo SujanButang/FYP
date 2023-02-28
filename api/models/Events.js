@@ -50,5 +50,6 @@ const events = db.define(
     timestamps: false,
   }
 );
+
 events.sync();
 module.exports = events;
