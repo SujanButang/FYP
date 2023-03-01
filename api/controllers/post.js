@@ -1,6 +1,6 @@
-const posts = require("../models/Posts");
-const users = require("../models/User");
+const { User, Posts } = require("../models");
 const moment = require("moment");
+const jwt = require("jsonwebtoken");
 
 const getPosts = async (req, res) => {
   const token = req.cookies.accessToken;
@@ -9,8 +9,8 @@ const getPosts = async (req, res) => {
     if (err) return res.status(403).json("Token not valid");
   });
   try {
-    const post = await posts.findAll({
-      include: { model: users, attributes: ["username", "profilePicture"] },
+    const post = await Posts.findAll({
+      include: { model: User, attributes: ["username", "profilePicture"] },
       attributes: [
         "id",
         "userId",
@@ -33,7 +33,8 @@ const addPost = async (req, res) => {
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
     try {
-      await posts.create({
+      console.log(userInfo.id);
+      await Posts.create({
         userId: userInfo.id,
         post_description: req.body.postDescription,
         post_image: req.body.imgURL,
@@ -54,9 +55,9 @@ const getUserPosts = async (req, res) => {
     if (err) return res.status(403).json("Token not valid");
   });
   try {
-    const post = await posts.findAll({
+    const post = await Posts.findAll({
       where: { userId: req.query.userId },
-      include: { model: users, attributes: ["username", "profilePicture"] },
+      include: { model: User, attributes: ["username", "profilePicture"] },
       attributes: [
         "id",
         "userId",
@@ -74,7 +75,7 @@ const getUserPosts = async (req, res) => {
 
 const deletePost = async (req, res) => {
   try {
-    await posts.destroy({
+    await Posts.destroy({
       where: { id: req.query.postId },
     });
     res.status(200).json("Post has been deleted.");

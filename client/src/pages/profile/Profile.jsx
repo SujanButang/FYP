@@ -22,6 +22,7 @@ export default function Profile() {
 
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest.get("/users/find/" + userId).then((res) => {
+      console.log(res.data);
       return res.data[0];
     })
   );
@@ -117,7 +118,10 @@ export default function Profile() {
               )}
             </>
           ) : (
-            <button className="profile-item" onClick={(e)=> setOpenUpdate(true)}>
+            <button
+              className="profile-item"
+              onClick={(e) => setOpenUpdate(true)}
+            >
               <EditIcon fontSize="small" />
               <span>Edit</span>
             </button>
@@ -162,7 +166,7 @@ export default function Profile() {
             </span>
             <div className="right-list">
               {data &&
-                data.userinterests.map((inter) => (
+                data.userInterests.map((inter) => (
                   <span key={inter.id}>{inter.interest.interestName}</span>
                 ))}
             </div>
@@ -193,7 +197,7 @@ export default function Profile() {
             return <Post post={post} key={post.id} />;
           })}
       </div>
-      {openUpdate && <UpdateUser setOpenUpdate={setOpenUpdate} user={data}/>}
+      {openUpdate && <UpdateUser setOpenUpdate={setOpenUpdate} user={data} />}
     </div>
   );
 }

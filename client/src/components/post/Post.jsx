@@ -69,13 +69,13 @@ export default function Post({ post }) {
           <div className="container">
             <div className="user">
               <div className="user-info">
-                <img src={"/upload/" + post.user.profilePicture} alt="" />
+                <img src={"/upload/" + post.User.profilePicture} alt="" />
                 <div className="details">
                   <Link
                     to={`/profile/${post.userId}`}
                     style={{ textDecoration: "none", color: "inherit" }}
                   >
-                    <span>{post.user.username}</span>
+                    <span>{post.User.username}</span>
                   </Link>
                   <span className="date">
                     {moment(post.post_date).fromNow()}

@@ -47,9 +47,9 @@ export default function Comments({ postId }) {
       {data &&
         data.map((comment) => (
           <div className="comment" key={comment.id}>
-            <img src={"/upload/" + comment.user.profilePicture} alt="" />
+            <img src={"/upload/" + comment.User.profilePicture} alt="" />
             <div className="info">
-              <span>{comment.user.username}</span>
+              <span>{comment.User.username}</span>
               <p>{comment.comment_description}</p>
             </div>
             <span className="date">

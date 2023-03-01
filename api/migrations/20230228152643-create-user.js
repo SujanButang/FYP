@@ -29,9 +29,11 @@ module.exports = {
       },
       profilePicture: {
         type: Sequelize.STRING,
+        defaultValue: "defaultProfile.png",
       },
       coverPicture: {
         type: Sequelize.STRING,
+        defaultValue: "defaultCover.png",
       },
       gender: {
         type: Sequelize.STRING,

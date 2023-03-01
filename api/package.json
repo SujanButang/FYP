@@ -11,7 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@admin-bro/express": "^3.1.0",
+    "@admin-bro/sequelize": "^1.2.1",
     "@adminjs/express": "^5.1.0",
+    "admin-bro": "^4.0.1",
     "adminjs": "^6.8.3",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
