@@ -22,7 +22,6 @@ export default function Profile() {
 
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest.get("/users/find/" + userId).then((res) => {
-      console.log(res.data);
       return res.data[0];
     })
   );
@@ -67,6 +66,12 @@ export default function Profile() {
 
   const [openUpdate, setOpenUpdate] = useState(false);
 
+  const handleChat = (e) => {
+    e.preventDefault();
+    console.log(userId);
+    makeRequest.post("/chats?receiver=" + userId);
+  };
+
   return (
     <div className="profile">
       <div className="images">
@@ -93,7 +98,7 @@ export default function Profile() {
               <span>
                 {relationshipData && relationshipData.length} Followers
               </span>
-              <span>Folowings</span>
+              <span>Followings</span>
             </div>
           </div>
         </div>
@@ -102,7 +107,7 @@ export default function Profile() {
             "loading"
           ) : userId !== currentUser.id ? (
             <>
-              <button className="profile-item">
+              <button className="profile-item" onClick={handleChat}>
                 <ChatBubbleIcon fontSize="small" style={{ color: "#a974ff" }} />
                 Message
               </button>

@@ -1,7 +1,19 @@
 import "./chats.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
+import Chat from "../../components/chat/Chat";
 
 export default function Chats() {
+  const { currentUser } = useContext(AuthContext);
+  const { isLoading, error, data } = useQuery(["chats"], () => {
+    return makeRequest.get("/chats").then((res) => {
+      return res.data;
+    });
+  });
+
   return (
     <div className="chats">
       <div className="chat-container">
@@ -11,44 +23,18 @@ export default function Chats() {
           <input type="text" placeholder="Search chats" />
         </div>
         <div className="items">
-          <div className="item">
-            <div className="user-profile">
-              <img
-                src="https://images.pexels.com/photos/10297624/pexels-photo-10297624.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                alt=""
-              />
-              <div className="user-details">
-                <span>Sujan Rai</span>
-                <div className="online"></div>
-              </div>
-            </div>
-          </div>
-
-          <div className="item">
-            <div className="user-profile">
-              <img
-                src="https://images.pexels.com/photos/10297624/pexels-photo-10297624.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                alt=""
-              />
-              <div className="user-details">
-                <span>Sujan Rai</span>
-                <div className="online"></div>
-              </div>
-            </div>
-          </div>
-
-          <div className="item">
-            <div className="user-profile">
-              <img
-                src="https://images.pexels.com/photos/10297624/pexels-photo-10297624.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                alt=""
-              />
-              <div className="user-details">
-                <span>Sujan Rai</span>
-                <div className="online"></div>
-              </div>
-            </div>
-          </div>
+          {data &&
+            data.map((chat, index) => {
+              return (
+                <div className="item" key={index}>
+                  <Chat
+                    member={chat.members.filter(
+                      (member) => member !== currentUser.id
+                    )}
+                  />
+                </div>
+              );
+            })}
         </div>
       </div>
     </div>
