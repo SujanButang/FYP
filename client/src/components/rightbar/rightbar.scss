@@ -9,9 +9,10 @@
     position: sticky;
     top: 0;
     background-color: themed("bg");
-    height: 100vh;
+    height: 97.5vh;
 
     .container {
+      position: relative;
       display: flex;
       flex-direction: column;
       gap: 10px;

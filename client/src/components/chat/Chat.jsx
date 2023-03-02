@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import "./chat.scss";
 
@@ -10,8 +11,13 @@ export default function Chat({ member }) {
     });
   });
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/messages");
+  };
   return (
-    <div className="user-profile">
+    <div className="user-profile" onClick={handleClick}>
       {isLoading ? (
         "loading"
       ) : (

@@ -19,6 +19,7 @@ import { AuthContext } from "./context/authContext";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Chats from "./pages/chats/Chats";
+import Messages from "./components/messages/Messages";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -68,6 +69,7 @@ function App() {
           element: <Profile />,
         },
         { path: "/chats/:id", element: <Chats /> },
+        { path: "messages", element: <Messages /> },
       ],
     },
     { path: "/home", element: <Home /> },

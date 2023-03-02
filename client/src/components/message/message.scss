@@ -1,0 +1,41 @@
+.message {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+  .message-top {
+    display: flex;
+    gap: 10px;
+
+    .receiver-img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+    }
+
+    .text-content {
+      background-color: themed("bgSoft");
+      width: 50%;
+      box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      -webkit-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      -moz-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      border-radius: 15px;
+      padding: 10px;
+
+      span {
+        font-size: 12px;
+        font-weight: 300;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        align-items: flex-end;
+      }
+    }
+  }
+}
+.message.own .message-top {
+  justify-content: flex-end;
+}
+
+.message.own .text-content {
+  background-color: #a974ff;
+}

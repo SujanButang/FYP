@@ -11,7 +11,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import CakeIcon from "@mui/icons-material/Cake";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 
 import Post from "../../components/post/Post";
@@ -19,6 +19,8 @@ import UpdateUser from "../../components/updateUser/UpdateUser";
 export default function Profile() {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { currentUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const { isLoading, error, data } = useQuery(["users"], () =>
     makeRequest.get("/users/find/" + userId).then((res) => {
@@ -69,7 +71,7 @@ export default function Profile() {
   const handleChat = (e) => {
     e.preventDefault();
     console.log(userId);
-    makeRequest.post("/chats?receiver=" + userId);
+    makeRequest.post("/chats?receiver=" + userId).then(navigate("/messages"));
   };
 
   return (
