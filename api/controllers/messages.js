@@ -1,39 +1,22 @@
-const { Chats } = require("../models");
+const { Messages } = require("../models");
 const sequelize = require("sequelize");
-
 const jwt = require("jsonwebtoken");
 
-// const getChats = async (req, res) => {
-//   try {
-//     const chat = await Chats.findAll({
-//       where: { postId: req.query.postId },
-//     });
-//     return res.status(200).json(like.map((lk) => lk.userId));
-//   } catch (err) {
-//     console.log(err);
-//     return res.status(400).json(err);
-//   }
-// };
-
-const createChat = async (req, res) => {
+const createMessage = async (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(403).json("User is not logged in.");
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
     console.log(req.query.receiver);
     try {
-      const chat = await Chats.findOne({
-        where: sequelize.literal(
-          `JSON_CONTAINS(members,'${userInfo.id}') AND JSON_CONTAINS(members,'${req.query.receiver}')`
-        ),
+      await Messages.create({
+        senderId: userInfo.id,
+        messageText: req.body.message,
+        messageImg: req.body.img,
+        chatId: req.query.chatId,
       });
-      if (!chat) {
-        await Chats.create({
-          members: [userInfo.id, parseInt(req.query.receiver)],
-        });
 
-        res.status(200).json("Chat created successfully.");
-      }
+      res.status(200).json("Message csent successfully.");
     } catch (err) {
       console.log(err);
       res.status(403).json(err);
@@ -41,24 +24,19 @@ const createChat = async (req, res) => {
   });
 };
 
-const getChats = async (req, res) => {
+const getMessages = async (req, res) => {
   const token = req.cookies.accessToken;
   if (!token) return res.status(403).json("User is not logged in.");
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
     try {
-      const chat = await Chats.findAll({
+      const message = await Messages.findAll({
         where: {
-          members: sequelize.literal(
-            `JSON_CONTAINS(members, '${userInfo.id}')`
-          ),
+          chatId: req.params.chatId,
         },
-        attributes: ["id", "members"],
-        order: [["createdAt", "DESC"]],
       });
-      res.status(200).json(chat);
+      res.status(200).json(message);
     } catch (err) {
-      console.log(err);
       res.status(403).json(err);
     }
   });
@@ -80,4 +58,4 @@ const getChats = async (req, res) => {
 //   });
 // };
 
-module.exports = { createChat, getChats };
+module.exports = { createMessage, getMessages };

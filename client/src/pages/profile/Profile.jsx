@@ -70,8 +70,9 @@ export default function Profile() {
 
   const handleChat = (e) => {
     e.preventDefault();
-    console.log(userId);
-    makeRequest.post("/chats?receiver=" + userId).then(navigate("/messages"));
+    makeRequest
+      .post("/chats?receiver=" + userId)
+      .then(navigate("/chats/" + currentUser.id));
   };
 
   return (

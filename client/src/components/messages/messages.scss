@@ -8,8 +8,8 @@
     .messages-wrapper {
       display: flex;
       flex-direction: column;
-      height: 100%;
       position: relative;
+      height: 100%;
       .chat-info {
         display: flex;
         align-items: center;
@@ -65,10 +65,10 @@
       }
 
       .messages-bottom {
+        background-color: themed("bgSoft");
         position: sticky;
+        width: 100%;
         bottom: 0;
-        z-index: 999;
-        height: 200px;
 
         .chatBoxBottom {
           padding: 20px;

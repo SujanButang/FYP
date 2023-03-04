@@ -31,6 +31,7 @@ export default function Chats() {
                     member={chat.members.filter(
                       (member) => member !== currentUser.id
                     )}
+                    chatId={chat.id}
                   />
                 </div>
               );

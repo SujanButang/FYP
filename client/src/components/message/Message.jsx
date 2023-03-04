@@ -1,22 +1,36 @@
 import "./message.scss";
+import moment from "moment";
+import { makeRequest } from "../../axios";
+import { useQuery } from "@tanstack/react-query";
 
-export default function Message({ own }) {
+export default function Message({ msg, own }) {
+  const { isLoading, error, data } = useQuery(
+    ["users", msg.senderId],
+    async () => {
+      return await makeRequest
+        .get("/users/find/" + msg.senderId)
+        .then((res) => {
+          return res.data[0];
+        });
+    }
+  );
   return (
     <div className={own ? "message own" : "message"}>
-      <div className="message-top ">
-        <img
-          src="https://images.freeimages.com/images/previews/bb0/cat-in-window-1218032.jpg"
-          alt=""
-          className="receiver-img"
-        />
-        <p className="text-content">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, ab?
-          Consectetur velit magnam hic dolor quis officiis! Earum cupiditate,
-          ducimus architecto rerum perferendis placeat, ad modi cumque illum,
-          eum possimus.
-          <span>1 hour ago</span>
-        </p>
-      </div>
+      {isLoading ? (
+        "Loading"
+      ) : (
+        <div className="message-top ">
+          <img
+            src={"/upload/" + data.profilePicture}
+            alt=""
+            className="receiver-img"
+          />
+          <p className="text-content">
+            {msg.messageText}
+            <span>{moment(msg.createdAt).fromNow()}</span>
+          </p>
+        </div>
+      )}
     </div>
   );
 }

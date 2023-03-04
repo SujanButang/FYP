@@ -1,7 +1,50 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
 import Message from "../message/Message";
 import "./messages.scss";
 
 export default function Messages() {
+  const [msg, setMsg] = useState("");
+  const scrollRef = useRef();
+
+  const chatId = parseInt(useLocation().pathname.split("/")[2]);
+
+  const { isLoading, error, data } = useQuery(["messages", chatId], () =>
+    makeRequest.get(`/messages/${chatId}`).then((res) => {
+      return res.data;
+    })
+  );
+
+  const { currentUser } = useContext(AuthContext);
+  const queryClient = useQueryClient();
+
+  const scrollToBottom = () => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const mutation = useMutation(
+    (message) => {
+      return makeRequest.post("/messages?chatId=" + chatId, {
+        message: message,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["messages"]);
+        scrollToBottom();
+      },
+    }
+  );
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    mutation.mutate(msg);
+    setMsg("");
+  };
+
   return (
     <div className="messages">
       <div className="messages-wrapper">
@@ -13,28 +56,47 @@ export default function Messages() {
             />
             <div className="receiver-info">
               <span className="receiver-name">Sujan Rai</span>
-              <spann className="status">
+              <span className="status">
                 <div className="active"></div>Online
-              </spann>
+              </span>
             </div>
           </div>
         </div>
         <div className="messages-top">
-          <Message own={true} />
-          <Message />
-          <Message own={true} />
-          <Message />
-          <Message />
-          <Message />
-          <Message />
+          {data &&
+            data.map((message, index) => {
+              return (
+                <div ref={scrollRef} key={index}>
+                  <Message
+                    msg={message}
+                    own={message.senderId == currentUser.id}
+                  />
+                </div>
+              );
+            })}
         </div>
         <div className="messages-bottom">
           <div className="chatBoxBottom">
             <textarea
               className="chatMessageInput"
               placeholder="write something..."
+              name="message-text"
+              onChange={(e) => setMsg(e.target.value)}
+              value={msg}
             ></textarea>
-            <button className="chatSubmitButton">Send</button>
+            {msg == "" ? (
+              <button
+                className="chatSubmitButton"
+                onClick={handleClick}
+                disabled
+              >
+                Send
+              </button>
+            ) : (
+              <button className="chatSubmitButton" onClick={handleClick}>
+                Send
+              </button>
+            )}
           </div>
         </div>
       </div>

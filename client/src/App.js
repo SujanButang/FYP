@@ -69,7 +69,7 @@ function App() {
           element: <Profile />,
         },
         { path: "/chats/:id", element: <Chats /> },
-        { path: "messages", element: <Messages /> },
+        { path: "messages/:chatId", element: <Messages /> },
       ],
     },
     { path: "/home", element: <Home /> },
