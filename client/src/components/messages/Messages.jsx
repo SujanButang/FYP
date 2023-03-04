@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { io } from "socket.io-client";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import Message from "../message/Message";
@@ -9,6 +10,10 @@ import "./messages.scss";
 export default function Messages() {
   const [msg, setMsg] = useState("");
   const scrollRef = useRef();
+  const socket = useRef();
+  const { currentUser } = useContext(AuthContext);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   const chatId = parseInt(useLocation().pathname.split("/")[2]);
 
@@ -18,7 +23,20 @@ export default function Messages() {
     })
   );
 
-  const { currentUser } = useContext(AuthContext);
+  const {
+    isLoading: memberLoading,
+    error: memberError,
+    data: memberData,
+  } = useQuery(["members", chatId], () => {
+    return makeRequest.get("/chats/members?chatId=" + chatId).then((res) => {
+      return res.data[0];
+    });
+  });
+
+  const receiverId =
+    memberData &&
+    memberData.members.find((member) => member !== currentUser.id);
+
   const queryClient = useQueryClient();
 
   const scrollToBottom = () => {
@@ -39,8 +57,28 @@ export default function Messages() {
     }
   );
 
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.current.emit("addUser", currentUser.id);
+  }, [currentUser.id]);
+
   const handleClick = async (e) => {
     e.preventDefault();
+    socket.current.emit("sendMessage", {
+      senderId: currentUser.id,
+      receiverId,
+      text: msg,
+    });
     mutation.mutate(msg);
     setMsg("");
   };

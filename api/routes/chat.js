@@ -1,9 +1,10 @@
 const express = require("express");
-const { createChat, getChats } = require("../controllers/chats.js");
+const { createChat, getChats, getMembers } = require("../controllers/chats.js");
 
 const router = express.Router();
 
 router.get("/", getChats);
+router.get("/members", getMembers);
 router.post("/", createChat);
 // router.delete("/", deleteChat);
 

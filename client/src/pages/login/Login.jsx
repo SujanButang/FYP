@@ -72,10 +72,11 @@ export default function Login() {
         <div className="right">
           <h1>Travel Sathi</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
-            impedit eligendi vitae praesentium, dignissimos necessitatibus ad
-            soluta repellat doloremque odit. Aut, error sit aliquam cupiditate
-            libero voluptatem doloribus voluptates eaque
+            Find your perfect travel companion and explore the world with Travel
+            Sathi. From planning and booking to sharing unforgettable
+            experiences, connect with like-minded travelers and create memories
+            that last a lifetime. With Travel Sathi, the journey is just as
+            important as the destination
           </p>
           <span>Don't have an account?</span>
           <Link to="/register">

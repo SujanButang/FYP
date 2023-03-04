@@ -16,28 +16,32 @@ export default function Chats() {
 
   return (
     <div className="chats">
-      <div className="chat-container">
-        <h2>Chats</h2>
-        <div className="search">
-          <SearchOutlinedIcon />
-          <input type="text" placeholder="Search chats" />
+      {isLoading ? (
+        "Loading"
+      ) : (
+        <div className="chat-container">
+          <h2>Chats</h2>
+          <div className="search">
+            <SearchOutlinedIcon />
+            <input type="text" placeholder="Search chats" />
+          </div>
+          <div className="items">
+            {data &&
+              data.map((chat, index) => {
+                return (
+                  <div className="item" key={index}>
+                    <Chat
+                      member={chat.members.filter(
+                        (member) => member !== currentUser.id
+                      )}
+                      chatId={chat.id}
+                    />
+                  </div>
+                );
+              })}
+          </div>
         </div>
-        <div className="items">
-          {data &&
-            data.map((chat, index) => {
-              return (
-                <div className="item" key={index}>
-                  <Chat
-                    member={chat.members.filter(
-                      (member) => member !== currentUser.id
-                    )}
-                    chatId={chat.id}
-                  />
-                </div>
-              );
-            })}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

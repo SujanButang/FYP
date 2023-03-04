@@ -64,6 +64,21 @@ const getChats = async (req, res) => {
   });
 };
 
+const getMembers = async (req, res) => {
+  try {
+    const chat = await Chats.findAll({
+      where: {
+        id: req.query.chatId,
+      },
+      attributes: ["members"],
+    });
+    res.status(200).json(chat);
+  } catch (err) {
+    console.log(err);
+    res.status(403).json(err);
+  }
+};
+
 // const deleteLike = async (req, res) => {
 //   const token = req.cookies.accessToken;
 //   if (!token) return res.status(403).json("User is not logged in.");
@@ -80,4 +95,4 @@ const getChats = async (req, res) => {
 //   });
 // };
 
-module.exports = { createChat, getChats };
+module.exports = { createChat, getChats, getMembers };
