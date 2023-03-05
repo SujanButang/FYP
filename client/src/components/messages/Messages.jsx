@@ -12,6 +12,8 @@ export default function Messages() {
   const scrollRef = useRef();
   const socket = useRef();
   const { currentUser } = useContext(AuthContext);
+  const [messages, setMessages] = useState([]);
+
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -19,6 +21,7 @@ export default function Messages() {
 
   const { isLoading, error, data } = useQuery(["messages", chatId], () =>
     makeRequest.get(`/messages/${chatId}`).then((res) => {
+      setMessages(res.data);
       return res.data;
     })
   );
@@ -40,22 +43,34 @@ export default function Messages() {
   const queryClient = useQueryClient();
 
   const scrollToBottom = () => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    });
   };
 
   const mutation = useMutation(
     (message) => {
+      if (!message) return makeRequest.get(`/messages/${chatId}`);
       return makeRequest.post("/messages?chatId=" + chatId, {
         message: message,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["messages"]);
+        queryClient.invalidateQueries(["messages", chatId]);
         scrollToBottom();
       },
     }
   );
+
+  useEffect(() => {
+    arrivalMessage &&
+      memberData?.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+    mutation.mutate();
+  }, [arrivalMessage]);
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
@@ -67,6 +82,10 @@ export default function Messages() {
       });
     });
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     socket.current.emit("addUser", currentUser.id);
@@ -107,7 +126,7 @@ export default function Messages() {
                 <div ref={scrollRef} key={index}>
                   <Message
                     msg={message}
-                    own={message.senderId == currentUser.id}
+                    own={message.senderId === currentUser.id}
                   />
                 </div>
               );
@@ -122,7 +141,7 @@ export default function Messages() {
               onChange={(e) => setMsg(e.target.value)}
               value={msg}
             ></textarea>
-            {msg == "" ? (
+            {msg === "" ? (
               <button
                 className="chatSubmitButton"
                 onClick={handleClick}
