@@ -51,10 +51,16 @@ export default function Leftbar() {
                 <span>Profile</span>
               </div>
             </Link>
-            <div className="item" tabIndex={3} type="button">
-              <HikingIcon />
-              <span>Travel Events</span>
-            </div>
+
+            <Link
+              to={`/events/${currentUser.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <div className="item" tabIndex={3} type="button">
+                <HikingIcon />
+                <span>Travel Events</span>
+              </div>
+            </Link>
             <div className="item" tabIndex={4} type="button">
               <StoreIcon />
               <span>Bookings</span>

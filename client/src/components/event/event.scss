@@ -1,0 +1,61 @@
+@import "../../style.scss";
+
+.event {
+  @include themify($themes) {
+    display: flex;
+    padding: 10px;
+    width: 100%;
+    background-color: themed("bgSoft");
+    color: themed("textColor");
+
+    .event-container {
+      display: flex;
+      gap: 40px;
+      padding: 5px;
+      width: 100%;
+      align-items: center;
+      box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      -webkit-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      -moz-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      border-radius: 10px;
+
+      .img {
+        img {
+          height: 170px;
+          width: 170px;
+          object-fit: cover;
+          border-radius: 10px;
+        }
+      }
+
+      .desc {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+
+        .type {
+          color: themed("buttonSecondaryColor");
+        }
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+
+        button {
+          padding: 10px;
+          width: 100px;
+          border: none;
+          background-color: themed("buttonPrimaryColor");
+          color: white;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}

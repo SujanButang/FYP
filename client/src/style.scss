@@ -1,45 +1,46 @@
-$themes:(
-    light:(
-        textColor: #25396f,
-        bg: #ffffff,
-        bgSoft: #f9fbff,
-        textColorSoft: #a4b6e1,
-        textColorMid: #d8e4f2,
-        border: lightgray,
-        buttonPrimaryColor: #a974ff,
-        buttonSecondaryColor: #eb5153,
-        buttonTertiaryColor: #a4b6e1,
-    ),
-    dark:(
-        textColor: whitesmoke,
-        bg: #222,
-        bgSoft: #333,
-        textColorSoft: #a4b6e1,
-        border: #444,
-        buttonPrimaryColor: #a974ff,
-        buttonSecondaryColor: #eb5153,
-        buttonTertiaryColor: #a4b6e1,
-    )
+$themes: (
+  light: (
+    textColor: #25396f,
+    bg: #ffffff,
+    bgSoft: #f9fbff,
+    textColorSoft: #a4b6e1,
+    textColorMid: #d8e4f2,
+    border: lightgray,
+    buttonPrimaryColor: #a974ff,
+    buttonSecondaryColor: #eb5153,
+    buttonTertiaryColor: #a4b6e1,
+  ),
+  dark: (
+    textColor: whitesmoke,
+
+    bg: #222,
+    bgSoft: #333,
+    textColorSoft: #a4b6e1,
+    border: #444,
+    buttonPrimaryColor: #a974ff,
+    buttonSecondaryColor: #eb5153,
+    buttonTertiaryColor: #a4b6e1,
+  ),
 );
 
-@mixin themify($themes){
-    @each $theme, $map in $themes{
-        .theme-#{$theme} & {
-            $theme-map: () !global;
-            @each $key, $submap in $map{
-                $value: map-get(map-get($themes, $theme), "#{$key}");
-                $theme-map: map-merge(
-                    $theme-map,(
-                        $key: $value,
-                    )
-                )!global;
-                }
-                @content;
-                $theme-map: null !global;
-            }
-        }
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
     }
-@function themed($key){
-    @return map-get($theme-map, $key);
+  }
 }
-
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
