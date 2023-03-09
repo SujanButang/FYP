@@ -38,6 +38,11 @@ export default function Profile() {
     })
   );
 
+  const [notification, setNotification] = useState({
+    to: userId,
+    type: "follow",
+  });
+
   const { isLoading: rIsLoading, data: relationshipData } = useQuery(
     ["relationship", userId],
     () =>
@@ -52,7 +57,9 @@ export default function Profile() {
     (following) => {
       if (following)
         return makeRequest.delete("/relationships?followedId=" + userId);
-      return makeRequest.post("/relationships?followedId=" + userId);
+      return makeRequest
+        .post("/relationships?followedId=" + userId)
+        .then(makeRequest.post("/notifications", notification));
     },
     {
       onSuccess: () => {

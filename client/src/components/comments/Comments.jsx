@@ -6,7 +6,7 @@ import { AuthContext } from "../../context/authContext";
 import moment from "moment";
 import "./comments.scss";
 
-export default function Comments({ postId }) {
+export default function Comments({ postId, userId }) {
   const { isLoading, error, data } = useQuery(["comments"], () =>
     makeRequest.get(`/comments?postId= ${postId}`).then((res) => {
       return res.data;
@@ -14,10 +14,17 @@ export default function Comments({ postId }) {
   );
 
   const [commentDescription, setCommentDescription] = useState("");
+  const [notification, setNotification] = useState({
+    to: userId,
+    postId: postId,
+    type: "comment",
+  });
   const queryCient = useQueryClient();
   const mutation = useMutation(
     (newComment) => {
-      return makeRequest.post(`/comments?postId=${postId}`, newComment);
+      return makeRequest
+        .post(`/comments?postId=${postId}`, newComment)
+        .then(makeRequest.post("/notifications", notification));
     },
     {
       onSuccess: () => {

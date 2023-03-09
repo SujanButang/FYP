@@ -10,7 +10,10 @@ const getPosts = async (req, res) => {
   });
   try {
     const post = await Posts.findAll({
-      include: { model: User, attributes: ["username", "profilePicture"] },
+      include: {
+        model: User,
+        attributes: ["id", "username", "profilePicture"],
+      },
       attributes: [
         "id",
         "userId",
@@ -33,7 +36,6 @@ const addPost = async (req, res) => {
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
     try {
-      console.log(userInfo.id);
       await Posts.create({
         userId: userInfo.id,
         post_description: req.body.postDescription,
@@ -43,7 +45,7 @@ const addPost = async (req, res) => {
       res.status(200).json("Post created successfully.");
     } catch (err) {
       console.log(err);
-      res.status(403).json(err);
+      return res.status(403).json(err);
     }
   });
 };

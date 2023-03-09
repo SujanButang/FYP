@@ -30,6 +30,7 @@ export default function Register() {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8800/api/auth/register", inputs);
+      window.alert("Registration Successful");
       navigate("/login");
     } catch (err) {
       setErr(err.response.data);

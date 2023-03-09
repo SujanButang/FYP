@@ -1,3 +1,4 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { makeRequest } from "../../axios";
 import "./eventForm.scss";
@@ -11,6 +12,8 @@ export default function EventForm({ setForm }) {
     members: "",
     desc: "",
   });
+
+  const queryClient = useQueryClient();
 
   const [destPic, setDestPic] = useState(null);
 
@@ -29,12 +32,22 @@ export default function EventForm({ setForm }) {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const mutation = useMutation(
+    (newEvent) => {
+      return makeRequest.post("/events", newEvent);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["events"]);
+      },
+    }
+  );
+
   const handleClick = async (e) => {
     e.preventDefault();
-
     let destPicUrl;
     destPicUrl = await upload(destPic);
-    await makeRequest.post("/events", { ...inputs, destPic: destPicUrl });
+    mutation.mutate({ ...inputs, destPic: destPicUrl });
     setForm(false);
   };
   return (

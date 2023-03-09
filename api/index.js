@@ -34,6 +34,7 @@ const relationshipRoutes = require("./routes/relationships.js");
 const chatRoutes = require("./routes/chat.js");
 const messageRoutes = require("./routes/messages.js");
 const eventRoutes = require("./routes/events");
+const notificationRoutes = require("./routes/notifications");
 const cookieParser = require("cookie-parser");
 
 // const homeRoutes = require("./routes/home");
@@ -74,6 +75,7 @@ app.use("/api/relationships", relationshipRoutes);
 app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/events", eventRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend server running at port ${PORT}`);

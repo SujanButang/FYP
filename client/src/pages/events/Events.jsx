@@ -9,13 +9,19 @@ import { AuthContext } from "../../context/authContext";
 
 export default function Events() {
   const [form, setForm] = useState(false);
-  const currentUser = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const { isLoading, error, data } = useQuery(["events"], () => {
     return makeRequest.get("/events").then((res) => {
       return res.data;
     });
   });
+
+  const userEvent =
+    (data && data.filter((event) => event.host === currentUser.id)) || [];
+
+  const otherEvent =
+    (data && data.filter((event) => event.host !== currentUser.id)) || [];
 
   return (
     <div className="events">
@@ -30,26 +36,42 @@ export default function Events() {
         <div className="user-events">
           <div className="item-head">
             <h3>Your Event</h3>
-
-            <>
+            {userEvent.length !== 0 ? (
               <div className="item">
-                <p>
-                  You don't have any event at present. Click create to host a
-                  new Event.
-                </p>
-                <button onClick={(e) => setForm(true)}>Create</button>
+                <Event event={userEvent[0]} own={true} />
               </div>
-            </>
+            ) : (
+              <>
+                <div className="item">
+                  <p>
+                    You don't have any event at present. Click create to host a
+                    new Event.
+                  </p>
+                  <button
+                    onClick={(e) => setForm(true)}
+                    className="create-button"
+                  >
+                    Create
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <div className="other-events">
           <div className="item-head">
             <h3>Other Events</h3>
-            {isLoading
-              ? "loading"
-              : data.map((event) => {
-                  return <Event event={event} key={event.id} />;
-                })}
+            {isLoading ? (
+              "loading"
+            ) : otherEvent.length !== 0 ? (
+              otherEvent.map((event) => {
+                return <Event event={event} key={event.id} own={false} />;
+              })
+            ) : (
+              <>
+                <h3>No other Events found</h3>
+              </>
+            )}
           </div>
         </div>
       </div>

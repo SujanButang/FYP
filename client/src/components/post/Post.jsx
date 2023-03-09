@@ -18,6 +18,12 @@ export default function Post({ post }) {
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   const [commentOpen, setCommentOpen] = useState(false);
+
+  const [notification, setNotification] = useState({
+    to: post.User.id,
+    postId: post.id,
+    type: "like",
+  });
   const queryClient = useQueryClient();
 
   // get likes, add like, remove like
@@ -30,7 +36,9 @@ export default function Post({ post }) {
   const likeMutation = useMutation(
     (liked) => {
       if (liked) makeRequest.delete("/likes?postId=" + post.id);
-      makeRequest.post("/likes?postId=" + post.id);
+      makeRequest
+        .post("/likes?postId=" + post.id)
+        .then(makeRequest.post("/notifications", notification));
     },
     {
       onSuccess: () => {
@@ -122,7 +130,7 @@ export default function Post({ post }) {
                 <span>Share</span>
               </div>
             </div>
-            {commentOpen && <Comments postId={post.id} />}
+            {commentOpen && <Comments postId={post.id} userId={post.User.id} />}
           </div>
         </>
       )}

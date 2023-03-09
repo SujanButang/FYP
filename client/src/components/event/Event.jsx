@@ -1,7 +1,20 @@
 import moment from "moment";
+import { useState } from "react";
+import { makeRequest } from "../../axios";
 import "./event.scss";
 
-export default function Event({ event }) {
+export default function Event({ event, own }) {
+  const [notification, setNotification] = useState({
+    type: "event request",
+    to: event.host,
+  });
+
+  const [joined, setJoined] = useState(false);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    makeRequest.post("/notifications", notification).then(setJoined(true));
+  };
   return (
     <div className="event">
       <div className="event-container">
@@ -19,8 +32,21 @@ export default function Event({ event }) {
           <h5>Host: Sujan Rai</h5>
         </div>
         <div className="actions">
-          <button>Join</button>
-          <button>See Details</button>
+          {own ? (
+            <>
+              <button>Edit</button>
+              <button>See Details</button>
+            </>
+          ) : (
+            <>
+              {joined ? (
+                <button onClick={(e) => setJoined(false)}>Joined</button>
+              ) : (
+                <button onClick={handleClick}>Join</button>
+              )}
+              <button>See Details</button>
+            </>
+          )}
         </div>
       </div>
     </div>
