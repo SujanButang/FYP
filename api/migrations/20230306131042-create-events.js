@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       members: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.JSON,
       },
       eventDescription: {
         type: Sequelize.STRING,

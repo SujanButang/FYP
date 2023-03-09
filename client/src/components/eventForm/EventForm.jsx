@@ -9,7 +9,6 @@ export default function EventForm({ setForm }) {
     type: "",
     start: "",
     end: "",
-    members: "",
     desc: "",
   });
 
@@ -87,16 +86,7 @@ export default function EventForm({ setForm }) {
             <input type="date" id="end" name="end" onChange={handleChange} />
           </div>
           <br />
-          <div className="item-container">
-            <label htmlFor="members">Members:</label>
-            <input
-              type="number"
-              id="members"
-              name="members"
-              onChange={handleChange}
-            />
-          </div>
-          <br />
+
           <div className="item-container">
             <label htmlFor="desc">Description:</label>
             <br />

@@ -39,6 +39,9 @@ module.exports = {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       },
+      event: {
+        type: Sequelize.INTEGER,
+      },
       status: {
         type: Sequelize.STRING,
       },

@@ -22,6 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Likes);
       models.Likes.belongsTo(User);
 
+      User.hasMany(models.Events, { foreignKey: "host" });
+      models.Events.belongsTo(User, { foreignKey: "host" });
+
       User.hasMany(models.Notifications, { foreignKey: "from" });
       models.Notifications.belongsTo(User, { foreignKey: "from" });
     }

@@ -4,7 +4,6 @@ import { makeRequest } from "../../axios";
 import "./chat.scss";
 
 export default function Chat({ member, chatId }) {
-  console.log(chatId);
   const memberId = member[0];
   const { isLoading, error, data } = useQuery(["users", memberId], async () => {
     return await makeRequest.get("/users/find/" + memberId).then((res) => {

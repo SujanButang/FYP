@@ -14,6 +14,7 @@ const createNotification = async (req, res) => {
         from: userInfo.id,
         to: req.body.to,
         post: req.body.postId,
+        event: req.body.eventId,
         status: "unread",
       });
       return res.status(200).json("Notification created successfully");

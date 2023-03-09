@@ -4,6 +4,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios";
 import "./notification.scss";
 
@@ -30,13 +31,24 @@ export default function Notification({ notification }) {
       .post("/relationships?followedId=" + notification.from)
       .then(handleRead);
   };
+
+  const handleAccept = () => {
+    makeRequest.put("/events/addMember?eventId=" + notification.event, {
+      userId: notification.from,
+    });
+  };
   return (
     <div className="notification">
       <div className="notification-container">
         <div className="notification-item">
           <img src={"/upload/" + notification.User.profilePicture} alt="" />
           <p>
-            <span className="user">{notification.User.username} </span>
+            <Link
+              to={`/profile/${notification.from}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <span className="user">{notification.User.username} </span>
+            </Link>
             {(() => {
               switch (notification.type) {
                 case "like":
@@ -59,7 +71,7 @@ export default function Notification({ notification }) {
                 case "follow":
                   return <button onClick={handleFollow}>Follow back</button>;
                 case "event request":
-                  return <button>Accept</button>;
+                  return <button onClick={handleAccept}>Accept</button>;
               }
             })()}
             <button onClick={handleRead}>Mark as read</button>

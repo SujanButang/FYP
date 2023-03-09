@@ -2,15 +2,28 @@ const { Relationships } = require("../models");
 const jwt = require("jsonwebtoken");
 
 const getRelationships = async (req, res) => {
-  try {
-    const Relationship = await Relationships.findAll({
-      where: { followedId: req.query.followedId },
-    });
-    return res
-      .status(200)
-      .json(Relationship.map((relation) => relation.followerId));
-  } catch (err) {
-    return res.status(400).json(err);
+  if (req.query.followedId) {
+    try {
+      const Relationship = await Relationships.findAll({
+        where: { followedId: req.query.followedId },
+      });
+      return res
+        .status(200)
+        .json(Relationship.map((relation) => relation.followerId));
+    } catch (err) {
+      return res.status(400).json(err);
+    }
+  } else {
+    try {
+      const Relationship = await Relationships.findAll({
+        where: { followerId: req.query.followerId },
+      });
+      return res
+        .status(200)
+        .json(Relationship.map((relation) => relation.followedId));
+    } catch (err) {
+      return res.status(400).json(err);
+    }
   }
 };
 

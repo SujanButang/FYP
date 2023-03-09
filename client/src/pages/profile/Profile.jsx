@@ -16,6 +16,7 @@ import { AuthContext } from "../../context/authContext";
 
 import Post from "../../components/post/Post";
 import UpdateUser from "../../components/updateUser/UpdateUser";
+import moment from "moment";
 export default function Profile() {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { currentUser } = useContext(AuthContext);
@@ -47,6 +48,13 @@ export default function Profile() {
     ["relationship", userId],
     () =>
       makeRequest.get("/relationships?followedId=" + userId).then((res) => {
+        return res.data;
+      })
+  );
+  const { isLoading: fIsLoading, data: followersData } = useQuery(
+    ["following", userId],
+    () =>
+      makeRequest.get("/relationships?followerId=" + userId).then((res) => {
         return res.data;
       })
   );
@@ -108,7 +116,7 @@ export default function Profile() {
               <span>
                 {relationshipData && relationshipData.length} Followers
               </span>
-              <span>Followings</span>
+              <span>{followersData && followersData.length} Followings</span>
             </div>
           </div>
         </div>
@@ -167,7 +175,7 @@ export default function Profile() {
               <span className="section-head">Birthday</span>
             </div>
             <div className="section-details">
-              <p>{data && data.birthDate}</p>
+              <p>{data && moment(data.birthDate).format("YYYY-MM-DD")}</p>
             </div>
           </div>
         </div>

@@ -40,6 +40,14 @@ export default function Messages() {
     memberData &&
     memberData.members.find((member) => member !== currentUser.id);
 
+  const {
+    isLoading: userLoading,
+    error: userError,
+    data: userData,
+  } = useQuery(["users", receiverId], () => {
+    return makeRequest.get("/users/" + receiverId);
+  });
+
   const queryClient = useQueryClient();
 
   const scrollToBottom = () => {
@@ -107,12 +115,9 @@ export default function Messages() {
       <div className="messages-wrapper">
         <div className="chat-info">
           <div className="receiver">
-            <img
-              src="https://images.freeimages.com/images/previews/bb0/cat-in-window-1218032.jpg"
-              alt=""
-            />
+            <img src={"/upload/" + userData.profilePicture} alt="" />
             <div className="receiver-info">
-              <span className="receiver-name">Sujan Rai</span>
+              <span className="receiver-name">{userData.username}</span>
               <span className="status">
                 <div className="active"></div>Online
               </span>
