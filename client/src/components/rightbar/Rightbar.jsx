@@ -6,12 +6,21 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { AuthContext } from "../../context/authContext";
 import axios from "axios";
+import Notification from "../notification/Notification";
+import { useQuery } from "@tanstack/react-query";
+import { makeRequest } from "../../axios";
 
 export default function Rightbar() {
   const { logout, currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const [err, setErr] = useState(null);
+
+  const { isLoading, error, data } = useQuery(["notifications"], () => {
+    return makeRequest.get("/notifications").then((res) => {
+      return res.data;
+    });
+  });
 
   const handleClick = async (e) => {
     try {
@@ -32,13 +41,23 @@ export default function Rightbar() {
               <SearchOutlinedIcon />
               <input type="text" placeholder="Search" />
             </div>
-            <div className="notification">
-              <NotificationsIcon className="notification-icon" />
-            </div>
+
             <div className="logout">
               <LogoutIcon className="logout-icon" onClick={handleClick} />
             </div>
           </div>
+          <div className="notifications">
+            <div className="header">
+              <span className="title">Your Notifications</span>
+            </div>
+          </div>
+          <div className="items">
+            {data &&
+              data.map((notification, index) => {
+                return <Notification notification={notification} key={index} />;
+              })}
+          </div>
+          <hr />
           <div className="suggestion">
             <div className="header">
               <span className="title">Suggestions for You</span>
@@ -87,7 +106,6 @@ export default function Rightbar() {
               </div>
             </div>
           </div>
-          <hr />
         </div>
       </div>
     </div>

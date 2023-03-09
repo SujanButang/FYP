@@ -1,4 +1,5 @@
 "use strict";
+const { on } = require("nodemon");
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -20,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
 
       User.hasMany(models.Likes);
       models.Likes.belongsTo(User);
+
+      User.hasMany(models.Notifications, { foreignKey: "from" });
+      models.Notifications.belongsTo(User, { foreignKey: "from" });
     }
   }
   User.init(

@@ -1,5 +1,6 @@
-const { Notifications } = require("../models");
+const { Notifications, User } = require("../models");
 const jwt = require("jsonwebtoken");
+const { Sequelize } = require("sequelize");
 
 const createNotification = async (req, res) => {
   const token = req.cookies.accessToken;
@@ -50,12 +51,20 @@ const getNotifications = async (req, res) => {
     if (err) return res.status(403).json("Token not valid");
     try {
       const notifications = await Notifications.findAll({
-        // where: { to: userInfo.id },
-        order: [["createdAt", "DESC"]],
+        where: { to: userInfo.id },
+        include: {
+          model: User,
+          attributes: ["username", "profilePicture"],
+          where: {
+            id: Sequelize.col("Notifications.from"),
+          },
+        },
+        order: [["status", "DESC"]],
       });
       if (!notifications) res.status(404).json("No notifications found");
       return res.status(200).json(notifications);
     } catch (err) {
+      console.log(err);
       return res.status(500).json(err);
     }
   });
