@@ -9,6 +9,13 @@ const createNotification = async (req, res) => {
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
     try {
+      if (req.body.to === userInfo.id)
+        return res.status(403).json("Cannot send notification to yourself");
+      const notification = await Notifications.findOne({
+        where: { type: req.body.type, to: req.body.to },
+      });
+      if (notification)
+        return res.status(403).json("Notification already sent");
       await Notifications.create({
         type: req.body.type,
         from: userInfo.id,

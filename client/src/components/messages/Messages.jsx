@@ -19,21 +19,21 @@ export default function Messages() {
 
   const chatId = parseInt(useLocation().pathname.split("/")[2]);
 
-  const { isLoading, error, data } = useQuery(["messages", chatId], () =>
-    makeRequest.get(`/messages/${chatId}`).then((res) => {
+  const { isLoading, error, data } = useQuery(
+    ["messages", chatId],
+    async () => {
+      const res = await makeRequest.get(`/messages/${chatId}`);
       setMessages(res.data);
       return res.data;
-    })
+    }
   );
-
   const {
     isLoading: memberLoading,
     error: memberError,
     data: memberData,
-  } = useQuery(["members", chatId], () => {
-    return makeRequest.get("/chats/members?chatId=" + chatId).then((res) => {
-      return res.data[0];
-    });
+  } = useQuery(["members", chatId], async () => {
+    const res = await makeRequest.get("/chats/members?chatId=" + chatId);
+    return res.data[0];
   });
 
   const receiverId =
@@ -44,8 +44,9 @@ export default function Messages() {
     isLoading: userLoading,
     error: userError,
     data: userData,
-  } = useQuery(["users", receiverId], () => {
-    return makeRequest.get("/users/" + receiverId);
+  } = useQuery(["users", receiverId], async () => {
+    const res = await makeRequest.get("/users/find/" + receiverId);
+    return res.data[0];
   });
 
   const queryClient = useQueryClient();
@@ -113,17 +114,23 @@ export default function Messages() {
   return (
     <div className="messages">
       <div className="messages-wrapper">
-        <div className="chat-info">
-          <div className="receiver">
-            <img src={"/upload/" + userData.profilePicture} alt="" />
-            <div className="receiver-info">
-              <span className="receiver-name">{userData.username}</span>
-              <span className="status">
-                <div className="active"></div>Online
-              </span>
+        {memberLoading ? (
+          "loading"
+        ) : userLoading ? (
+          "loading"
+        ) : (
+          <div className="chat-info">
+            <div className="receiver">
+              <img src={"/upload/" + userData.profilePicture} alt="" />
+              <div className="receiver-info">
+                <span className="receiver-name">{userData.username}</span>
+                <span className="status">
+                  <div className="active"></div>Online
+                </span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="messages-top">
           {data &&
             data.map((message, index) => {
