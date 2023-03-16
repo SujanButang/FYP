@@ -1,0 +1,89 @@
+@import "../../style.scss";
+.wall {
+  @include themify($themes) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .wall-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .create-post {
+      box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      -webkit-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      -moz-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+      border-radius: 20px;
+      background-color: themed("bg");
+      color: themed("textColor");
+      .post-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        gap: 10px;
+
+        .left {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex: 5;
+          gap: 15px;
+
+          img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          textarea {
+            flex: 5;
+            border: 1px solid themed("textColorMid");
+            resize: none;
+            border-radius: 10px;
+          }
+        }
+        .right {
+          img {
+            height: 50px;
+            width: 50px;
+            opacity: 50%;
+            border-radius: 10px;
+            object-fit: cover;
+          }
+        }
+      }
+
+      .actions {
+        display: flex;
+        padding: 5px 20px;
+        justify-content: space-between;
+        gap: 20px;
+
+        .item {
+          display: flex;
+
+          label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          button {
+            cursor: pointer;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: themed("buttonPrimaryColor");
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 3px;
+          }
+        }
+      }
+    }
+  }
+}

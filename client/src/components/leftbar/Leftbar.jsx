@@ -63,7 +63,7 @@ export default function Leftbar() {
             </Link>
             <div className="item" tabIndex={4} type="button">
               <StoreIcon />
-              <span>Bookings</span>
+              <span>Hotels</span>
             </div>
             <Link to={"/settings"} style={{ textDecoration: "none" }}>
               <div className="item" tabIndex={5} type="button">

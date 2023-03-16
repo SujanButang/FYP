@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       post_image: DataTypes.STRING,
       post_description: DataTypes.STRING,
+      event_id: DataTypes.INTEGER,
       post_date: DataTypes.DATE,
     },
     {

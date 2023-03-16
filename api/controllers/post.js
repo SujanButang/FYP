@@ -8,6 +8,28 @@ const getPosts = async (req, res) => {
   jwt.verify(token, "secretKey", (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
   });
+  if (!req.query.eventId) {
+    try {
+      const post = await Posts.findAll({
+        include: {
+          model: User,
+          attributes: ["id", "username", "profilePicture"],
+        },
+        attributes: [
+          "id",
+          "userId",
+          "post_image",
+          "post_description",
+          "post_date",
+        ],
+        order: [["post_date", "DESC"]],
+      });
+      return res.status(200).json(post);
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json(err);
+    }
+  }
   try {
     const post = await Posts.findAll({
       include: {
@@ -22,11 +44,11 @@ const getPosts = async (req, res) => {
         "post_date",
       ],
       order: [["post_date", "DESC"]],
+      where: { event_id: req.query.eventId },
     });
     return res.status(200).json(post);
-  } catch (err) {
-    console.log(err);
-    return res.status(400).json(err);
+  } catch (error) {
+    return res.status(400).json(error);
   }
 };
 
@@ -40,6 +62,7 @@ const addPost = async (req, res) => {
         userId: userInfo.id,
         post_description: req.body.postDescription,
         post_image: req.body.imgURL,
+        event_id: req.body.eventId,
         post_date: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
       });
       res.status(200).json("Post created successfully.");

@@ -1,4 +1,4 @@
-const { Events, User } = require("../models");
+const { Events, User, Plans } = require("../models");
 const Sequelize = require("sequelize");
 const jwt = require("jsonwebtoken");
 
@@ -100,4 +100,61 @@ const removeMember = async (req, res) => {
   }
 };
 
-module.exports = { createEvent, getEvents, getEvent, addMember, removeMember };
+const addPlan = async (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(403).json("User is not logged in.");
+  jwt.verify(token, "secretKey", async (err, userInfo) => {
+    if (err) return res.status(403).json("Token not valid");
+    try {
+      await Plans.create({
+        plan_date: req.body.date,
+        plan_note: req.body.note,
+        eventId: req.query.eventId,
+      });
+      return res.status(200).json("Plan added");
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  });
+};
+
+const getPlans = async (req, res) => {
+  try {
+    const plan = await Plans.findAll({
+      where: { eventId: req.query.eventId },
+      order: [["plan_date", "ASC"]],
+    });
+    return res.status(200).json(plan);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+};
+
+const updatePlan = async (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(403).json("User is not logged in.");
+  jwt.verify(token, "secretKey", async (err, userInfo) => {
+    if (err) return res.status(403).json("Token not valid");
+    try {
+      await Plans.update(
+        {
+          plan_note: req.body.note,
+        },
+        { where: { id: req.query.planId } }
+      );
+      return res.status(200).json("Updated");
+    } catch (error) {
+      return res.status(500).json("Could not be updated.");
+    }
+  });
+};
+module.exports = {
+  createEvent,
+  getEvents,
+  getEvent,
+  addMember,
+  removeMember,
+  addPlan,
+  getPlans,
+  updatePlan,
+};

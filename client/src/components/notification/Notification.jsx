@@ -26,16 +26,16 @@ export default function Notification({ notification }) {
     mutation.mutate(notification.id);
   };
 
-  const handleFollow = () => {
-    makeRequest
-      .post("/relationships?followedId=" + notification.from)
-      .then(handleRead);
+  const handleFollow = async () => {
+    await makeRequest.post("/relationships?followedId=" + notification.from);
+    mutation.mutate(notification.id);
   };
 
-  const handleAccept = () => {
-    makeRequest.put("/events/addMember?eventId=" + notification.event, {
+  const handleAccept = async () => {
+    await makeRequest.put("/events/addMember?eventId=" + notification.event, {
       userId: notification.from,
     });
+    handleRead();
   };
   return (
     <div className="notification">

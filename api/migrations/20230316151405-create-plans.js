@@ -2,42 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Posts", {
+    await queryInterface.createTable("Plans", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+      plan_date: {
+        type: Sequelize.DATE,
       },
-      post_image: {
+      plan_note: {
         type: Sequelize.STRING,
       },
-
-      event_id: {
+      eventId: {
         type: Sequelize.INTEGER,
-        allowNull: true,
         references: {
           model: "Events",
           key: "id",
         },
-        onUpdate: "CASCADE",
         onDelete: "CASCADE",
-      },
-
-      post_description: {
-        type: Sequelize.STRING,
-      },
-      post_date: {
-        type: Sequelize.DATE,
+        onUpdate: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -50,6 +35,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Posts");
+    await queryInterface.dropTable("Plans");
   },
 };

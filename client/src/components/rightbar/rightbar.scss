@@ -1,6 +1,7 @@
 @import "../../style.scss";
 .rightbar {
   @include themify($themes) {
+    flex: 2;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -10,6 +11,7 @@
     top: 0;
     background-color: themed("bg");
     height: 97.5vh;
+    // min-width: 20%;
 
     .container {
       position: relative;

@@ -6,6 +6,7 @@ const getUser = async (req, res) => {
     const user = await User.findAll({
       where: { id: req.params.userId },
       attributes: [
+        "id",
         "username",
         "email",
         "birthDate",
