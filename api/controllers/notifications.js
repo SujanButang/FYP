@@ -12,7 +12,7 @@ const createNotification = async (req, res) => {
       if (req.body.to === userInfo.id)
         return res.status(403).json("Cannot send notification to yourself");
       const notification = await Notifications.findOne({
-        where: { type: req.body.type, to: req.body.to },
+        where: { type: req.body.type, to: req.body.to, from: userInfo.id },
       });
       if (notification)
         return res.status(403).json("Notification already sent");

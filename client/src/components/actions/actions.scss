@@ -1,0 +1,12 @@
+.actions {
+  display: flex;
+  gap: 20px;
+  align-self: center;
+  font-size: 12px;
+
+  .action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

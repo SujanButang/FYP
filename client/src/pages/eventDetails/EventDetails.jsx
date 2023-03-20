@@ -11,15 +11,24 @@ import { AuthContext } from "../../context/authContext";
 import "./eventDetails.scss";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { ToastContainer, toast } from "react-toastify";
+
+import Plan from "../../components/plans/Plan";
 
 export default function EventDetails() {
   const eventId = parseInt(useLocation().pathname.split("/")[2]);
 
-  const { isLoading, error, data } = useQuery(["events", eventId], async () => {
+  const {
+    isLoading,
+    error,
+    data: eventData,
+  } = useQuery(["events", eventId], async () => {
     return makeRequest.get("/events/" + eventId).then((res) => {
       return res.data;
     });
   });
+
+  const [suggestionOpen, setSuggestionOpen] = useState(false);
 
   const [selectedAnchor, setSelectedAnchor] = useState("wall");
 
@@ -43,7 +52,22 @@ export default function EventDetails() {
 
   const mutation = useMutation(
     (newPlan) => {
-      return makeRequest.post("/events/plans?eventId=" + eventId, newPlan);
+      setNote("");
+      const planDay =
+        plans &&
+        plans.filter(
+          (plan) =>
+            moment(plan.plan_date).format("YYYY-MM-DD") ===
+            moment(newPlan.date).format("YYYY-MM-DD")
+        );
+      if (planDay.length !== 0) {
+        return makeRequest
+          .put("/events/plans?planId=" + planDay[0].id, newPlan)
+          .then(toast.success("Plan Updated"));
+      }
+      return makeRequest
+        .post("/events/plans?eventId=" + eventId, newPlan)
+        .then(toast.success("Plan saved"));
     },
     {
       onSuccess: () => {
@@ -55,15 +79,6 @@ export default function EventDetails() {
   const handleDayClick = (val) => {
     setDate(val);
     setOpenInput(true);
-    const plants =
-      plans &&
-      plans.filter(
-        (plan) =>
-          moment(plan.plan_date).format("YYYY-MM-DD") ===
-          moment(date).format("YYYY-MM-DD")
-      );
-
-    console.log(plants);
   };
 
   const handleSave = () => {
@@ -78,16 +93,18 @@ export default function EventDetails() {
         <>
           <div className="details-container">
             <div className="img">
-              <img src={"/upload/" + data.destinationImage} alt="" />
+              <img src={"/upload/" + eventData.destinationImage} alt="" />
             </div>
             <div className="details">
-              <h1>{data.destination}</h1>
-              <h3 className="eventType">{data.eventType}</h3>
+              <h1>{eventData.destination}</h1>
+              <h3 className="eventType">{eventData.eventType}</h3>
               <h4>
-                Starting on: {moment(data.startDate).format("YYYY-MM-DD")}
+                Starting on: {moment(eventData.startDate).format("YYYY-MM-DD")}
               </h4>
-              <h4>Ending Date: {moment(data.endDate).format("YYYY-MM-DD")}</h4>
-              <h5>{data.eventDescription}</h5>
+              <h4>
+                Ending Date: {moment(eventData.endDate).format("YYYY-MM-DD")}
+              </h4>
+              <h5>{eventData.eventDescription}</h5>
             </div>
             <nav className="navigation">
               <ul>
@@ -126,7 +143,10 @@ export default function EventDetails() {
               {(() => {
                 switch (selectedAnchor) {
                   case "chat":
-                    if (data && data.members.includes(currentUser.id)) {
+                    if (
+                      eventData &&
+                      eventData.members.includes(currentUser.id)
+                    ) {
                       return <GroupChat />;
                     }
                     return (
@@ -140,13 +160,13 @@ export default function EventDetails() {
                       <div className="calendar-container">
                         <Calendar
                           // onChange={handleDateChange}
-                          minDate={new Date(data.startDate)}
-                          maxDate={new Date(data.endDate)}
+                          minDate={new Date(eventData.startDate)}
+                          maxDate={new Date(eventData.endDate)}
                           onClickDay={(value, event) => handleDayClick(value)}
                           className="calendar"
                         />
                         {openInput ? (
-                          data && data.host === currentUser.id ? (
+                          eventData && eventData.host === currentUser.id ? (
                             <div className="plan-card">
                               <textarea
                                 name="note"
@@ -154,6 +174,7 @@ export default function EventDetails() {
                                 cols="30"
                                 rows="3"
                                 onChange={(e) => setNote(e.target.value)}
+                                value={note}
                                 placeholder={
                                   moment(date).format("YYYY-MM-DD") +
                                   " Write a note for this day"
@@ -167,48 +188,35 @@ export default function EventDetails() {
                               </div>
                             </div>
                           ) : (
-                            <div className="plan-card">
-                              <textarea
-                                name="note"
-                                id="note"
-                                cols="30"
-                                rows="3"
-                                onChange={(e) => setNote(e.target.value)}
-                                disabled
-                                placeholder={
-                                  plans &&
-                                  plans.filter(
-                                    (plan) =>
-                                      moment(plan.plan_date).format(
-                                        "YYYY-MM-DD"
-                                      ) === moment(date).format("YYYY-MM-DD")
-                                  ).plan_note
-                                }
-                              ></textarea>
-                              <div className="actions">
-                                <button onClick={(e) => setOpenInput(false)}>
-                                  Close
-                                </button>
-                              </div>
-                            </div>
+                            <></>
                           )
                         ) : (
-                          <></>
+                          <>
+                            <div className="plans-cards">
+                              {plans &&
+                                plans.map((plan, index) => {
+                                  return <Plan plan={plan} key={index} />;
+                                })}
+                            </div>
+                          </>
                         )}
                       </div>
                     );
                   case "member":
                     return (
-                      data &&
-                      data.members.map((user, index) => {
+                      eventData &&
+                      eventData.members.map((user, index) => {
                         return <Members user={user} key={index} />;
                       })
                     );
                   case "payment":
                     return <p>Option 4 is selected</p>;
                   default:
-                    if (data && data.members.includes(currentUser.id)) {
-                      return <Wall event={data} />;
+                    if (
+                      eventData &&
+                      eventData.members.includes(currentUser.id)
+                    ) {
+                      return <Wall event={eventData} />;
                     }
                     return (
                       <div className="restricted">
@@ -222,6 +230,7 @@ export default function EventDetails() {
           </div>
         </>
       )}
+      <ToastContainer />
     </div>
   );
 }

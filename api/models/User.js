@@ -27,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
 
       User.hasMany(models.Notifications, { foreignKey: "from" });
       models.Notifications.belongsTo(User, { foreignKey: "from" });
+
+      User.hasMany(models.Suggestions, { foreignKey: "user_id" });
+      models.Suggestions.belongsTo(User, { foreignKey: "user_id" });
     }
   }
   User.init(

@@ -1,0 +1,22 @@
+@import "../../style.scss";
+.plan-container {
+  @include themify($themes) {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+    padding: 10px;
+
+    .details-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    .plan-details {
+      display: flex;
+      gap: 20px;
+    }
+  }
+}

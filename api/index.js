@@ -35,6 +35,7 @@ const chatRoutes = require("./routes/chat.js");
 const messageRoutes = require("./routes/messages.js");
 const eventRoutes = require("./routes/events");
 const notificationRoutes = require("./routes/notifications");
+const suggestionRoutes = require("./routes/suggestions.js");
 const cookieParser = require("cookie-parser");
 
 // const homeRoutes = require("./routes/home");
@@ -63,8 +64,10 @@ const upload = multer({ storage: storage });
 
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
+
   res.status(200).json(file.filename);
 });
+
 app.use("/api/auth", authRoutes);
 // app.use("/", homeRoutes);
 app.use("/api/posts", postRoutes);
@@ -76,6 +79,7 @@ app.use("/api/chats", chatRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/suggestions", suggestionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend server running at port ${PORT}`);

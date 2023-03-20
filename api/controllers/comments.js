@@ -12,7 +12,6 @@ const getComments = async (req, res) => {
     });
     return res.status(200).json(comment);
   } catch (err) {
-    console.log(err);
     return res.status(400).json(err);
   }
 };
