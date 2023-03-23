@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Events.hasMany(models.Plans);
       models.Plans.belongsTo(Events);
+
+      Events.hasMany(models.Payments, { foreignKey: "event_id" });
+      models.Payments.belongsTo(Events, { foreignKey: "event_id" });
+
+      Events.hasMany(models.Expenses, { foreignKey: "event_id" });
+      models.Expenses.belongsTo(Events, { foreignKey: "event_id" });
     }
   }
   Events.init(

@@ -1,0 +1,105 @@
+@import "../../style.scss";
+
+.payment {
+  @include themify($themes) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: themify("bgSoft");
+    color: themify("textColot");
+
+    .expenses {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .expense-details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+        span {
+          font-size: 16px;
+          font-weight: 500;
+        }
+
+        .khalti-pay {
+          width: 15%;
+          height: 30px;
+          border: none;
+          border-radius: 3px;
+          background-color: themed("buttonPrimaryColor");
+          color: white;
+          cursor: pointer;
+        }
+
+        .khalti-pay:hover {
+          box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+          -webkit-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+          -moz-box-shadow: 0px 0px 10px 1px rgba(114, 9, 183, 0.29);
+        }
+      }
+    }
+
+    .expense-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .form {
+        display: flex;
+        gap: 10px;
+      }
+
+      input {
+        width: 20%;
+      }
+    }
+
+    .expenses {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .table-headers {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .close-button,
+        .add-button {
+          width: 10%;
+          border: none;
+          border-radius: 3px;
+          color: white;
+          cursor: pointer;
+        }
+
+        .add-button {
+          height: 30px;
+          background-color: themed("buttonPrimaryColor");
+        }
+
+        .close-button {
+          height: 30px;
+          background-color: themed("buttonSecondaryColor");
+        }
+      }
+
+      table {
+        width: 100%;
+
+        th {
+          background-color: themed("textColorMid");
+        }
+
+        th,
+        td {
+          border-bottom: 1px solid #ddd;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

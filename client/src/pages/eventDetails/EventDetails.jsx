@@ -14,6 +14,7 @@ import "react-calendar/dist/Calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 
 import Plan from "../../components/plans/Plan";
+import Payment from "../../components/payment/Payment";
 
 export default function EventDetails() {
   const eventId = parseInt(useLocation().pathname.split("/")[2]);
@@ -210,7 +211,7 @@ export default function EventDetails() {
                       })
                     );
                   case "payment":
-                    return <p>Option 4 is selected</p>;
+                    return <Payment />;
                   default:
                     if (
                       eventData &&
