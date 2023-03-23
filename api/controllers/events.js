@@ -1,6 +1,7 @@
-const { Events, User, Plans } = require("../models");
+const { Events, User, Plans, Payments, Expenses } = require("../models");
 const Sequelize = require("sequelize");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 const createEvent = async (req, res) => {
   const token = req.cookies.accessToken;
@@ -148,6 +149,80 @@ const updatePlan = async (req, res) => {
     }
   });
 };
+
+const makePayment = async (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(403).json("User is not logged in.");
+  jwt.verify(token, "secretKey", async (err, userInfo) => {
+    if (err) return res.status(403).json("Token not valid");
+
+    let data = {
+      token: `${req.body.token}`,
+      amount: req.body.amount,
+    };
+
+    let config = {
+      headers: {
+        Authorization: "Key test_secret_key_f05764f1cd744fc19be179f315d8e62a",
+      },
+    };
+
+    try {
+      const response = await axios.post(
+        "https://khalti.com/api/v2/payment/verify/",
+        data,
+        config
+      );
+      await Payments.create({
+        event_id: req.query.eventId,
+        user_id: userInfo.id,
+        amount: req.body.amount,
+      });
+      return res.status(200).json(response.data);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  });
+};
+
+const addExpense = async (req, res) => {
+  try {
+    await Expenses.create({
+      expense_title: req.body.title,
+      amount: req.body.amount,
+      remarks: req.body.remarks,
+      event_id: req.query.eventId,
+    });
+    return res.status(200).json("Expense Added Successfully");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const deleteExpense = async (req, res) => {
+  try {
+    await Expenses.destroy({
+      where: {
+        id: req.query.expenseId,
+      },
+    });
+    return res.status(200).json("Expense has been deleted");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const getExpenses = async (req, res) => {
+  try {
+    const expense = await Expenses.findAll({
+      where: { event_id: req.query.eventId },
+    });
+    return res.status(200).json(expense);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 module.exports = {
   createEvent,
   getEvents,
@@ -157,4 +232,8 @@ module.exports = {
   addPlan,
   getPlans,
   updatePlan,
+  makePayment,
+  addExpense,
+  deleteExpense,
+  getExpenses,
 };
