@@ -6,6 +6,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import SellIcon from "@mui/icons-material/Sell";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
+import Loading from "../loading/Loading";
 
 export default function Posts() {
   const { isLoading, error, data } = useQuery(["posts"], () =>

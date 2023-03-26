@@ -1,20 +1,27 @@
 import moment from "moment";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { makeRequest } from "../../axios";
+import { AuthContext } from "../../context/authContext";
+import { SocketContext } from "../../context/socketContext";
 import "./event.scss";
 
 export default function Event({ event, own }) {
+  const { currentUser } = useContext(AuthContext);
   const [notification, setNotification] = useState({
     type: "event request",
+    from: currentUser.id,
     to: event.host,
     eventId: event.id,
+    status: "unread",
   });
 
   const [joined, setJoined] = useState(false);
+  const { socket } = useContext(SocketContext);
 
   const handleClick = (e) => {
     e.preventDefault();
+    socket.emit("createNotification", notification);
     makeRequest.post("/notifications", notification).then(setJoined(true));
   };
   return (

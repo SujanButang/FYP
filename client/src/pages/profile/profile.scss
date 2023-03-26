@@ -7,6 +7,7 @@
     background-color: themed("bg");
     border-right: 1px solid themed("textColorSoft");
     color: themed("textColor");
+    min-height: 100%;
 
     .images {
       width: 100%;
@@ -18,7 +19,7 @@
         object-fit: cover;
       }
 
-      .profile {
+      .profile-picture {
         height: 200px;
         width: 200px;
         border-radius: 50%;

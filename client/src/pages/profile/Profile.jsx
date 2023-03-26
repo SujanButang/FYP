@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./profile.scss";
 import AddIcon from "@mui/icons-material/Add";
 import CircleIcon from "@mui/icons-material/Circle";
@@ -17,6 +17,7 @@ import { AuthContext } from "../../context/authContext";
 import Post from "../../components/post/Post";
 import UpdateUser from "../../components/updateUser/UpdateUser";
 import moment from "moment";
+
 export default function Profile() {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { currentUser } = useContext(AuthContext);
@@ -90,6 +91,15 @@ export default function Profile() {
       .then(navigate("/chats/" + currentUser.id));
   };
 
+  // const { onlineUser } = useContext(OnlineUserContext);
+  const [online, setOnline] = useState(false);
+  // const isOnline = data && onlineUser.filter((user) => user.userId === data.id);
+
+  // useEffect(() => {
+  //   if (isOnline && isOnline.length !== 0) setOnline(true);
+  //   else setOnline(false);
+  // }, [onlineUser, data]);
+
   return (
     <div className="profile">
       <div className="images">
@@ -101,7 +111,7 @@ export default function Profile() {
         <img
           src={data && "/upload/" + data.profilePicture}
           alt=""
-          className="profile"
+          className="profile-picture"
         />
       </div>
       <div className="profile-container">
@@ -109,7 +119,17 @@ export default function Profile() {
           <div className="user-name">
             <span className="username">
               {data && data.username}
-              <CircleIcon style={{ fontSize: "12px", color: "green" }} />
+              {online ? (
+                <CircleIcon
+                  style={{
+                    fontSize: "12px",
+                    color: "green",
+                    paddingLeft: "20px",
+                  }}
+                />
+              ) : (
+                <></>
+              )}
             </span>
             <div className="follows">
               <span>{posts && posts.length} Posts</span>

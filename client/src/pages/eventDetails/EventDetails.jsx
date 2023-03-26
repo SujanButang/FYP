@@ -115,12 +115,6 @@ export default function EventDetails() {
                   </span>
                 </li>
                 |
-                <li className={selectedAnchor === "chat" ? "selected" : ""}>
-                  <span onClick={(e) => setSelectedAnchor("chat")}>
-                    Group Chat
-                  </span>
-                </li>
-                |
                 <li className={selectedAnchor === "plans" ? "selected" : ""}>
                   <span onClick={(e) => setSelectedAnchor("plans")}>
                     Planning Iterations
@@ -143,19 +137,6 @@ export default function EventDetails() {
             <div className="content">
               {(() => {
                 switch (selectedAnchor) {
-                  case "chat":
-                    if (
-                      eventData &&
-                      eventData.members.includes(currentUser.id)
-                    ) {
-                      return <GroupChat />;
-                    }
-                    return (
-                      <div className="restricted">
-                        You are not allowed to see the content. <br></br>Send
-                        join request to access.
-                      </div>
-                    );
                   case "plans":
                     return (
                       <div className="calendar-container">

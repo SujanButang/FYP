@@ -1,53 +1,60 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import { SocketContext } from "../../context/socketContext";
 import Loading from "../loading/Loading";
 import Message from "../message/Message";
-import "./messages.scss";
+import "./groupMessages.scss";
 
-export default function Messages() {
+export default function GroupMessages() {
   const [msg, setMsg] = useState("");
   const scrollRef = useRef();
   const { currentUser } = useContext(AuthContext);
+  const roomId = parseInt(useLocation().pathname.split("/")[2]);
+
   const [messages, setMessages] = useState([]);
 
   const [arrivalMessage, setArrivalMessage] = useState(null);
 
-  const chatId = parseInt(useLocation().pathname.split("/")[2]);
+  const { socket } = useContext(SocketContext);
 
   const { isLoading, error, data } = useQuery(
-    ["messages", chatId],
+    ["messages", roomId],
     async () => {
-      const res = await makeRequest.get(`/messages/${chatId}`);
+      const res = await makeRequest.get(`/messages/group/${roomId}`);
       setMessages(res.data);
       return res.data;
     }
   );
+
+  const {
+    isLoading: roomLoading,
+    error: roomError,
+    data: roomData,
+  } = useQuery(["rooms", roomId], async () => {
+    const res = await makeRequest.get("/chats/event?roomId=" + roomId);
+    return res.data[0];
+  });
+
   const {
     isLoading: memberLoading,
     error: memberError,
     data: memberData,
-  } = useQuery(["members", chatId], async () => {
-    const res = await makeRequest.get("/chats/members?chatId=" + chatId);
-    return res.data[0];
+  } = useQuery(["room=Members", roomId], async () => {
+    const res = await makeRequest.get("/events/members?roomId=" + roomId);
+    return res.data;
   });
 
-  const receiverId =
-    memberData &&
-    memberData.members.find((member) => member !== currentUser.id);
-
-  const {
-    isLoading: userLoading,
-    error: userError,
-    data: userData,
-  } = useQuery(["users", receiverId], async () => {
-    const res = await makeRequest.get("/users/find/" + receiverId);
-    return res.data[0];
-  });
+  useEffect(() => {
+    if (roomData) {
+      socket.emit("createGroup", {
+        userId: currentUser.id,
+        groupName: roomData.Event.destination,
+      });
+    }
+  }, [currentUser, roomData]);
 
   const queryClient = useQueryClient();
 
@@ -61,14 +68,14 @@ export default function Messages() {
 
   const mutation = useMutation(
     (message) => {
-      if (!message) return makeRequest.get(`/messages/${chatId}`);
-      return makeRequest.post("/messages?chatId=" + chatId, {
+      if (!message) return makeRequest.get(`/messages/${roomId}`);
+      return makeRequest.post("/messages?roomId=" + roomId, {
         message: message,
       });
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(["messages", chatId]);
+        queryClient.invalidateQueries(["messages"]);
         scrollToBottom();
       },
     }
@@ -81,10 +88,9 @@ export default function Messages() {
     mutation.mutate();
   }, [arrivalMessage]);
 
-  const { onlineUsers, socket } = useContext(SocketContext);
-
   useEffect(() => {
-    socket.on("getMessage", (data) => {
+    socket.on("getGroupMessage", (data) => {
+      console.log(data);
       setArrivalMessage({
         sender: data.senderId,
         text: data.text,
@@ -94,56 +100,36 @@ export default function Messages() {
   }, []);
 
   useEffect(() => {
-    socket.emit("addUser", currentUser.id);
-  }, [currentUser]);
-
-  useEffect(() => {
     scrollToBottom();
   }, [messages]);
 
   const handleClick = async (e) => {
     e.preventDefault();
-    socket.emit("sendMessage", {
+    socket.emit("sendGroupMessage", {
       senderId: currentUser.id,
-      receiverId,
+      groupName: roomData.Event.destination,
       text: msg,
     });
     mutation.mutate(msg);
     setMsg("");
   };
-
-  const [online, setOnline] = useState(false);
-  // const isOnline =
-  //   userData && onlineUser.filter((user) => user.userId === userData.id);
-
-  // useEffect(() => {
-  //   if (isOnline && isOnline.length !== 0) setOnline(true);
-  //   else setOnline(false);
-  // }, [onlineUser, data, isOnline]);
-
   return (
     <div className="messages">
       <div className="messages-wrapper">
-        {userLoading ? (
+        {roomLoading ? (
           <Loading />
         ) : (
-          <>
-            <div className="chat-info">
-              <div className="receiver">
-                <img src={"/upload/" + userData.profilePicture} alt="" />
-                <div className="receiver-info">
-                  <span className="receiver-name">{userData.username}</span>
-                  {online ? (
-                    <span className="status">
-                      <div className="active"></div>Online
-                    </span>
-                  ) : (
-                    <></>
-                  )}
-                </div>
+          <div className="chat-info">
+            <div className="receiver">
+              <img src={"/upload/" + roomData.Event.destinationImage} alt="" />
+              <div className="receiver-info">
+                <span className="receiver-name">
+                  {roomData.Event.destination}
+                </span>
+                <span className="status">{roomData.Event.eventType}</span>
               </div>
             </div>
-          </>
+          </div>
         )}
         <div className="messages-top">
           {messages &&
@@ -161,9 +147,9 @@ export default function Messages() {
         <div className="messages-bottom">
           <div className="chatBoxBottom">
             <textarea
-              className="chatMessageInput"
-              placeholder="write something..."
               name="message-text"
+              className="chatMessageInput"
+              placeholder="Write Something"
               onChange={(e) => setMsg(e.target.value)}
               value={msg}
             ></textarea>

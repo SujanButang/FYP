@@ -12,6 +12,8 @@ import moment from "moment";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
+import Loading from "../loading/Loading";
+import { SocketContext } from "../../context/socketContext";
 export default function Post({ post }) {
   const { currentUser } = useContext(AuthContext);
 
@@ -20,36 +22,39 @@ export default function Post({ post }) {
   const [commentOpen, setCommentOpen] = useState(false);
 
   const [notification, setNotification] = useState({
+    from: currentUser.id,
     to: post.User.id,
     postId: post.id,
     type: "like",
+    status: "unread",
   });
   const queryClient = useQueryClient();
 
   // get likes, add like, remove like
-  const { isLoading, error, data } = useQuery(["likes", post.id], () =>
-    makeRequest.get("/likes?postId=" + post.id).then((res) => {
-      return res.data;
-    })
-  );
+  const { isLoading, error, data } = useQuery(["likes", post.id], async () => {
+    const res = await makeRequest.get("/likes?postId=" + post.id);
+    return res.data;
+  });
+  console.log(data);
 
-  const likeMutation = useMutation(
-    (liked) => {
-      if (liked) makeRequest.delete("/likes?postId=" + post.id);
-      makeRequest
-        .post("/likes?postId=" + post.id)
-        .then(makeRequest.post("/notifications", notification));
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["likes"]);
-      },
-    }
-  );
+  const [liked, setLiked] = useState(data?.includes(currentUser.id));
 
   const handleLike = () => {
-    var liked = data && data.includes(currentUser.id);
-    likeMutation.mutate(liked);
+    if (notification.to !== currentUser.id) {
+      socket.emit("createNotification", notification);
+    }
+    if (liked) {
+      makeRequest.delete("/likes?postId=" + post.id).then(() => {
+        setLiked(false);
+        queryClient.invalidateQueries(["likes"]);
+      });
+    } else {
+      makeRequest.post("/likes?postId=" + post.id).then(() => {
+        setLiked(true);
+        queryClient.invalidateQueries(["likes"]);
+        makeRequest.post("/notifications", notification);
+      });
+    }
   };
 
   const deleteMutation = useMutation(
@@ -63,6 +68,7 @@ export default function Post({ post }) {
       },
     }
   );
+  const { socket } = useContext(SocketContext);
 
   const handleDelete = () => {
     deleteMutation.mutate(post.id);
@@ -71,7 +77,7 @@ export default function Post({ post }) {
   return (
     <div className="post">
       {isLoading ? (
-        "loading"
+        <Loading />
       ) : (
         <>
           <div className="container">
@@ -112,7 +118,7 @@ export default function Post({ post }) {
             </div>
             <div className="post-info">
               <div className="item">
-                {data.includes(currentUser.id) ? (
+                {liked ? (
                   <FavoriteOutlinedIcon onClick={handleLike} />
                 ) : (
                   <FavoriteBorderOutlinedIcon onClick={handleLike} />

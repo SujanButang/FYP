@@ -100,16 +100,21 @@ export default function Payment() {
   });
 
   const sum =
-    expenseData && expenseData.reduce((total, item) => total + item.amount, 0);
+    expenseData &&
+    Array.isArray(data) &&
+    expenseData.reduce((total, item) => total + item.amount, 0);
 
   const share =
-    expenseData &&
-    data &&
-    expenseData.reduce((total, item) => total + item.amount, 0) /
-      data.members.length;
+    (expenseData &&
+      Array.isArray(expenseData) &&
+      data &&
+      Array.isArray(data) &&
+      expenseData.reduce((total, item) => total + item.amount, 0) /
+        data.members.length) ||
+    0;
 
   const handlePayment = (e) => {
-    checkout.show({ amount: share * 100 });
+    checkout.show({ amount: 2000 });
   };
   return (
     <div className="payment">
@@ -162,8 +167,9 @@ export default function Payment() {
               />
               <label htmlFor="amount">Amount: </label>
               <input
-                type="text"
+                type="number"
                 name="amount"
+                placeholder="Amount per head"
                 onChange={handleChange}
                 value={inputs.amount}
               />
@@ -183,7 +189,7 @@ export default function Payment() {
         <table>
           <tr>
             <th>Expense Title</th>
-            <th>Expense Amount</th>
+            <th>Amount Per Head</th>
             <th>Remarks</th>
           </tr>
           {expenseData &&

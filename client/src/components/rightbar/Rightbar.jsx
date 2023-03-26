@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./rightbar.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -9,18 +9,35 @@ import axios from "axios";
 import Notification from "../notification/Notification";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
+import { SocketContext } from "../../context/socketContext";
 
 export default function Rightbar() {
   const { logout, currentUser } = useContext(AuthContext);
+  const [notification, setNotification] = useState([]);
+  const [arrivalNotification, setArrivalNotification] = useState(null);
 
   const navigate = useNavigate();
   const [err, setErr] = useState(null);
 
-  const { isLoading, error, data } = useQuery(["notifications"], () => {
-    return makeRequest.get("/notifications").then((res) => {
-      return res.data;
-    });
+  const { isLoading, error, data } = useQuery(["notifications"], async () => {
+    const res = await makeRequest.get("/notifications");
+    setNotification(res.data);
+    return res.data;
   });
+
+  const { socket } = useContext(SocketContext);
+
+  useEffect(() => {
+    socket.on("getNotification", (noti) => {
+      setArrivalNotification(noti);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (arrivalNotification) {
+      setNotification((prev) => [arrivalNotification, ...prev]);
+    }
+  }, [arrivalNotification]);
 
   const handleClick = async (e) => {
     try {
@@ -32,6 +49,8 @@ export default function Rightbar() {
       setErr(err.response.data);
     }
   };
+
+  console.log(notification.length);
   return (
     <div className="rightbar">
       <div className="container">
@@ -52,15 +71,19 @@ export default function Rightbar() {
             </div>
           </div>
           <div className="items">
-            {data &&
-              data.map((notification, index) => {
-                return <Notification notification={notification} key={index} />;
-              })}
+            {notification.length > 0 ? (
+              notification.map((noti, index) => {
+                console.log(noti);
+                return <Notification notification={noti} key={index} />;
+              })
+            ) : (
+              <></>
+            )}
           </div>
           <hr />
           <div className="suggestion">
             <div className="header">
-              <span className="title">Suggestions for You</span>
+              <span className="title">Follow some users</span>
               <span className="see-all">See All</span>
             </div>
           </div>

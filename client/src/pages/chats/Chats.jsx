@@ -5,6 +5,8 @@ import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import Chat from "../../components/chat/Chat";
+import Loading from "../../components/loading/Loading";
+import GroupChat from "../../components/groupChat/GroupChat";
 
 export default function Chats() {
   const { currentUser } = useContext(AuthContext);
@@ -14,10 +16,20 @@ export default function Chats() {
     });
   });
 
+  const {
+    isLoading: roomLoading,
+    error: roomError,
+    data: roomData,
+  } = useQuery(["rooms"], () => {
+    return makeRequest.get("/chats/rooms").then((res) => {
+      return res.data;
+    });
+  });
+
   return (
     <div className="chats">
       {isLoading ? (
-        "Loading"
+        <Loading />
       ) : (
         <div className="chat-container">
           <h2>Chats</h2>
@@ -36,6 +48,16 @@ export default function Chats() {
                       )}
                       chatId={chat.id}
                     />
+                  </div>
+                );
+              })}
+          </div>
+          <div className="items">
+            {roomData &&
+              roomData.map((chat, index) => {
+                return (
+                  <div className="item" key={index}>
+                    <GroupChat details={chat} />
                   </div>
                 );
               })}

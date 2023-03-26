@@ -9,13 +9,33 @@ const createNotification = async (req, res) => {
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
     try {
-      if (req.body.to === userInfo.id)
+      if (req.body.to === userInfo.id) {
         return res.status(403).json("Cannot send notification to yourself");
-      const notification = await Notifications.findOne({
-        where: { type: req.body.type, to: req.body.to, from: userInfo.id },
-      });
-      if (notification)
-        return res.status(403).json("Notification already sent");
+      }
+      if (req.body.postId) {
+        const notification = await Notifications.findOne({
+          where: {
+            type: req.body.type,
+            to: req.body.to,
+            post: req.body.postId,
+          },
+        });
+        if (notification) {
+          return res.status(500).json("Already created");
+        }
+      }
+      if (req.body.eventId) {
+        const notification = await Notifications.findOne({
+          where: {
+            type: req.body.type,
+            to: req.body.to,
+            event: req.body.eventId,
+          },
+        });
+        if (notification) {
+          return res.status(500).json("Already created");
+        }
+      }
       await Notifications.create({
         type: req.body.type,
         from: userInfo.id,
@@ -60,13 +80,13 @@ const getNotifications = async (req, res) => {
     try {
       const notifications = await Notifications.findAll({
         where: { to: userInfo.id },
-        include: {
-          model: User,
-          attributes: ["username", "profilePicture"],
-          where: {
-            id: Sequelize.col("Notifications.from"),
-          },
-        },
+        // include: {
+        //   model: User,
+        //   attributes: ["username", "profilePicture"],
+        //   where: {
+        //     id: Sequelize.col("Notifications.from"),
+        //   },
+        // },
         order: [["status", "DESC"]],
       });
       if (!notifications) res.status(404).json("No notifications found");

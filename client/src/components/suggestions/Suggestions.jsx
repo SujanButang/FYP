@@ -10,15 +10,6 @@ export default function Suggestions({ plan }) {
   const [suggestion, setSuggestion] = useState("");
   const eventId = parseInt(useLocation().pathname.split("/")[2]);
 
-  const {
-    isLoading: eventLoading,
-    error: eventError,
-    data: eventData,
-  } = useQuery(["events", eventId], async () => {
-    const res = makeRequest.get("/events?eventId=" + eventId);
-    return (await res).data;
-  });
-
   const { currentUser } = useContext(AuthContext);
 
   const { isLoading, error, data } = useQuery(
@@ -28,12 +19,6 @@ export default function Suggestions({ plan }) {
       return res.data;
     }
   );
-
-  // const [notification, setNotification] = useState({
-  //   to: eventData.host,
-  //   eventId: eventId,
-  //   type: "suggestion",
-  // });
 
   const queryCient = useQueryClient();
 

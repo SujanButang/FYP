@@ -1,4 +1,4 @@
-const { Chats } = require("../models");
+const { Chats, Rooms, Events } = require("../models");
 const sequelize = require("sequelize");
 
 const jwt = require("jsonwebtoken");
@@ -64,6 +64,66 @@ const getChats = async (req, res) => {
   });
 };
 
+const getEventRoom = async (req, res) => {
+  try {
+    console.log(req.query.roomId);
+    const room = await Rooms.findAll({
+      where: {
+        id: req.query.roomId,
+      },
+      attributes: ["id", "members"],
+      order: [["createdAt", "DESC"]],
+      include: {
+        model: Events,
+        attributes: [
+          "id",
+          "destination",
+          "members",
+          "eventType",
+          "destinationImage",
+        ],
+      },
+    });
+    return res.status(200).json(room);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+
+const getRooms = async (req, res) => {
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(403).json("User is not logged in.");
+  jwt.verify(token, "secretKey", async (err, userInfo) => {
+    if (err) return res.status(403).json("Token not valid");
+    try {
+      const room = await Rooms.findAll({
+        where: {
+          members: sequelize.literal(
+            `JSON_CONTAINS(Rooms.members, '${userInfo.id}')`
+          ),
+        },
+        attributes: ["id", "members"],
+        order: [["createdAt", "DESC"]],
+        include: {
+          model: Events,
+          attributes: [
+            "id",
+            "destination",
+            "eventType",
+            "members",
+            "destinationImage",
+          ],
+        },
+      });
+      res.status(200).json(room);
+    } catch (err) {
+      console.log(err);
+      res.status(403).json(err);
+    }
+  });
+};
+
 const getMembers = async (req, res) => {
   try {
     const chat = await Chats.findAll({
@@ -95,4 +155,4 @@ const getMembers = async (req, res) => {
 //   });
 // };
 
-module.exports = { createChat, getChats, getMembers };
+module.exports = { createChat, getChats, getMembers, getRooms, getEventRoom };

@@ -2,45 +2,24 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Messages", {
+    await queryInterface.createTable("Rooms", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      chatId: {
+      event_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Chats",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-      },
-      roomId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Rooms",
+          model: "Events",
           key: "id",
         },
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      senderId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-      },
-      messageText: {
-        type: Sequelize.STRING,
-      },
-      messageImg: {
-        type: Sequelize.STRING,
+      members: {
+        type: Sequelize.JSON,
       },
       createdAt: {
         allowNull: false,
@@ -53,6 +32,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Messages");
+    await queryInterface.dropTable("Rooms");
   },
 };

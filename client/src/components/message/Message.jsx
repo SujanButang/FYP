@@ -2,6 +2,7 @@ import "./message.scss";
 import moment from "moment";
 import { makeRequest } from "../../axios";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "../loading/Loading";
 
 export default function Message({ msg, own }) {
   const { isLoading, error, data } = useQuery(
@@ -17,7 +18,7 @@ export default function Message({ msg, own }) {
   return (
     <div className={own ? "message own" : "message"}>
       {isLoading ? (
-        "Loading"
+        <Loading />
       ) : (
         <div className="message-top ">
           <img

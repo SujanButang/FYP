@@ -1,9 +1,9 @@
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import EventForm from "../../components/eventForm/EventForm";
 import Event from "../../components/event/Event";
 import "./events.scss";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 
@@ -11,17 +11,22 @@ export default function Events() {
   const [form, setForm] = useState(false);
   const { currentUser } = useContext(AuthContext);
 
-  const { isLoading, error, data } = useQuery(["events"], () => {
-    return makeRequest.get("/events").then((res) => {
-      return res.data;
-    });
+  const { isLoading, error, data } = useQuery(["events"], async () => {
+    const res = await makeRequest.get("/events");
+    return res.data;
   });
 
   const userEvent =
-    (data && data.filter((event) => event.host === currentUser.id)) || [];
+    (data &&
+      Array.isArray(data) &&
+      data.filter((event) => event.host === currentUser.id)) ||
+    [];
 
   const otherEvent =
-    (data && data.filter((event) => event.host !== currentUser.id)) || [];
+    (data &&
+      Array.isArray(data) &&
+      data.filter((event) => event.host !== currentUser.id)) ||
+    [];
 
   return (
     <div className="events">

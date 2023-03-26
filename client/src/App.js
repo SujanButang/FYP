@@ -13,7 +13,7 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/authContext";
 
@@ -23,6 +23,9 @@ import Messages from "./components/messages/Messages";
 import Events from "./pages/events/Events";
 import Settings from "./pages/settings/Settings";
 import EventDetails from "./pages/eventDetails/EventDetails";
+import GroupMessages from "./components/groupMessages/GroupMessages";
+import Hotels from "./pages/hotels/Hotels";
+import { SocketContextProvider } from "./context/socketContext";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -41,15 +44,17 @@ function App() {
   const Layout = () => {
     return (
       <QueryClientProvider client={queryClient}>
-        <div className={`theme-${darkMode ? "dark" : "light"}`}>
-          <div style={{ display: "flex" }}>
-            <Leftbar />
-            <div style={{ flex: 6 }}>
-              <Outlet />
+        <SocketContextProvider>
+          <div className={`theme-${darkMode ? "dark" : "light"}`}>
+            <div style={{ display: "flex" }}>
+              <Leftbar />
+              <div style={{ flex: 6 }}>
+                <Outlet />
+              </div>
+              <Rightbar />
             </div>
-            <Rightbar />
           </div>
-        </div>
+        </SocketContextProvider>
       </QueryClientProvider>
     );
   };
@@ -73,9 +78,11 @@ function App() {
         },
         { path: "/chats/:id", element: <Chats /> },
         { path: "messages/:chatId", element: <Messages /> },
+        { path: "/groupchat/:roomId", element: <GroupMessages /> },
         { path: "/events/:userId", element: <Events /> },
         { path: "/settings", element: <Settings /> },
         { path: "/eventDetails/:eventId", element: <EventDetails /> },
+        { path: "/hotels", element: <Hotels /> },
       ],
     },
     { path: "/home", element: <Home /> },
@@ -88,6 +95,7 @@ function App() {
       element: <Register />,
     },
   ]);
+
   return (
     <div>
       <RouterProvider router={router} />

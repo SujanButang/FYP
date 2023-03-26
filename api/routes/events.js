@@ -5,6 +5,7 @@ const {
   getEvents,
   getEvent,
   addMember,
+  getMembers,
   removeMember,
   addPlan,
   getPlans,
@@ -22,6 +23,7 @@ router.get("/expenses", getExpenses);
 router.get("/plans", getPlans);
 router.get("/:eventId", getEvent);
 router.put("/addMember", addMember);
+router.get("/members", getMembers);
 router.delete("/removeMember", removeMember);
 router.post("/plans", addPlan);
 router.put("/plans", updatePlan);

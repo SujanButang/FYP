@@ -1,4 +1,4 @@
-const { Events, User, Plans, Payments, Expenses } = require("../models");
+const { Events, User, Plans, Payments, Expenses, Rooms } = require("../models");
 const Sequelize = require("sequelize");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
@@ -24,7 +24,15 @@ const createEvent = async (req, res) => {
           eventDescription: req.body.desc,
           host: userInfo.id,
           destinationImage: req.body.destPic,
-        }).then(() => res.status(200).json("Event created successfully."));
+        });
+        const currentEvent = await Events.findOne({
+          where: { host: userInfo.id },
+        });
+        await Rooms.create({
+          event_id: currentEvent.id,
+          members: currentEvent.members,
+        });
+        return res.status(200).json("Event created successfully.");
       }
     } catch (err) {
       console.log(err);
@@ -73,10 +81,25 @@ const addMember = async (req, res) => {
       { members: members },
       { where: { id: req.query.eventId } }
     ); // update the members column in the database
+    await Rooms.update(
+      { members: members },
+      { where: { event_id: req.query.eventId } }
+    );
     return res.status(200).json("Member added successfully");
   } catch (err) {
     console.log(err);
     return res.status(500).json(err);
+  }
+};
+
+const getMembers = async (req, res) => {
+  try {
+    const members = await Rooms.findOne({
+      where: { id: req.query.roomId },
+    });
+    return res.status(200).json(members);
+  } catch (error) {
+    return res.status(500).json(error);
   }
 };
 
@@ -228,6 +251,7 @@ module.exports = {
   getEvents,
   getEvent,
   addMember,
+  getMembers,
   removeMember,
   addPlan,
   getPlans,
