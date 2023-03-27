@@ -5,6 +5,7 @@ import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import moment from "moment";
 import "./comments.scss";
+import { SocketContext } from "../../context/socketContext";
 
 export default function Comments({ postId, userId }) {
   const { isLoading, error, data } = useQuery(["comments"], () =>
@@ -12,12 +13,16 @@ export default function Comments({ postId, userId }) {
       return res.data;
     })
   );
+  const { currentUser } = useContext(AuthContext);
 
   const [commentDescription, setCommentDescription] = useState("");
+  const { socket } = useContext(SocketContext);
   const [notification, setNotification] = useState({
+    from: currentUser.id,
     to: userId,
     postId: postId,
     type: "comment",
+    status: "unread",
   });
   const queryCient = useQueryClient();
   const mutation = useMutation(
@@ -35,10 +40,10 @@ export default function Comments({ postId, userId }) {
 
   const handleClick = (e) => {
     e.preventDefault();
+    socket.emit("createNotification", notification);
     mutation.mutate({ commentDescription });
     setCommentDescription("");
   };
-  const { currentUser } = useContext(AuthContext);
   return (
     <div className="comments">
       <div className="post-comment">

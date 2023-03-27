@@ -1,10 +1,9 @@
 import "./login.scss";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Carousel from "../../components/carousel/Carousel";
 
 export default function Login() {
   const [inputs, setInputs] = useState({
@@ -26,14 +25,17 @@ export default function Login() {
     e.preventDefault();
     try {
       await login(inputs);
-      if (currentUser) {
-        toast.success("Log in Successful");
-        navigate("/");
-      }
     } catch (err) {
       toast.error(err.response.data);
+      return;
     }
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
 
   return (
     <div className="login">

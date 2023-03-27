@@ -71,6 +71,8 @@ export default function Notification({ notification }) {
                     return "sent you event request";
                   case "follow":
                     return "started following you";
+                  case "comment":
+                    return "commented on your post";
                 }
               })()}
             </p>

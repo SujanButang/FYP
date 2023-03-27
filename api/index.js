@@ -7,22 +7,6 @@ const https = require("https");
 const fs = require("fs");
 const multer = require("multer");
 
-//admin bro
-const { User, Posts, Comments } = require("./models");
-const AdminBro = require("admin-bro");
-const AdminBroExpress = require("@admin-bro/express");
-const AdminBroSequelize = require("@admin-bro/sequelize");
-
-AdminBro.registerAdapter(AdminBroSequelize);
-
-const adminBro = new AdminBro({
-  resources: [User, Posts, Comments],
-  rootPath: "/admin",
-});
-const router = AdminBroExpress.buildRouter(adminBro);
-
-app.use(adminBro.options.rootPath, router);
-
 const PORT = process.env.PORT || 8800;
 
 const authRoutes = require("./routes/auth.js");
@@ -49,7 +33,9 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Credentials", true);
   next();
 });
-app.use(cors({ origin: "http://localhost:3000" }));
+
+const allowedOrigin = ["http://localhost:3000", "http://localhost:3001"];
+app.use(cors({ origin: allowedOrigin }));
 app.use(cookieParser());
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

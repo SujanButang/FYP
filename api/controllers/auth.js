@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Admin } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -64,4 +64,26 @@ const logout = (req, res) => {
     .json("User logged out");
 };
 
-module.exports = { register, login, logout };
+const adminLogin = async (req, res) => {
+  //checking for email
+  // const user = await Admin.findOne({ where: { email: req.body.email } });
+  if (req.body.email !== "admin") {
+    res.status(404).json("User not found");
+  } else {
+    //comparing password
+    // const passwordCheck = bcrypt.compareSync(req.body.password, user.password);
+    if (req.body.password !== "admin") {
+      res.status(400).json("Wrong password");
+    } else {
+      const token = jwt.sign({ id: req.query.email }, "secretKey");
+      res
+        .cookie("accessToken", token, {
+          httpOnly: true,
+        })
+        .status(200)
+        .json(req.body.email);
+    }
+  }
+};
+
+module.exports = { register, login, logout, adminLogin };
