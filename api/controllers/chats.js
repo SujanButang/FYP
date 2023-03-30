@@ -1,4 +1,4 @@
-\const { Chats, Rooms, Events } = require("../models");
+const { Chats, Rooms, Events } = require("../models");
 const sequelize = require("sequelize");
 
 const jwt = require("jsonwebtoken");
