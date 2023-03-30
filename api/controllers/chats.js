@@ -1,4 +1,4 @@
-const { Chats, Rooms, Events } = require("../models");
+\const { Chats, Rooms, Events } = require("../models");
 const sequelize = require("sequelize");
 
 const jwt = require("jsonwebtoken");
@@ -20,7 +20,6 @@ const createChat = async (req, res) => {
   if (!token) return res.status(403).json("User is not logged in.");
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
-    console.log(req.query.receiver);
     try {
       const chat = await Chats.findOne({
         where: sequelize.literal(
