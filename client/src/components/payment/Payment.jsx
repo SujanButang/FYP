@@ -100,22 +100,29 @@ export default function Payment() {
   });
 
   const sum =
-    expenseData &&
-    Array.isArray(data) &&
+    Array.isArray(expenseData) &&
     expenseData.reduce((total, item) => total + item.amount, 0);
 
   const share =
-    (expenseData &&
-      Array.isArray(expenseData) &&
-      data &&
-      Array.isArray(data) &&
-      expenseData.reduce((total, item) => total + item.amount, 0) /
-        data.members.length) ||
-    0;
+    Array.isArray(expenseData) &&
+    expenseData.reduce((total, item) => total + item.amount, 0) /
+      data?.members?.length;
 
   const handlePayment = (e) => {
     checkout.show({ amount: 2000 });
   };
+
+  const {
+    isLoading: paymentLoding,
+    error: paymentError,
+    data: paymentData,
+  } = useQuery(["payments", eventId], async () => {
+    const res = await makeRequest.get("/events/payments?eventId=" + eventId);
+    return res.data;
+  });
+
+  const hasPaid = paymentData?.some((obj) => obj.user_id === currentUser.id);
+
   return (
     <div className="payment">
       <div className="expenses">
@@ -124,14 +131,20 @@ export default function Payment() {
             Number of Expenses: <span>{expenseData && expenseData.length}</span>
           </h4>
           <h4>
-            Total Amount: <span>{sum}</span>
+            Total Amount: <span>{sum * data?.members?.length}</span>
           </h4>
           <h4>
-            Your Share: <span>{share}</span>
+            Your Share: <span>{share * data?.members?.length}</span>
           </h4>
-          <button onClick={handlePayment} className="khalti-pay">
-            Pay Your Share
-          </button>
+          {hasPaid ? (
+            <button disabled className="khalti-pay">
+              Paid
+            </button>
+          ) : (
+            <button onClick={handlePayment} className="khalti-pay">
+              Pay Your Share
+            </button>
+          )}
         </div>
         <div className="table-headers">
           <h3>Expense Table</h3>
@@ -181,7 +194,9 @@ export default function Payment() {
                 value={inputs.remarks}
               />
             </div>
-            <button onClick={handleAdd}>Add</button>
+            <button onClick={handleAdd} className="add-button">
+              Add
+            </button>
           </div>
         ) : (
           <></>

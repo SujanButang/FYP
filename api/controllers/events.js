@@ -59,6 +59,37 @@ const getEvents = async (req, res) => {
   }
 };
 
+const getUserEvents = async (req, res) => {
+  try {
+    const events = await Events.findAll({
+      where: { host: req.query.userId },
+      include: {
+        model: User,
+        attributes: ["username", "profilePicture"],
+        where: {
+          id: Sequelize.col("Events.host"),
+        },
+      },
+    });
+    if (!events) return res.status(404).json("No events found");
+    return res.status(200).json(events);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const getParticipatedEvents = async (req, res) => {
+  try {
+    const events = await Events.findAll({
+      where: Sequelize.literal(`JSON_CONTAINS(members,'${req.query.id}')`),
+    });
+    if (!events) return res.status(500).json("No Events found");
+    return res.status(200).json(events);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const getEvent = async (req, res) => {
   try {
     const event = await Events.findOne({
@@ -209,6 +240,17 @@ const makePayment = async (req, res) => {
   });
 };
 
+const getPayment = async (req, res) => {
+  try {
+    const payment = await Payments.findAll({
+      where: { event_id: req.query.eventId },
+    });
+    return res.status(200).json(payment);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const addExpense = async (req, res) => {
   try {
     await Expenses.create({
@@ -250,6 +292,8 @@ module.exports = {
   createEvent,
   getEvents,
   getEvent,
+  getUserEvents,
+  getParticipatedEvents,
   addMember,
   getMembers,
   removeMember,
@@ -257,6 +301,7 @@ module.exports = {
   getPlans,
   updatePlan,
   makePayment,
+  getPayment,
   addExpense,
   deleteExpense,
   getExpenses,

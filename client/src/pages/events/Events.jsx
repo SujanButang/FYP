@@ -22,6 +22,14 @@ export default function Events() {
       data.filter((event) => event.host === currentUser.id)) ||
     [];
 
+  const upcomingEvent =
+    data &&
+    Array.isArray(data) &&
+    data.filter(
+      (event) =>
+        event.members.includes(currentUser.id) && event.host !== currentUser.id
+    );
+
   const otherEvent =
     (data &&
       Array.isArray(data) &&
@@ -63,9 +71,27 @@ export default function Events() {
             )}
           </div>
         </div>
+        <div className="upcoming-events">
+          <div className="item-head">
+            <h3>Upcoming Events</h3>
+            {isLoading ? (
+              "loading"
+            ) : upcomingEvent.length !== 0 ? (
+              upcomingEvent.map((event) => {
+                return <Event event={event} key={event.id} own={false} />;
+              })
+            ) : (
+              <>
+                <div className="item">
+                  <p>No upcoming Events</p>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
         <div className="other-events">
           <div className="item-head">
-            <h3>Other Events</h3>
+            <h3>Explore Events</h3>
             {isLoading ? (
               "loading"
             ) : otherEvent.length !== 0 ? (
@@ -74,7 +100,9 @@ export default function Events() {
               })
             ) : (
               <>
-                <h3>No other Events found</h3>
+                <div className="item">
+                  <p>No other Events</p>
+                </div>
               </>
             )}
           </div>

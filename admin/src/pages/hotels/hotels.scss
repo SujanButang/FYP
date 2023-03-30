@@ -1,0 +1,46 @@
+.hotels {
+  display: flex;
+  flex-direction: column;
+
+  .hotels-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+    .search {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        font-size: 24px;
+        color: gray;
+      }
+    }
+    form {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      input {
+        border: none;
+        width: 50%;
+        border-bottom: 1px solid lightgray;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      button {
+        width: 5%;
+        padding: 10px;
+        border: none;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 10px;
+      }
+    }
+  }
+}

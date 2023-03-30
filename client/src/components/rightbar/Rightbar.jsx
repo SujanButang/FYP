@@ -50,7 +50,6 @@ export default function Rightbar() {
     }
   };
 
-  console.log(notification.length);
   return (
     <div className="rightbar">
       <div className="container">
@@ -73,7 +72,6 @@ export default function Rightbar() {
           <div className="items">
             {notification.length > 0 ? (
               notification.map((noti, index) => {
-                console.log(noti);
                 return <Notification notification={noti} key={index} />;
               })
             ) : (

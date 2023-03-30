@@ -55,6 +55,14 @@
       input {
         width: 20%;
       }
+
+      .add-button {
+        height: 30px;
+        background-color: themed("buttonPrimaryColor");
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     }
 
     .expenses {

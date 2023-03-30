@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { AuthContext } from "./context/authContext";
 import {
   createBrowserRouter,
   Navigate,
@@ -13,6 +11,9 @@ import Hotels from "./pages/hotels/Hotels";
 import Users from "./pages/users/Users";
 import Events from "./pages/events/Events";
 import Posts from "./pages/posts/Posts";
+import Single from "./pages/single/Single";
+import SingleEvent from "./pages/singleEvent/SingleEvent";
+import SingleHotel from "./pages/singleHotel/SingleHotel";
 
 function App() {
   // const { currentUser } = useContext(AuthContext);
@@ -35,7 +36,7 @@ function App() {
           <div className="leftbar" style={{ flex: "1" }}>
             <Sidebar />
           </div>
-          <div className="outlet" style={{ flex: "4" }}>
+          <div className="outlet" style={{ flex: "5" }}>
             <Outlet />
           </div>
         </div>
@@ -61,7 +62,21 @@ function App() {
           path: "users",
           element: <Users />,
         },
+
         { path: "events", element: <Events /> },
+
+        {
+          path: "single",
+          element: <Single />,
+        },
+        {
+          path: "singleEvent",
+          element: <SingleEvent />,
+        },
+        {
+          path: "singleHotel",
+          element: <SingleHotel />,
+        },
         {
           path: "posts",
           element: <Posts />,

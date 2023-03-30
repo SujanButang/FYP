@@ -7,8 +7,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import EventIcon from "@mui/icons-material/Event";
@@ -23,7 +22,6 @@ import { Link } from "react-router-dom";
 
 const drawerWidth = 260;
 
-const menu = [{ name: "Dashboard", icon: <DashboardIcon /> }];
 export default function Sidebar() {
   const menu1 = [
     { menu: "Dashboard", link: "/" },
@@ -53,34 +51,36 @@ export default function Sidebar() {
       <Divider />
       <List>
         {menu1.map((men, index) => (
-          <Link
-            to={men.link}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <ListItem key={men.menu} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
+          <div key={index}>
+            <Link
+              to={men.link}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItem key={men.menu} disablePadding>
+                <ListItemButton>
                   <ListItemIcon>
-                    {(() => {
-                      switch (index) {
-                        case 0:
-                          return <DashboardIcon />;
-                        case 1:
-                          return <PeopleAltIcon />;
-                        case 2:
-                          return <EventIcon />;
-                        case 3:
-                          return <StoreIcon />;
-                        default:
-                          return <ArticleIcon />;
-                      }
-                    })()}
+                    <ListItemIcon>
+                      {(() => {
+                        switch (index) {
+                          case 0:
+                            return <DashboardIcon />;
+                          case 1:
+                            return <PeopleAltIcon />;
+                          case 2:
+                            return <EventIcon />;
+                          case 3:
+                            return <StoreIcon />;
+                          default:
+                            return <ArticleIcon />;
+                        }
+                      })()}
+                    </ListItemIcon>
                   </ListItemIcon>
-                </ListItemIcon>
-                <ListItemText primary={men.menu} />
-              </ListItemButton>
-            </ListItem>
-          </Link>
+                  <ListItemText primary={men.menu} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </div>
         ))}
       </List>
       <Divider />

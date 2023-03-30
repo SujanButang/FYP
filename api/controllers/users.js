@@ -1,5 +1,6 @@
 const { User, Interests, userInterest } = require("../models");
 const jwt = require("jsonwebtoken");
+const moment = require("moment");
 
 const getUser = async (req, res) => {
   try {
@@ -25,6 +26,21 @@ const getUser = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(400).json(err);
+  }
+};
+
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.findAll();
+    const modifiedUsers = users.map((user) => {
+      return {
+        ...user.dataValues,
+        age: moment().diff(user.birthDate, "years"),
+      };
+    });
+    return res.status(200).json(modifiedUsers);
+  } catch (error) {
+    return res.status(500).json(error);
   }
 };
 
@@ -54,4 +70,4 @@ const updateUser = async (req, res) => {
   });
 };
 
-module.exports = { getUser, updateUser };
+module.exports = { getUser, updateUser, getUsers };

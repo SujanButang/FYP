@@ -89,10 +89,28 @@
           }
         }
       }
+      .upcoming-events {
+        flex: 2;
+
+        .item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 30px;
+        }
+      }
 
       .other-events {
         flex: 2;
         display: flex;
+
+        .item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 30px;
+          margin-left: 400px;
+        }
       }
     }
   }

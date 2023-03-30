@@ -20,6 +20,7 @@ const messageRoutes = require("./routes/messages.js");
 const eventRoutes = require("./routes/events");
 const notificationRoutes = require("./routes/notifications");
 const suggestionRoutes = require("./routes/suggestions.js");
+const adminRoutes = require("./routes/admin.js");
 const cookieParser = require("cookie-parser");
 
 // const homeRoutes = require("./routes/home");
@@ -40,6 +41,7 @@ app.use(cookieParser());
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "../client/public/upload");
+    cb(null, "../admin/public/upload");
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + file.originalname);
@@ -66,6 +68,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/suggestions", suggestionRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend server running at port ${PORT}`);
