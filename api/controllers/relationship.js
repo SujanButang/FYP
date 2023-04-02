@@ -20,7 +20,7 @@ const getRelationships = async (req, res) => {
       });
       return res
         .status(200)
-        .json(Relationship.map((relation) => relation.followedId));
+        .json(Relationship.map((relation) => relation.followerId));
     } catch (err) {
       return res.status(400).json(err);
     }

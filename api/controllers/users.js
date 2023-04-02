@@ -1,6 +1,7 @@
 const { User, Interests, userInterest } = require("../models");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
+const { Op } = require("sequelize");
 
 const getUser = async (req, res) => {
   try {
@@ -30,18 +31,31 @@ const getUser = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
-  try {
-    const users = await User.findAll();
-    const modifiedUsers = users.map((user) => {
-      return {
-        ...user.dataValues,
-        age: moment().diff(user.birthDate, "years"),
-      };
-    });
-    return res.status(200).json(modifiedUsers);
-  } catch (error) {
-    return res.status(500).json(error);
-  }
+  const token = req.cookies.accessToken;
+  if (!token) return res.status(403).json("User is not logged in.");
+  jwt.verify(token, "secretKey", async (err, userInfo) => {
+    if (err) return res.status(403).json("Token not valid");
+
+    try {
+      const users = await User.findAll({
+        attributes: { exclude: ["password"] },
+        where: {
+          id: {
+            [Op.ne]: userInfo.id,
+          },
+        },
+      });
+      const modifiedUsers = users.map((user) => {
+        return {
+          ...user.dataValues,
+          age: moment().diff(user.birthDate, "years"),
+        };
+      });
+      return res.status(200).json(modifiedUsers);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  });
 };
 
 const updateUser = async (req, res) => {

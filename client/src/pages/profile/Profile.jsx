@@ -209,7 +209,7 @@ export default function Profile() {
             </span>
             <div className="right-list">
               {data &&
-                data.userInterests.map((inter) => (
+                data?.userInterests?.map((inter) => (
                   <span key={inter.id}>{inter.interest.interestName}</span>
                 ))}
             </div>

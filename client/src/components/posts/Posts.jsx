@@ -102,10 +102,20 @@ export default function Posts() {
           </div>
         </div>
       </div>
-      {data &&
-        data.map((post) => {
+      {data?.length !== 0 ? (
+        data?.map((post) => {
           return <Post post={post} key={post.id} />;
-        })}
+        })
+      ) : (
+        <div className="no-posts">
+          <div className="message">
+            <h3>You are not following anyone</h3>
+          </div>
+          <div className="suggestion">
+            <h3>Follow from here to start looking for their posts</h3>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

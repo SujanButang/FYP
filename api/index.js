@@ -21,6 +21,7 @@ const eventRoutes = require("./routes/events");
 const notificationRoutes = require("./routes/notifications");
 const suggestionRoutes = require("./routes/suggestions.js");
 const adminRoutes = require("./routes/admin.js");
+const hotelRoutes = require("./routes/hotels");
 const cookieParser = require("cookie-parser");
 
 // const homeRoutes = require("./routes/home");
@@ -68,6 +69,7 @@ app.use("/api/messages", messageRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/suggestions", suggestionRoutes);
+app.use("/api/hotels", hotelRoutes);
 app.use("/api/admin", adminRoutes);
 
 app.listen(PORT, () => {

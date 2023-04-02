@@ -51,16 +51,8 @@ const searchHotels = async (req, res) => {
           .find('[data-testid="review-score"]>.b1e6dd8416 >.d8eab2cf7f ')
           .text();
         const image = $(element).find('[data-testid="image"]').attr("src");
-        const priceForXNights = $(element)
-          .find('[data-testid="price-for-x-nights"]')
-          .text();
-        const price = $(element)
-          .find(
-            '[data-testid="availability-rate-information"]>span>div>.c5888af24f e729ed5ab6'
-          )
-          .text();
 
-        const discounted_price = $(element)
+        const estimated_price = $(element)
           .find('[data-testid="price-and-discounted-price"]')
           .text();
 
@@ -76,11 +68,26 @@ const searchHotels = async (req, res) => {
           average,
           reviews,
           image,
-          priceForXNights,
-          price,
-          discounted_price,
+          estimated_price,
           url,
         });
+
+        const match = await Hotels.findOne({
+          where: { name: name },
+        });
+
+        if (!match) {
+          await Hotels.create({
+            name: name,
+            distance: distance,
+            score: score,
+            average: average,
+            reviews: reviews,
+            image: image,
+            estimated_price: estimated_price,
+            url: url,
+          });
+        }
       })
     );
     return res.status(200).json(hotels);

@@ -10,6 +10,8 @@ import Notification from "../notification/Notification";
 import { useQuery } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import { SocketContext } from "../../context/socketContext";
+import Loading from "../loading/Loading";
+import RightbarUsers from "../rightbarUsers/RightbarUsers";
 
 export default function Rightbar() {
   const { logout, currentUser } = useContext(AuthContext);
@@ -22,6 +24,15 @@ export default function Rightbar() {
   const { isLoading, error, data } = useQuery(["notifications"], async () => {
     const res = await makeRequest.get("/notifications");
     setNotification(res.data);
+    return res.data;
+  });
+
+  const {
+    isLoading: usersLoading,
+    error: usersError,
+    data: usersData,
+  } = useQuery(["users"], async () => {
+    const res = await makeRequest.get("/users");
     return res.data;
   });
 
@@ -86,46 +97,16 @@ export default function Rightbar() {
             </div>
           </div>
           <div className="items">
-            <div className="item">
-              <img src={"/upload/" + currentUser.profilePicture} alt="" />
-              <div className="user-info">
-                <span>{currentUser.username}</span>
-                <span className="friends">12 mutual friends</span>
-              </div>
-              <div className="button">
-                <button>Follow</button>
-              </div>
-            </div>
-            <div className="item">
-              <img src={"/upload/" + currentUser.profilePicture} alt="" />
-              <div className="user-info">
-                <span>{currentUser.username}</span>
-                <span className="friends">12 mutual friends</span>
-              </div>
-              <div className="button">
-                <button>Follow</button>
-              </div>
-            </div>
-            <div className="item">
-              <img src={"/upload/" + currentUser.profilePicture} alt="" />
-              <div className="user-info">
-                <span>{currentUser.username}</span>
-                <span className="friends">12 mutual friends</span>
-              </div>
-              <div className="button">
-                <button className="followed">Followed</button>
-              </div>
-            </div>
-            <div className="item">
-              <img src={"/upload/" + currentUser.profilePicture} alt="" />
-              <div className="user-info">
-                <span>{currentUser.username}</span>
-                <span className="friends">12 mutual friends</span>
-              </div>
-              <div className="button">
-                <button>Follow</button>
-              </div>
-            </div>
+            {usersLoading ? (
+              <Loading />
+            ) : Array.isArray(usersData) ? (
+              usersData?.map((user, index) => {
+                console.log(user);
+                return <RightbarUsers user={user} key={index} />;
+              })
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>
