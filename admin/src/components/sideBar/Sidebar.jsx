@@ -30,6 +30,11 @@ export default function Sidebar() {
     { menu: "Hotels", link: "/hotels" },
     { menu: "Posts", link: "/posts" },
   ];
+  const menu2 = [
+    { menu: "Messages", link: "/messages" },
+    { menu: "Verification Requests", link: "/verification" },
+    { menu: "Payments Collected", link: "/payments" },
+  ];
   return (
     <Drawer
       sx={{
@@ -85,27 +90,32 @@ export default function Sidebar() {
       </List>
       <Divider />
       <List>
-        {["Messages", "Verification Request", "Payments Collected"].map(
-          (text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {(() => {
-                    switch (index) {
-                      case 0:
-                        return <ForumIcon />;
-                      case 1:
-                        return <DomainVerificationIcon />;
-                      default:
-                        return <PriceCheckIcon />;
-                    }
-                  })()}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          )
-        )}
+        {menu2.map((men, index) => (
+          <div key={index}>
+            <Link
+              to={men.link}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <ListItem disablePadding>
+                <ListItemButton>
+                  <ListItemIcon>
+                    {(() => {
+                      switch (index) {
+                        case 0:
+                          return <ForumIcon />;
+                        case 1:
+                          return <DomainVerificationIcon />;
+                        default:
+                          return <PriceCheckIcon />;
+                      }
+                    })()}
+                  </ListItemIcon>
+                  <ListItemText primary={men.menu} />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </div>
+        ))}
       </List>
       <Divider />
       <List sx={{ marginTop: "auto" }}>

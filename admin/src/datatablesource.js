@@ -151,6 +151,54 @@ export const hotelColumns = [
   },
 ];
 
+export const paymentColumns = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 50,
+  },
+  {
+    field: "username",
+    headerName: "User Name",
+    width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img
+            className="cellImg"
+            src={"/upload/" + params.row.User.profilePicture}
+            alt="avatar"
+          />
+          {params.row.User.username}
+        </div>
+      );
+    },
+  },
+  {
+    field: "destination",
+    headerName: "Destination",
+    width: 300,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img
+            className="cellImg"
+            src={"/upload/" + params.row.Event.destinationImage}
+            alt="avatar"
+          />
+          {params.row.Event.destination}
+        </div>
+      );
+    },
+  },
+  {
+    field: "amount",
+    headerName: "Amount",
+    width: 300,
+  },
+  { field: "createdAt", headerName: "Date", width: 300 },
+];
+
 //temporary data
 export const userRows = [
   {

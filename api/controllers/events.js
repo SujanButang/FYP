@@ -82,6 +82,10 @@ const getParticipatedEvents = async (req, res) => {
   try {
     const events = await Events.findAll({
       where: Sequelize.literal(`JSON_CONTAINS(members,'${req.query.id}')`),
+      include: {
+        model: User,
+        attributes: ["id", "username", "profilePicture"],
+      },
     });
     if (!events) return res.status(500).json("No Events found");
     return res.status(200).json(events);
@@ -244,6 +248,30 @@ const getPayment = async (req, res) => {
   try {
     const payment = await Payments.findAll({
       where: { event_id: req.query.eventId },
+      include: {
+        model: User,
+        attributes: ["id", "username", "profilePicture"],
+      },
+    });
+    return res.status(200).json(payment);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const getPayments = async (req, res) => {
+  try {
+    const payment = await Payments.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["id", "username", "profilePicture"],
+        },
+        {
+          model: Events,
+          attributes: ["id", "destination", "eventType", "destinationImage"],
+        },
+      ],
     });
     return res.status(200).json(payment);
   } catch (error) {
@@ -302,6 +330,7 @@ module.exports = {
   updatePlan,
   makePayment,
   getPayment,
+  getPayments,
   addExpense,
   deleteExpense,
   getExpenses,

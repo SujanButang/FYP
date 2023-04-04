@@ -14,6 +14,7 @@ import Posts from "./pages/posts/Posts";
 import Single from "./pages/single/Single";
 import SingleEvent from "./pages/singleEvent/SingleEvent";
 import SingleHotel from "./pages/singleHotel/SingleHotel";
+import Payments from "./pages/payments/Payments";
 
 function App() {
   // const { currentUser } = useContext(AuthContext);
@@ -81,6 +82,7 @@ function App() {
           path: "posts",
           element: <Posts />,
         },
+        { path: "payments", element: <Payments /> },
       ],
     },
   ]);

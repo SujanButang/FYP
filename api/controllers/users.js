@@ -53,9 +53,28 @@ const getUsers = async (req, res) => {
       });
       return res.status(200).json(modifiedUsers);
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error);
     }
   });
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.findAll({
+      attributes: { exclude: ["password"] },
+    });
+
+    const modifiedUsers = users.map((user) => {
+      return {
+        ...user.dataValues,
+        age: moment().diff(user.birthDate, "years"),
+      };
+    });
+    if (users) return res.status(200).json(modifiedUsers);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 const updateUser = async (req, res) => {
@@ -84,4 +103,4 @@ const updateUser = async (req, res) => {
   });
 };
 
-module.exports = { getUser, updateUser, getUsers };
+module.exports = { getUser, updateUser, getUsers, getAllUsers };

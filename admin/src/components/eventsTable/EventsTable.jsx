@@ -1,8 +1,13 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { eventsColumn } from "../../datatablesource";
 import "./eventsTable.scss";
+import { useNavigate } from "react-router-dom";
 
 export default function EventsTable({ events, hosted }) {
+  const navigate = useNavigate();
+  const handleEventView = (row) => {
+    navigate("/singleEvent", { state: row });
+  };
   const actionColumn = [
     {
       field: "action",
@@ -11,7 +16,12 @@ export default function EventsTable({ events, hosted }) {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <div className="viewButton">View</div>
+            <div
+              className="viewButton"
+              onClick={() => handleEventView(params.row)}
+            >
+              View
+            </div>
           </div>
         );
       },
