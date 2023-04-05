@@ -1,4 +1,4 @@
-const { User, Interests, userInterest } = require("../models");
+const { User, Interests, userInterest, Verification } = require("../models");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 const { Op } = require("sequelize");
@@ -16,6 +16,7 @@ const getUser = async (req, res) => {
         "phone",
         "profilePicture",
         "coverPicture",
+        "status",
       ],
       include: {
         model: userInterest,
@@ -57,6 +58,25 @@ const getUsers = async (req, res) => {
       return res.status(500).json(error);
     }
   });
+};
+
+const verifyProfile = async (req, res) => {
+  try {
+    await Verification.create({
+      user_id: req.query.userId,
+      documentFront: req.body.front,
+      documentBack: req.body.back,
+    });
+    await User.update(
+      {
+        status: "pending",
+      },
+      { where: { id: req.query.userId } }
+    );
+    return res.status(200).json("Verification Request Sent");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
 };
 
 const getAllUsers = async (req, res) => {
@@ -103,4 +123,4 @@ const updateUser = async (req, res) => {
   });
 };
 
-module.exports = { getUser, updateUser, getUsers, getAllUsers };
+module.exports = { getUser, updateUser, getUsers, getAllUsers, verifyProfile };

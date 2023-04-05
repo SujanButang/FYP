@@ -32,6 +32,8 @@ module.exports = (sequelize, DataTypes) => {
       eventDescription: DataTypes.STRING,
       host: DataTypes.INTEGER,
       destinationImage: DataTypes.STRING,
+      status: DataTypes.STRING,
+      completionStatus: DataTypes.STRING,
     },
     {
       sequelize,

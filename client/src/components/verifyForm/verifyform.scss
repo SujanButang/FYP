@@ -1,0 +1,67 @@
+.verify {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  width: 45%;
+  height: 45%;
+  background-color: white;
+  z-index: 999;
+  box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(164, 182, 225, 0.29);
+  border-radius: 15px;
+  padding: 10px;
+  .headers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    label {
+      font-size: medium;
+    }
+    input {
+      border: none;
+      width: 90%;
+      border-bottom: 1px solid lightgray;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    .buttons {
+      padding: 20px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 50px;
+      .upload-button {
+        padding: 10px;
+        border: none;
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        border-radius: 10px;
+        width: 40%;
+      }
+
+      .cancel-button {
+        padding: 10px;
+        border: none;
+        background-color: lightgray;
+        color: black;
+        cursor: pointer;
+        border-radius: 10px;
+        width: 40%;
+      }
+    }
+  }
+}

@@ -16,9 +16,6 @@ export default function RightbarUsers({ user }) {
     }
   );
 
-  console.log(data);
-  console.log(currentUser.id);
-
   const handleFollow = async (e) => {
     e.preventDefault();
     await makeRequest.post("/relationships?followedId=" + user.id);
@@ -26,7 +23,6 @@ export default function RightbarUsers({ user }) {
 
   const hasFollowed = data && data?.includes(currentUser.id);
 
-  console.log(hasFollowed);
   return (
     <div className="item">
       <img src={"/upload/" + user.profilePicture} alt="" />

@@ -17,10 +17,12 @@ import { AuthContext } from "../../context/authContext";
 import Post from "../../components/post/Post";
 import UpdateUser from "../../components/updateUser/UpdateUser";
 import moment from "moment";
+import VerifyForm from "../../components/verifyForm/VerifyForm";
 
 export default function Profile() {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { currentUser } = useContext(AuthContext);
+  const [openProfileVerify, setOpenProfileVerify] = useState(false);
 
   const navigate = useNavigate();
 
@@ -160,6 +162,22 @@ export default function Profile() {
                 </button>
               )}
             </>
+          ) : data.status === "not verified" && userId === currentUser.id ? (
+            <>
+              <button
+                className="profile-item"
+                onClick={() => setOpenProfileVerify(true)}
+              >
+                <span>Verify Profile</span>{" "}
+              </button>
+              <button
+                className="profile-item"
+                onClick={(e) => setOpenUpdate(true)}
+              >
+                <EditIcon fontSize="small" />
+                <span>Edit</span>
+              </button>
+            </>
           ) : (
             <button
               className="profile-item"
@@ -241,6 +259,12 @@ export default function Profile() {
           })}
       </div>
       {openUpdate && <UpdateUser setOpenUpdate={setOpenUpdate} user={data} />}
+      {openProfileVerify && (
+        <VerifyForm
+          setOpenProfileVerify={setOpenProfileVerify}
+          userId={userId}
+        />
+      )}
     </div>
   );
 }

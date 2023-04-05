@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 import Plan from "../../components/plans/Plan";
 import Payment from "../../components/payment/Payment";
+import EventSettings from "../../components/eventSettings/EventSettings";
 
 export default function EventDetails() {
   const eventId = parseInt(useLocation().pathname.split("/")[2]);
@@ -132,6 +133,18 @@ export default function EventDetails() {
                     Payment
                   </span>
                 </li>
+                |
+                {eventData.host === currentUser.id ? (
+                  <li
+                    className={selectedAnchor === "settings" ? "selected" : ""}
+                  >
+                    <span onClick={(e) => setSelectedAnchor("settings")}>
+                      Event Settings
+                    </span>
+                  </li>
+                ) : (
+                  <></>
+                )}
               </ul>
             </nav>
             <div className="content">
@@ -193,6 +206,8 @@ export default function EventDetails() {
                     );
                   case "payment":
                     return <Payment />;
+                  case "settings":
+                    return <EventSettings event={eventData} />;
                   default:
                     if (
                       eventData &&

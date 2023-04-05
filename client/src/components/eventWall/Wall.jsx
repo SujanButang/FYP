@@ -17,11 +17,8 @@ export default function Wall({ event }) {
       const formData = new FormData();
       formData.append("file", file);
       const res = await makeRequest.post("/upload", formData);
-      console.log(res.data);
       return res.data;
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   };
 
   const { currentUser } = useContext(AuthContext);

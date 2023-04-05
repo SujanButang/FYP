@@ -33,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
 
       User.hasMany(models.Payments, { foreignKey: "user_id" });
       models.Payments.belongsTo(User, { foreignKey: "user_id" });
+
+      User.hasOne(models.Verification, { foreignKey: "user_id" });
+      models.Verification.belongsTo(User, { foreignKey: "user_id" });
     }
   }
   User.init(
@@ -46,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
       profilePicture: DataTypes.STRING,
       coverPicture: DataTypes.STRING,
       gender: DataTypes.STRING,
+      status: DataTypes.STRING,
     },
     {
       sequelize,

@@ -15,16 +15,22 @@ const {
   addExpense,
   getExpenses,
   deleteExpense,
+  setIntake,
+  editEvents,
+  cancelEvent,
 } = require("../controllers/events.js");
 const router = express.Router();
 
 router.post("/", createEvent);
+router.put("/", editEvents);
+router.put("/cancel", cancelEvent);
 router.get("/payments", getPayment);
 router.get("/", getEvents);
 router.get("/expenses", getExpenses);
 router.get("/plans", getPlans);
 router.get("/:eventId", getEvent);
 router.get("/members", getMembers);
+router.put("/intake", setIntake);
 router.put("/addMember", addMember);
 router.delete("/removeMember", removeMember);
 router.post("/plans", addPlan);

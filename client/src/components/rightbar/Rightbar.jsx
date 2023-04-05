@@ -101,7 +101,6 @@ export default function Rightbar() {
               <Loading />
             ) : Array.isArray(usersData) ? (
               usersData?.map((user, index) => {
-                console.log(user);
                 return <RightbarUsers user={user} key={index} />;
               })
             ) : (

@@ -41,6 +41,53 @@ const createEvent = async (req, res) => {
   });
 };
 
+const editEvents = async (req, res) => {
+  try {
+    await Events.update(
+      {
+        destination: req.body.destination,
+        eventType: req.body.type,
+        startDate: req.body.start,
+        endDate: req.body.end,
+        eventDescription: req.body.desc,
+        destinationImage: req.body.destPic,
+      },
+      {
+        where: { id: req.query.eventId },
+      }
+    );
+    return res.status(200).json("Updated");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const cancelEvent = async (req, res) => {
+  try {
+    await Events.update(
+      {
+        completionEvent: "Cancelled",
+      },
+      {
+        where: { id: req.query.eventId },
+      }
+    );
+    return res.status(200).json("Events has been cancelled");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+const setIntake = async (req, res) => {
+  try {
+    await Events.update(
+      { status: req.body.status },
+      { where: { id: req.query.eventId } }
+    );
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const getEvents = async (req, res) => {
   try {
     const event = await Events.findAll({
@@ -334,4 +381,7 @@ module.exports = {
   addExpense,
   deleteExpense,
   getExpenses,
+  setIntake,
+  editEvents,
+  cancelEvent,
 };
