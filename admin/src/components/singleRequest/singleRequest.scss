@@ -1,0 +1,62 @@
+.single-request {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  //   align-items: center;
+
+  .single-request-container {
+    display: flex;
+    gap: 10px;
+
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+
+      .front {
+        flex: 1;
+
+        img {
+          height: 500px;
+          width: 500px;
+          object-fit: cover;
+        }
+      }
+
+      .back {
+        flex: 1;
+        img {
+          height: 500px;
+          width: 500px;
+          object-fit: cover;
+        }
+      }
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      .profile {
+        img {
+          height: 500px;
+          width: 500px;
+          object-fit: cover;
+        }
+        .details {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          text-align: left;
+
+          span {
+            font-weight: normal;
+          }
+        }
+      }
+    }
+  }
+}

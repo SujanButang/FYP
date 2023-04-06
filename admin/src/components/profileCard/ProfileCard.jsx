@@ -28,7 +28,7 @@ export default function ProfileCard({ details }) {
               </div>
               <div className="detail-item">
                 <span className="item-key">Gender:</span>
-                <spna className="item-value">{details.gender}</spna>
+                <span className="item-value">{details.gender}</span>
               </div>
               <div className="detail-item">
                 <span className="item-key">Date of Birth:</span>
@@ -38,7 +38,7 @@ export default function ProfileCard({ details }) {
               </div>
               <div className="detail-item">
                 <span className="item-key">Status:</span>
-                <span className="item-value">Verified</span>
+                <span className="item-value">{details.status}</span>
               </div>
             </div>
           </div>

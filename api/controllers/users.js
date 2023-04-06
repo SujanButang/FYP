@@ -62,10 +62,11 @@ const getUsers = async (req, res) => {
 
 const verifyProfile = async (req, res) => {
   try {
+    console.log(req.body);
     await Verification.create({
       user_id: req.query.userId,
-      documentFront: req.body.front,
-      documentBack: req.body.back,
+      documentImageFront: req.body.front,
+      documentImageBack: req.body.back,
     });
     await User.update(
       {
@@ -74,6 +75,21 @@ const verifyProfile = async (req, res) => {
       { where: { id: req.query.userId } }
     );
     return res.status(200).json("Verification Request Sent");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const getVerifications = async (req, res) => {
+  try {
+    const verifications = await Verification.findAll({
+      include: {
+        model: User,
+        attributes: ["id", "username", "profilePicture"],
+      },
+      order: [["createdAt", "DESC"]],
+    });
+    return res.status(200).json(verifications);
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -123,4 +139,11 @@ const updateUser = async (req, res) => {
   });
 };
 
-module.exports = { getUser, updateUser, getUsers, getAllUsers, verifyProfile };
+module.exports = {
+  getUser,
+  updateUser,
+  getUsers,
+  getAllUsers,
+  verifyProfile,
+  getVerifications,
+};

@@ -8,13 +8,18 @@ const {
 } = require("../controllers/events");
 const { getHotels, addHotel, searchHotels } = require("../controllers/hotels");
 const router = express.Router();
-const { getAllUsers, getUser } = require("../controllers/users");
+const {
+  getAllUsers,
+  getUser,
+  getVerifications,
+} = require("../controllers/users");
 
 router.get("/users", getAllUsers);
 router.get("/events", getEvents);
 router.get("/userevents", getUserEvents);
 router.get("/participatedevents", getParticipatedEvents);
 router.get("/hotels", getHotels);
+router.get("/verifications", getVerifications);
 router.post("/hotels", addHotel);
 router.get("/hotels/search", searchHotels);
 router.get("/users/find/:userId", getUser);

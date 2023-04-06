@@ -15,6 +15,8 @@ import Single from "./pages/single/Single";
 import SingleEvent from "./pages/singleEvent/SingleEvent";
 import SingleHotel from "./pages/singleHotel/SingleHotel";
 import Payments from "./pages/payments/Payments";
+import VerificationRequests from "./pages/verificationRequests/VerificationRequests";
+import SingleRequest from "./components/singleRequest/SingleRequest";
 
 function App() {
   // const { currentUser } = useContext(AuthContext);
@@ -83,6 +85,8 @@ function App() {
           element: <Posts />,
         },
         { path: "payments", element: <Payments /> },
+        { path: "verification", element: <VerificationRequests /> },
+        { path: "/singleRequest", element: <SingleRequest /> },
       ],
     },
   ]);

@@ -10,7 +10,6 @@ export default function VerifyForm({ userId, setOpenProfileVerify }) {
   const { currentUser } = useContext(AuthContext);
 
   const upload = async (file) => {
-    console.log(file);
     try {
       const formData = new FormData();
       formData.append("file", file);
@@ -25,8 +24,10 @@ export default function VerifyForm({ userId, setOpenProfileVerify }) {
     e.preventDefault();
     let frontUrl;
     let backUrl;
-    frontUrl = front && (await upload(front));
-    backUrl = back && (await upload(back));
+    frontUrl = await upload(front);
+    backUrl = await upload(back);
+    console.log(frontUrl);
+    console.log(backUrl);
 
     await makeRequest.post("/users/verification?userId=" + currentUser.id, {
       front: frontUrl,

@@ -199,6 +199,48 @@ export const paymentColumns = [
   { field: "createdAt", headerName: "Date", width: 300 },
 ];
 
+export const verificationColumn = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 50,
+  },
+  {
+    field: "username",
+    headerName: " User Name",
+    width: 300,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img
+            src={"/upload/" + params.row.User.profilePicture}
+            alt=""
+            className="cellImg"
+          />
+          {params.row.User.username}
+        </div>
+      );
+    },
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    width: 120,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.status}`}>
+          {params.row.status}
+        </div>
+      );
+    },
+  },
+  {
+    field: "createdAt",
+    headerName: "Submitted On",
+    width: 250,
+  },
+];
+
 //temporary data
 export const userRows = [
   {
