@@ -80,7 +80,7 @@ const addPost = async (req, res) => {
       res.status(200).json("Post created successfully.");
     } catch (err) {
       console.log(err);
-      return res.status(403).json(err);
+      return res.status(500).json(err);
     }
   });
 };

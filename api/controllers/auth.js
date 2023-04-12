@@ -20,7 +20,7 @@ const register = async (req, res) => {
       gender: req.body.gender,
       address: req.body.address,
     })
-      .then(() => res.status(200).json("User has been created."))
+      .then(() => res.status(200).json("User has been created"))
       .catch((err) => {
         res.status(500).json(err);
       });

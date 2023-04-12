@@ -10,7 +10,7 @@ const createEvent = async (req, res) => {
     if (err) return res.status(403).json("Token not valid");
     try {
       const event = await Events.findOne({
-        where: { host: userInfo.id },
+        where: { host: userInfo.id, completionStatus: "running" },
       });
       if (event) {
         return res.status(403).json("User already has an event running.");
@@ -35,7 +35,6 @@ const createEvent = async (req, res) => {
         return res.status(200).json("Event created successfully.");
       }
     } catch (err) {
-      console.log(err);
       return res.status(500).json(err);
     }
   });

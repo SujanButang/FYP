@@ -32,6 +32,8 @@ export default function Profile() {
     })
   );
 
+  console.log(data);
+
   const {
     isLoading: postLoading,
     error: postError,

@@ -7,7 +7,6 @@ const createMessage = async (req, res) => {
   if (!token) return res.status(403).json("User is not logged in.");
   jwt.verify(token, "secretKey", async (err, userInfo) => {
     if (err) return res.status(403).json("Token not valid");
-    console.log(req.query.receiver);
     try {
       if (req.query.chatId) {
         await Messages.create({
@@ -24,7 +23,7 @@ const createMessage = async (req, res) => {
           roomId: req.query.roomId,
         });
       }
-      res.status(200).json("Message csent successfully.");
+      res.status(200).json("Message sent successfully.");
     } catch (err) {
       console.log(err);
       res.status(403).json(err);
