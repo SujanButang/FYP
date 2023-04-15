@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
 
       Events.hasOne(models.Rooms, { foreignKey: "event_id" });
       models.Rooms.belongsTo(Events, { foreignKey: "event_id" });
+
+      Events.hasMany(models.Feedbacks, { foreignKey: "event_id" });
+      models.Feedbacks.belongsTo(Events, { foreignKey: "event_id" });
     }
   }
   Events.init(

@@ -21,9 +21,9 @@ export default function Chat({ member, chatId }) {
           "loading"
         ) : (
           <>
-            <img src={"/upload/" + data.profilePicture} alt="" />
+            <img src={"/upload/" + data?.profilePicture} alt="" />
             <div className="user-details">
-              <span>{data.username}</span>
+              <span>{data?.username}</span>
               <div className="online"></div>
             </div>
           </>

@@ -1,0 +1,76 @@
+@import "../../style.scss";
+.feedback {
+  @include themify($themes) {
+    background-color: themed("bg");
+    display: flex;
+    flex-direction: column;
+    img {
+      height: 70px;
+      width: 70px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .feedback-container {
+      display: flex;
+      flex-direction: column;
+
+      .feedback-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        label {
+          font-size: 18px;
+          font-weight: 500;
+        }
+
+        .event {
+          display: flex;
+          gap: 50px;
+
+          .event-rating {
+            display: flex;
+            gap: 50px;
+          }
+        }
+
+        .member-rating {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          label {
+            font-size: 18px;
+            font-weight: 500;
+          }
+          .members {
+            display: flex;
+
+            .user-details {
+              display: flex;
+              flex-direction: column;
+              flex: 1;
+            }
+            .user-rating {
+              flex: 2;
+              display: flex;
+              gap: 50px;
+
+              .rate {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

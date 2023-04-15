@@ -12,6 +12,8 @@ const {
   getAllUsers,
   getUser,
   getVerifications,
+  approveUser,
+  revokeUser,
 } = require("../controllers/users");
 
 router.get("/users", getAllUsers);
@@ -25,5 +27,7 @@ router.get("/hotels/search", searchHotels);
 router.get("/users/find/:userId", getUser);
 router.get("/payments", getPayment);
 router.get("/allpayments", getPayments);
+router.put("/users/approve", approveUser);
+router.put("/users/revoke", revokeUser);
 
 module.exports = router;

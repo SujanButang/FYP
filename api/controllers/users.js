@@ -1,4 +1,10 @@
-const { User, Interests, userInterest, Verification } = require("../models");
+const {
+  User,
+  Interests,
+  userInterest,
+  Verification,
+  Notifications,
+} = require("../models");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 const { Op } = require("sequelize");
@@ -17,6 +23,7 @@ const getUser = async (req, res) => {
         "profilePicture",
         "coverPicture",
         "status",
+        "travelScore",
       ],
       include: {
         model: userInterest,
@@ -139,6 +146,73 @@ const updateUser = async (req, res) => {
   });
 };
 
+const approveUser = async (req, res) => {
+  try {
+    await User.update(
+      {
+        status: "verified",
+      },
+      {
+        where: {
+          id: req.body.userId,
+        },
+      }
+    );
+    await Verification.update(
+      {
+        status: "approved",
+      },
+      {
+        where: {
+          user_id: req.body.userId,
+        },
+      }
+    );
+    await Notifications.create({
+      to: req.body.userId,
+      type: "approved",
+      status: "unread",
+    });
+    return res.status(200).json("User has been verified");
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+};
+const revokeUser = async (req, res) => {
+  try {
+    await User.update(
+      {
+        status: "not verified",
+      },
+      {
+        where: {
+          id: req.body.userId,
+        },
+      }
+    );
+    await Verification.update(
+      {
+        status: "revoked",
+      },
+      {
+        where: {
+          user_id: req.body.userId,
+        },
+      }
+    );
+    await Notifications.create({
+      to: req.body.userId,
+      type: "revoked",
+      status: "unread",
+    });
+
+    return res.status(200).json("User has been verified");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   getUser,
   updateUser,
@@ -146,4 +220,6 @@ module.exports = {
   getAllUsers,
   verifyProfile,
   getVerifications,
+  approveUser,
+  revokeUser,
 };

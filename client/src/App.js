@@ -26,6 +26,7 @@ import EventDetails from "./pages/eventDetails/EventDetails";
 import GroupMessages from "./components/groupMessages/GroupMessages";
 import Hotels from "./pages/hotels/Hotels";
 import { SocketContextProvider } from "./context/socketContext";
+import Feedback from "./components/feedback/Feedback";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -83,6 +84,7 @@ function App() {
         { path: "/settings", element: <Settings /> },
         { path: "/eventDetails/:eventId", element: <EventDetails /> },
         { path: "/hotels", element: <Hotels /> },
+        { path: "/feedback/:eventId", element: <Feedback /> },
       ],
     },
     { path: "/home", element: <Home /> },

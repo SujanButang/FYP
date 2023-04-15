@@ -13,7 +13,6 @@ import "./notification.scss";
 
 export default function Notification({ notification }) {
   const queryClient = useQueryClient();
-
   const { isLoading, error, data } = useQuery(
     ["user", notification.from],
     async () => {
@@ -46,12 +45,56 @@ export default function Notification({ notification }) {
     await makeRequest.put("/events/addMember?eventId=" + notification.event, {
       userId: notification.from,
     });
+    await makeRequest.post("/notifications", {
+      to: notification.from,
+      type: "accepted",
+      eventId: notification.event,
+    });
     handleRead();
   };
   return (
     <div className="notification">
       {isLoading ? (
         <Loading />
+      ) : error ? (
+        <div className="notification-container">
+          <div className="notification-container">
+            <div className="notification-item">
+              {(() => {
+                switch (notification.type) {
+                  case "approved":
+                    return (
+                      <p>
+                        Travel Sathi Admin has approved your pofile
+                        verification.
+                      </p>
+                    );
+
+                  case "revoked":
+                    return (
+                      <p>
+                        Travel Sathi Admin has rejected your profile
+                        verification.
+                      </p>
+                    );
+
+                  case "feedback":
+                    return (
+                      <Link
+                        to={`feedback/${notification.event}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <p>
+                          Your recent event has been completed. Take a few
+                          moments to fill the feedback form.
+                        </p>
+                      </Link>
+                    );
+                }
+              })()}
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="notification-container">
           <div className="notification-item">
@@ -73,6 +116,8 @@ export default function Notification({ notification }) {
                     return "started following you";
                   case "comment":
                     return "commented on your post";
+                  case "accepted":
+                    return "accepted your event request.";
                 }
               })()}
             </p>

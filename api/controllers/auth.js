@@ -1,6 +1,7 @@
-const { User, Admin } = require("../models");
+const { User, Admin, Events, Notifications } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const moment = require("moment");
 
 //registering user
 const register = async (req, res) => {
@@ -41,6 +42,34 @@ const login = async (req, res) => {
     if (!passwordCheck) {
       res.status(400).json("Wrong password");
     } else {
+      const userEvent = await Events.findOne({
+        where: {
+          host: user.id,
+          completionStatus: "running",
+        },
+      });
+      if (userEvent) {
+        if (moment(userEvent.endDate).isBefore(moment(), "day")) {
+          await Events.update(
+            {
+              completionStatus: "completed",
+            },
+            {
+              where: {
+                id: userEvent.id,
+              },
+            }
+          );
+          userEvent.members.forEach(async (member) => {
+            await Notifications.create({
+              to: member,
+              event: userEvent.id,
+              status: "unread",
+              type: "feedback",
+            });
+          });
+        }
+      }
       const token = jwt.sign({ id: user.id }, "secretKey");
       const { password, ...others } = user.dataValues;
       res

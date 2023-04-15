@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { makeRequest } from "../../axios";
 import "./updateUser.scss";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function UpdateUser({ setOpenUpdate, user }) {
   const [cover, setCover] = useState(null);
@@ -66,6 +67,7 @@ export default function UpdateUser({ setOpenUpdate, user }) {
       coverPicture: coverUrl,
       profilePicture: profileUrl,
     });
+    toast.success("Profile Updated");
     setOpenUpdate(false);
     setCover(null);
     setProfile(null);
@@ -190,6 +192,7 @@ export default function UpdateUser({ setOpenUpdate, user }) {
           </button>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 }

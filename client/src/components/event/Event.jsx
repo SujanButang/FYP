@@ -5,6 +5,7 @@ import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 import { SocketContext } from "../../context/socketContext";
 import "./event.scss";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Event({ event, own }) {
   const { currentUser } = useContext(AuthContext);
@@ -19,11 +20,14 @@ export default function Event({ event, own }) {
   const [joined, setJoined] = useState(false);
   const { socket } = useContext(SocketContext);
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
     socket.emit("createNotification", notification);
-    makeRequest.post("/notifications", notification).then(setJoined(true));
+    await makeRequest.post("/notifications", notification);
+    setJoined(true);
+    toast.success("Request Sent");
   };
+
   return (
     <div className="event">
       <div className="event-container">
@@ -51,10 +55,13 @@ export default function Event({ event, own }) {
           ) : (
             <>
               {joined ? (
-                <button onClick={(e) => setJoined(false)}>Joined</button>
+                <button onClick={(e) => setJoined(false)}>Requested</button>
+              ) : event.members.includes(currentUser.id) ? (
+                <button disabled>Joined</button>
               ) : (
                 <button onClick={handleClick}>Join</button>
               )}
+
               <Link to={"/eventDetails/" + event.id}>
                 <button>See Details</button>
               </Link>
@@ -62,6 +69,7 @@ export default function Event({ event, own }) {
           )}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

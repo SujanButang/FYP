@@ -35,7 +35,6 @@ export default function Post({ post }) {
     const res = await makeRequest.get("/likes?postId=" + post.id);
     return res.data;
   });
-  console.log(data);
 
   const [liked, setLiked] = useState(data?.includes(currentUser.id));
 

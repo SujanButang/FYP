@@ -1,13 +1,12 @@
 import { useLocation } from "react-router-dom";
 import "./singleRequest.scss";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { makeRequest } from "../../axios";
 import moment from "moment";
 
 export default function SingleRequest() {
   const location = useLocation();
   const details = location.state;
-  console.log(details);
 
   const { isLoading, error, data } = useQuery(
     ["users", details.User.id],
@@ -16,8 +15,38 @@ export default function SingleRequest() {
       return res.data[0];
     }
   );
+  const queryClient = useQueryClient();
 
-  console.log(data);
+  const mutation = useMutation(
+    async (userId) => {
+      await makeRequest.put("/users/approve", { userId: userId });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["users"]);
+      },
+    }
+  );
+  const Revokemutation = useMutation(
+    async (userId) => {
+      await makeRequest.put("/users/revoke", { userId: userId });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["users"]);
+      },
+    }
+  );
+
+  const handleApprove = (e) => {
+    e.preventDefault();
+    mutation.mutate(details.User.id);
+  };
+
+  const handleRevoke = (e) => {
+    e.preventDefault();
+    Revokemutation.mutate(details.User.id);
+  };
   return (
     <div className="single-request">
       <h2>Profile Verification</h2>
@@ -53,6 +82,14 @@ export default function SingleRequest() {
                 Email: <span>{data?.email}</span>
               </h4>
             </div>
+          </div>
+          <div className="button">
+            <button className="revoke" onClick={handleRevoke}>
+              Revoke
+            </button>
+            <button className="approve" onClick={handleApprove}>
+              Approve
+            </button>
           </div>
         </div>
       </div>

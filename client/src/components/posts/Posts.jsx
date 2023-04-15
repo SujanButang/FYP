@@ -7,6 +7,7 @@ import SellIcon from "@mui/icons-material/Sell";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { makeRequest } from "../../axios";
 import Loading from "../loading/Loading";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Posts() {
   const { isLoading, error, data } = useQuery(["posts"], () =>
@@ -14,6 +15,8 @@ export default function Posts() {
       return res.data;
     })
   );
+
+  console.log(data);
 
   const upload = async () => {
     try {
@@ -49,6 +52,7 @@ export default function Posts() {
     mutation.mutate({ postDescription, imgURL });
     setPostDescription("");
     setFile(null);
+    toast.success("Post created");
   };
 
   return (
@@ -112,10 +116,11 @@ export default function Posts() {
             <h3>You are not following anyone</h3>
           </div>
           <div className="suggestion">
-            <h3>Follow from here to start looking for their posts</h3>
+            <h3>Follow some users to start looking for their posts</h3>
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }

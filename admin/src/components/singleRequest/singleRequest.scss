@@ -21,8 +21,7 @@
 
         img {
           height: 500px;
-          width: 500px;
-          object-fit: cover;
+          width: 700px;
         }
       }
 
@@ -30,8 +29,7 @@
         flex: 1;
         img {
           height: 500px;
-          width: 500px;
-          object-fit: cover;
+          width: 700px;
         }
       }
     }
@@ -55,6 +53,31 @@
           span {
             font-weight: normal;
           }
+        }
+      }
+      .button {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 25%;
+
+        .revoke {
+          width: 100px;
+          height: 30px;
+          border: none;
+          background-color: rgb(226, 156, 156);
+          color: white;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+        .approve {
+          width: 100px;
+          height: 30px;
+          border: none;
+          background-color: rgb(123, 218, 123);
+          color: white;
+          cursor: pointer;
+          border-radius: 5px;
         }
       }
     }

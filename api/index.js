@@ -22,6 +22,7 @@ const notificationRoutes = require("./routes/notifications");
 const suggestionRoutes = require("./routes/suggestions.js");
 const adminRoutes = require("./routes/admin.js");
 const hotelRoutes = require("./routes/hotels");
+const feedbackRoutes = require("./routes/feedback.js");
 const cookieParser = require("cookie-parser");
 
 // const homeRoutes = require("./routes/home");
@@ -71,6 +72,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/suggestions", suggestionRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/feedback", feedbackRoutes);
 
 app.listen(PORT, () => {
   console.log(`Backend server running at port ${PORT}`);

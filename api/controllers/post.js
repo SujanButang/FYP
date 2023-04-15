@@ -35,7 +35,25 @@ const getPosts = async (req, res) => {
           ],
           order: [["post_date", "DESC"]],
         });
-        return res.status(200).json(posts);
+        const userPosts = await Posts.findAll({
+          where: {
+            userId: userInfo.id,
+          },
+          include: {
+            model: User,
+            attributes: ["id", "username", "profilePicture"],
+          },
+          attributes: [
+            "id",
+            "userId",
+            "post_image",
+            "post_description",
+            "post_date",
+          ],
+          order: [["post_date", "DESC"]],
+        });
+        const combinedPosts = [...posts, ...userPosts];
+        return res.status(200).json(combinedPosts);
       } catch (err) {
         console.log(err);
         return res.status(400).json(err);

@@ -36,6 +36,9 @@ module.exports = (sequelize, DataTypes) => {
 
       User.hasOne(models.Verification, { foreignKey: "user_id" });
       models.Verification.belongsTo(User, { foreignKey: "user_id" });
+
+      User.hasMany(models.Feedbacks, { foreignKey: "user_id" });
+      models.Feedbacks.belongsTo(User, { foreignKey: "user_id" });
     }
   }
   User.init(
@@ -50,6 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       coverPicture: DataTypes.STRING,
       gender: DataTypes.STRING,
       status: DataTypes.STRING,
+      travelScore: DataTypes.INTEGER,
+      ratingCount: DataTypes.INTEGER,
     },
     {
       sequelize,

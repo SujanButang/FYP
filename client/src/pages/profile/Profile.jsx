@@ -18,7 +18,7 @@ import Post from "../../components/post/Post";
 import UpdateUser from "../../components/updateUser/UpdateUser";
 import moment from "moment";
 import VerifyForm from "../../components/verifyForm/VerifyForm";
-
+import VerifiedIcon from "@mui/icons-material/Verified";
 export default function Profile() {
   const userId = parseInt(useLocation().pathname.split("/")[2]);
   const { currentUser } = useContext(AuthContext);
@@ -123,17 +123,7 @@ export default function Profile() {
           <div className="user-name">
             <span className="username">
               {data && data.username}
-              {online ? (
-                <CircleIcon
-                  style={{
-                    fontSize: "12px",
-                    color: "green",
-                    paddingLeft: "20px",
-                  }}
-                />
-              ) : (
-                <></>
-              )}
+              {data && data.status === "verified" ? <VerifiedIcon /> : <></>}
             </span>
             <div className="follows">
               <span>{posts && posts.length} Posts</span>
@@ -141,6 +131,7 @@ export default function Profile() {
                 {relationshipData && relationshipData.length} Followers
               </span>
               <span>{followersData && followersData.length} Followings</span>
+              <span>TS: {data && data?.travelScore}</span>
             </div>
           </div>
         </div>
