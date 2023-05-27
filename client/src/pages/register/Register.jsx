@@ -2,6 +2,8 @@ import "./register.scss";
 import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -33,7 +35,8 @@ export default function Register() {
       window.alert("Registration Successful");
       navigate("/login");
     } catch (err) {
-      setErr(err.response.data);
+      toast.error(err.response.data);
+      return;
     }
   };
 
@@ -196,6 +199,7 @@ export default function Register() {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

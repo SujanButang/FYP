@@ -213,6 +213,38 @@ const revokeUser = async (req, res) => {
   }
 };
 
+const banUser = async (req, res) => {
+  try {
+    await User.update(
+      {
+        isBanned: "true",
+      },
+      {
+        where: { id: req.query.userId },
+      }
+    );
+    return res.status(200).json("User has been banned");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
+const unbanUser = async (req, res) => {
+  try {
+    await User.update(
+      {
+        isBanned: "false",
+      },
+      {
+        where: { id: req.query.userId },
+      }
+    );
+    return res.status(200).json("User unbanned successfully");
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   getUser,
   updateUser,
@@ -222,4 +254,6 @@ module.exports = {
   getVerifications,
   approveUser,
   revokeUser,
+  banUser,
+  unbanUser,
 };

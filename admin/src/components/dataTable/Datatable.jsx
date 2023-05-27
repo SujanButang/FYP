@@ -3,13 +3,31 @@ import { DataGrid } from "@mui/x-data-grid";
 import { eventsColumn, hotelColumns, userColumns } from "../../datatablesource";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useMutation } from "react-query";
+import { makeRequest } from "../../axios";
 
 const Datatable = ({ users, events, hotels }) => {
   const [data, setData] = useState(users);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const banMutation = useMutation(async (id) => {
+    const user = users.find((user) => user.id === id);
+
+    if (user) {
+      if (user.isBanned) {
+        await makeRequest.put("/unBanUser?userId=" + id);
+        user.isBanned = false;
+      } else {
+        await makeRequest.put("/banUser?userId=" + id);
+        user.isBanned = true;
+      }
+    }
+  });
+
+  const handleBan = (id) => {
+    banMutation.mutate(id);
   };
+
+  const handleDelete = () => {};
 
   const navigate = useNavigate();
   const handleView = (row) => {
@@ -36,9 +54,9 @@ const Datatable = ({ users, events, hotels }) => {
             {users ? (
               <div
                 className="deleteButton"
-                onClick={() => handleDelete(params.row.id)}
+                onClick={() => handleBan(params.row.id)}
               >
-                Ban
+                {params.row.isBanned == "true" ? "Unban" : "Ban"}
               </div>
             ) : (
               <div

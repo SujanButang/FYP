@@ -65,7 +65,7 @@ export default function EventForm({ setForm }) {
           <br />
           <div className="item-container">
             <label htmlFor="type">Type:</label>
-            <select id="type" name="type" onChange={handleChange}>
+            <select id="type" name="type" onChange={handleChange} required>
               <option value="Hiking">Hiking</option>
               <option value="Trekking">Trekking</option>
               <option value="Bike Riding">Bike Riding</option>
@@ -80,10 +80,17 @@ export default function EventForm({ setForm }) {
               id="start"
               name="start"
               onChange={handleChange}
+              required
             />
 
             <label htmlFor="end">Event End Date:</label>
-            <input type="date" id="end" name="end" onChange={handleChange} />
+            <input
+              type="date"
+              id="end"
+              name="end"
+              onChange={handleChange}
+              required
+            />
           </div>
           <br />
 
@@ -96,6 +103,7 @@ export default function EventForm({ setForm }) {
               rows="4"
               cols="50"
               onChange={handleChange}
+              required
             ></textarea>
           </div>
           <br />
@@ -106,6 +114,7 @@ export default function EventForm({ setForm }) {
               id="destPic"
               name="destPic"
               onChange={(e) => setDestPic(e.target.files[0])}
+              required
             />
           </div>
           <br />
@@ -113,7 +122,11 @@ export default function EventForm({ setForm }) {
             <button className="cancel-button" onClick={(e) => setForm(false)}>
               Cancel
             </button>
-            <button className="create-button" onClick={handleClick}>
+            <button
+              className="create-button"
+              onClick={handleClick}
+              type="submit"
+            >
               Create
             </button>
           </div>

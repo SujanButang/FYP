@@ -55,6 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.STRING,
       travelScore: DataTypes.INTEGER,
       ratingCount: DataTypes.INTEGER,
+      isBanned: DataTypes.STRING,
     },
     {
       sequelize,

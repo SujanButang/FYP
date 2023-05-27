@@ -24,18 +24,7 @@ const createNotification = async (req, res) => {
           return res.status(500).json("Already created");
         }
       }
-      if (req.body.eventId) {
-        const notification = await Notifications.findOne({
-          where: {
-            type: req.body.type,
-            to: req.body.to,
-            event: req.body.eventId,
-          },
-        });
-        if (notification) {
-          return res.status(500).json("Already created");
-        }
-      }
+
       await Notifications.create({
         type: req.body.type,
         from: userInfo.id,

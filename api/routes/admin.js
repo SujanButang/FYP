@@ -14,6 +14,8 @@ const {
   getVerifications,
   approveUser,
   revokeUser,
+  banUser,
+  unbanUser,
 } = require("../controllers/users");
 
 router.get("/users", getAllUsers);
@@ -29,5 +31,7 @@ router.get("/payments", getPayment);
 router.get("/allpayments", getPayments);
 router.put("/users/approve", approveUser);
 router.put("/users/revoke", revokeUser);
+router.put("/banUser", banUser);
+router.put("/unbanUser", unbanUser);
 
 module.exports = router;

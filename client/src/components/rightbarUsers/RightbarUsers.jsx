@@ -1,10 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import React, { useContext } from "react";
+import { useQuery, useMutation, queryCache } from "@tanstack/react-query";
+import React, { useContext, useState } from "react";
 import { makeRequest } from "../../axios";
 import { AuthContext } from "../../context/authContext";
 
 export default function RightbarUsers({ user }) {
   const { currentUser } = useContext(AuthContext);
+  const [hasFollowed, setHasFollowed] = useState(false);
+  const [notification, setNotification] = useState({
+    to: user.id,
+    type: "follow",
+  });
 
   const { isLoading, error, data } = useQuery(
     ["relationships", currentUser.id],
@@ -13,15 +18,24 @@ export default function RightbarUsers({ user }) {
         "/relationships?followerId=" + currentUser.id
       );
       return res.data;
+    },
+    {
+      onSuccess: (data) => {
+        setHasFollowed(data.includes(user.id));
+      },
     }
   );
 
+  const followMutation = useMutation(async () => {
+    await makeRequest.post("/relationships?followedId=" + user.id);
+    setHasFollowed(true);
+  });
+
   const handleFollow = async (e) => {
     e.preventDefault();
-    await makeRequest.post("/relationships?followedId=" + user.id);
+    followMutation.mutate();
+    await makeRequest.post("/notifications", notification);
   };
-
-  const hasFollowed = data && data?.includes(currentUser.id);
 
   return (
     <div className="item">

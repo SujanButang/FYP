@@ -26,6 +26,8 @@ const register = async (req, res) => {
         res.status(500).json(err);
       });
   } else {
+    if (user.isBanned == "true")
+      return res.status(403).json("This account has been banned");
     res.status(409).json("User already exists");
   }
 };
@@ -37,6 +39,8 @@ const login = async (req, res) => {
   if (!user) {
     res.status(404).json("User not found");
   } else {
+    if (user.isBanned == "true")
+      return res.status(403).json("Accound has been suspended");
     //comparing password
     const passwordCheck = bcrypt.compareSync(req.body.password, user.password);
     if (!passwordCheck) {

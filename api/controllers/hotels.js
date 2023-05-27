@@ -33,8 +33,15 @@ const getHotels = async (req, res) => {
 const searchHotels = async (req, res) => {
   try {
     const hotels = [];
+    const haveHotel = await Hotels.findAll({
+      where: { location: req.query.destination },
+    });
+    console.log(haveHotel.length);
+    if (haveHotel.length !== 0) {
+      return res.status(200).json(haveHotel);
+    }
     const urlResponse = await axios.get(
-      `https://www.booking.com/searchresults.en-gb.html?ss=${req.query.destination}&checkin=2023-04-28&checkout=2023-04-29&group_adults=1&no_rooms=1&group_children=0&sb_travel_purpose=leisure`
+      `https://www.booking.com/searchresults.en-gb.html?ss=${req.query.destination}&checkin=2023-05-28&checkout=2023-05-29&group_adults=1&no_rooms=1&group_children=0&sb_travel_purpose=leisure`
     );
     const $ = cheerio.load(urlResponse.data);
     await Promise.all(
@@ -70,6 +77,7 @@ const searchHotels = async (req, res) => {
           image,
           estimated_price,
           url,
+          location: req.query.destination,
         });
 
         const match = await Hotels.findOne({
@@ -86,6 +94,7 @@ const searchHotels = async (req, res) => {
             image: image,
             estimated_price: estimated_price,
             url: url,
+            location: req.query.destination,
           });
         }
       })
